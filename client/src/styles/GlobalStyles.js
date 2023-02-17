@@ -10,7 +10,11 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
   }
   html, body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 16px;
+    padding: 0;
+    margin: 0;
   }
   body, h1, h2, h3, h4, h5, h6, p, ol, ul {
     font-weight: normal;
