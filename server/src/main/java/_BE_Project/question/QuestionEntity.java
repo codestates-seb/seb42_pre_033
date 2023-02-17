@@ -1,6 +1,7 @@
 package _BE_Project.question;
 
 import _BE_Project.answer.AnswerEntity;
+import _BE_Project.audit.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class QuestionEntity {
+public class QuestionEntity extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
