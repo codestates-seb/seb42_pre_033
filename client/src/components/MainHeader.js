@@ -40,7 +40,7 @@ const Section = styled.div`
     }
     .cat_nav {
       color: var(--black-500);
-      font-size: 13px;
+      font-size: 12px;
       display: flex;
       flex-direction: row;
       border: 1px solid var(--black-400);
@@ -48,7 +48,7 @@ const Section = styled.div`
       margin-right: 16px;
 
       div {
-        padding: 10px;
+        padding: 10px 10.6px;
         line-height: 13px;
         cursor: pointer;
       }
@@ -69,13 +69,20 @@ const Section = styled.div`
       }
     }
   }
+  .badge {
+    font-size: 11px;
+    padding: 0 5px;
+    border-radius: 3px;
+    background-color: var(--blue-600);
+    color: var(--white);
+  }
   .filter_btn {
     font-size: 13px;
     background-color: var(--powder-100);
     border: 1px solid var(--powder-500);
     color: var(--powder-800);
     line-height: 30px;
-    padding: 0 10px;
+    padding: 0 12px;
     border-radius: 3px;
   }
   .filter_btn:hover {
@@ -101,7 +108,7 @@ function MainHeader() {
           <div className='selected'>Newest</div>
           <div>Active</div>
           <div>
-            Bountied <span className='badge'>291</span>
+            Bountied <span className='badge'> 291</span>
           </div>
           <div>Unanswered</div>
           <div>
