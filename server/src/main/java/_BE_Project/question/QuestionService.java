@@ -1,18 +1,27 @@
 package _BE_Project.question;
 
+import _BE_Project.member.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class QuestionService {
 
     private final QuestionRepository repository;
+    private final MemberRepository memberRepository;
 
-    public QuestionService(QuestionRepository repository) {
+    public QuestionService(QuestionRepository repository,
+                           MemberRepository memberRepository) {
         this.repository = repository;
+        this.memberRepository = memberRepository;
     }
 
     public QuestionEntity createQuestion (QuestionEntity question) {
@@ -36,9 +45,8 @@ public class QuestionService {
         return findQuestion;
     }
 
-    public List<QuestionEntity> findQuestions() {
-        List<QuestionEntity> findQuestions = repository.findAll();
-        return findQuestions;
+    public Page<QuestionEntity> findQuestions(int page, int size) {
+        return repository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
     public void deleteQuestion (long questionId) {
