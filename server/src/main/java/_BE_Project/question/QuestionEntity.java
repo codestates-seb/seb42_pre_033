@@ -1,6 +1,6 @@
 package _BE_Project.question;
 
-import _BE_Project.answer.AnswerEntity;
+import _BE_Project.audit.BaseTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,15 +8,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.lang.reflect.Member;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class QuestionEntity {
+public class QuestionEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +35,8 @@ public class QuestionEntity {
         this.member = member;
     }
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
-    private List<AnswerEntity> answer = new ArrayList<>();
+    /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+    private List<AnswerEntity> answer = new ArrayList<>();*/
 
     @Enumerated(EnumType.STRING)
     private QuestionStatus questionStatus = QuestionStatus.QUESTION_REGISTER;
