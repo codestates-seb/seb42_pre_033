@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.lang.reflect.Member;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -38,12 +40,26 @@ public class QuestionEntity extends BaseTime {
     /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<AnswerEntity> answer = new ArrayList<>();*/
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+    private List<VoteEntity> votes = new ArrayList<>();
+
+    public void addVote(VoteEntity vote) {
+        votes.add(vote);
+        vote.setQuestion(this);
+    }
+
+    public void removeVote(VoteEntity vote) {
+        votes.remove(vote);
+        vote.setQuestion(null);
+    }
+
     @Enumerated(EnumType.STRING)
     private QuestionStatus questionStatus = QuestionStatus.QUESTION_REGISTER;
 
     public enum QuestionStatus {
         QUESTION_REGISTER(1, "질문 등록"),
-        QUESTION_CONFIRM(2, "응답 완료");
+        QUESTION_CONFIRM(2, "응답 완료"),
+        QUESTION_DELETE(3, "질문 삭제");
 
         @Getter
         private int stepNumber;
