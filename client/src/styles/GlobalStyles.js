@@ -6,11 +6,11 @@ const GlobalStyles = createGlobalStyle`
 
   *, *:before, *:after {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
   }
   html, body {
     font-size: 16px;
-    padding: 0;
-    margin: 0;
   }
   body, h1, h2, h3, h4, h5, h6, p, ol, ul {
     font-weight: normal;
