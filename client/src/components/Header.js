@@ -5,8 +5,6 @@ const Nav = styled.div`
   height: 50px;
   color: var(--black-600);
   font-size: 13px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: var(--black-025);
   position: fixed;
   ::before {
@@ -40,7 +38,6 @@ const Nav = styled.div`
 
     img {
       width: 95%;
-      margin-top: -2px;
     }
   }
   .nav_text {
@@ -110,30 +107,32 @@ const Nav = styled.div`
 function Header() {
   return (
     <Nav>
-      <div className="nav_b"></div>
-      <div className="nav_wrapper">
+      <div className='nav_b'></div>
+      <div className='nav_wrapper'>
         <ul>
-          <li className="logo">
-            <img src="/image/sprites.svg" alt="Stack Overflow"></img>
+          <li className='logo'>
+            <h1>
+              <img src='/image/sprites.svg' alt='Stack Overflow'></img>
+            </h1>
           </li>
-          <li className="nav_text">About</li>
-          <li className="nav_text">Products</li>
-          <li className="nav_text nav_text_last">For Teams</li>
-          <li className="search">
-            <input type="text" placeholder="Search..." />
+          <li className='nav_text'>About</li>
+          <li className='nav_text'>Products</li>
+          <li className='nav_text nav_text_last'>For Teams</li>
+          <li className='search'>
+            <input type='text' placeholder='Search...' />
             <svg
-              aria-hidden="true"
-              className="search_icon"
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
+              aria-hidden='true'
+              className='search_icon'
+              width='18'
+              height='18'
+              viewBox='0 0 18 18'
             >
-              <path d="m18 16.5-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5ZM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Z"></path>
+              <path d='m18 16.5-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5ZM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Z'></path>
             </svg>
           </li>
           <li>
-            <button className="nav_button">Log in</button>
-            <button className="nav_button nav_button_last">Sign Up</button>
+            <button className='nav_button'>Log in</button>
+            <button className='nav_button nav_button_last'>Sign Up</button>
           </li>
         </ul>
       </div>
