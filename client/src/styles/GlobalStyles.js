@@ -6,8 +6,13 @@ const GlobalStyles = createGlobalStyle`
 
   *, *:before, *:after {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
   }
   html, body {
+    color: var(--black-800);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 16px;
     padding: 0;
     margin: 0;
