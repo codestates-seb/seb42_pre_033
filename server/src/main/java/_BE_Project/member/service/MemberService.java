@@ -1,4 +1,4 @@
-package _BE_Project.member;
+package _BE_Project.member.service;
 
 import org.springframework.stereotype.Service;
 

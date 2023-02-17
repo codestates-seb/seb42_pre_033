@@ -1,4 +1,4 @@
-package _BE_Project.member;
+package _BE_Project.member.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @Entity
-public class MemberEntity {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
