@@ -1,4 +1,4 @@
-package _BE_Project.member;
+package _BE_Project.member.mapper;
 
 import org.mapstruct.Mapper;
 
