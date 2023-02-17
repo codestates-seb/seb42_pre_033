@@ -1,5 +1,6 @@
 package _BE_Project.question;
 
+import _BE_Project.audit.BaseTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.lang.reflect.Member;
 @Getter
 @Setter
 @Entity
-public class QuestionEntity {
+public class QuestionEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
