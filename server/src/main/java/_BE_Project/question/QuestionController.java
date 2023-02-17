@@ -1,7 +1,5 @@
 package _BE_Project.question;
 
-import _BE_Project.dto.MultiResponseDto;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,14 +47,11 @@ public class QuestionController {
     }
 
     @GetMapping
-    public ResponseEntity getQuestions (@RequestParam int page,
-                                        @RequestParam int size) {
+    public ResponseEntity getQuestions () {
 
-        Page<QuestionEntity> pageQuestions = service.findQuestions(page -1, size);
-        List<QuestionEntity> questions = pageQuestions.getContent();
+        List<QuestionEntity> questions = service.findQuestions();
 
-        return new ResponseEntity<>(new MultiResponseDto<>
-                (mapper.questionToQuestionResponseDtos(questions), pageQuestions), HttpStatus.OK);
+        return new ResponseEntity(mapper.questionToQuestionResponseDtos(questions), HttpStatus.OK);
     }
 
     @DeleteMapping("/{question-id}")
