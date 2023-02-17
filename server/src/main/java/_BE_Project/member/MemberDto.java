@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MemberDto { ㅇㄹㄹㅇㄹ
+public class MemberDto {
 
     @AllArgsConstructor
     @Getter
