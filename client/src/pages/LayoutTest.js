@@ -1,13 +1,13 @@
-import { DUMY, DUMY2 } from '../components/layout/RightAside/Dumy';
-import RightAside from '../components/layout/RightAside/RightAside';
-import RightAsideCollectivesItem from '../components/layout/RightAside/RightAsideCollectivesItem';
-import RightAsideItem from '../components/layout/RightAside/RightAsideItem';
+import { BLOGS, COLLETIVE } from '../components/Layout/RightAside/Dumy';
+import RightAside from '../components/Layout/RightAside/RightAside';
+import RightAsideCollectivesItem from '../components/Layout/RightAside/RightAsideCollectivesItem';
+import RightAsideItem from '../components/Layout/RightAside/RightAsideItem';
 import Button from '../components/UI/Button';
 
 function LayoutTest() {
   return (
     <div>
-      {DUMY.map(({ title, contentList }) => (
+      {BLOGS.map(({ title, contentList }) => (
         <RightAside key={title} color='yellow' title={title}>
           {contentList.map(({ icon, content, subcontent }) => (
             <RightAsideItem
@@ -20,7 +20,7 @@ function LayoutTest() {
         </RightAside>
       ))}
 
-      {DUMY2.map(({ title, companyList }) => (
+      {COLLETIVE.map(({ title, companyList }) => (
         <RightAside
           key={title}
           color='gray'

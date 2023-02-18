@@ -1,4 +1,4 @@
-export const DUMY = [
+export const BLOGS = [
   {
     title: 'The Overflow Blog',
     contentList: [
@@ -43,7 +43,7 @@ export const DUMY = [
   },
 ];
 
-export const DUMY2 = [
+export const COLLETIVE = [
   {
     title: 'Colletive',
     companyList: [
