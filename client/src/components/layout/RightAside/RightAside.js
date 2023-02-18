@@ -17,7 +17,7 @@ const COLOR = {
   `,
 };
 
-const Container = styled.div`
+const Container = styled.aside`
   ${({ color }) => COLOR[color]}
 
   background-color: var(--aside-bg-color);
