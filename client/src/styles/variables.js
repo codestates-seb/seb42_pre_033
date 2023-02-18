@@ -86,6 +86,17 @@ const variables = css`
     --yellow: hsl(47, 83%, 91%);
     --green: hsl(140, 40%, 55%);
     --blue: hsl(206, 100%, 40%);
+
+    --yellow-050: hsl(47, 87%, 94%);
+    --yellow-100: hsl(47, 83%, 91%);
+    --yellow-200: hsl(47, 65%, 84%);
+    --yellow-300: hsl(47, 69%, 69%);
+    --yellow-400: hsl(47, 79%, 58%);
+    --yellow-500: hsl(47, 73%, 50%);
+    --yellow-600: hsl(47, 76%, 46%);
+    --yellow-700: hsl(47, 79%, 40%);
+    --yellow-800: hsl(47, 82%, 34%);
+    --yellow-900: hsl(47, 84%, 28%);
   }
 `;
 
