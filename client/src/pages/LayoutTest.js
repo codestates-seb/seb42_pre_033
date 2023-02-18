@@ -1,6 +1,6 @@
 import { DUMY, DUMY2 } from '../components/layout/RightAside/Dumy';
 import RightAside from '../components/layout/RightAside/RightAside';
-import RightAsideColleiveItem from '../components/layout/RightAside/RightAsideColleiveItem';
+import RightAsideCollectivesItem from '../components/layout/RightAside/RightAsideCollectivesItem';
 import RightAsideItem from '../components/layout/RightAside/RightAsideItem';
 import Button from '../components/UI/Button';
 
@@ -28,7 +28,7 @@ function LayoutTest() {
           headbuttonText='see all'
         >
           {companyList.map(({ icon, company, descrition, members }) => (
-            <RightAsideColleiveItem
+            <RightAsideCollectivesItem
               key={company}
               icon={icon}
               company={company}

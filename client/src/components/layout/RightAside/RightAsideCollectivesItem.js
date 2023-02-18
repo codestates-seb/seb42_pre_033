@@ -60,7 +60,7 @@ const Description = styled.p`
   overflow-wrap: break-word;
 `;
 
-function RightAsideItem({ icon, company, descrition, members }) {
+function RightAsideCollectivesItem({ icon, company, descrition, members }) {
   return (
     <Container>
       <Head>
@@ -78,4 +78,4 @@ function RightAsideItem({ icon, company, descrition, members }) {
   );
 }
 
-export default RightAsideItem;
+export default RightAsideCollectivesItem;
