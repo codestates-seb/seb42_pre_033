@@ -11,7 +11,6 @@ function App() {
       <Routes>
         <Route path='/' element={<Header />} />
       </Routes>
-      <Main />
       <Footer />
     </BrowserRouter>
   );

@@ -19,7 +19,6 @@
   },
   "rules": {
     "react/react-in-jsx-scope": 0,
-
     "react/jsx-uses-react": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "prettier/prettier": [
@@ -27,17 +26,13 @@
       {
         "singleQuote": true
       }
-    ]
-
+    ],
+    "react/prop-types": "off"
   },
   "settings": {
     "import/resolver": {
       "node": {
-
-        
-
         "extensions": [".js", ".jsx"]
-
       }
     }
   }
