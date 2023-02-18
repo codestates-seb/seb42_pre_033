@@ -3,8 +3,6 @@ import styled from 'styled-components';
 const Footerc = styled.div`
   width: 100vw;
   height: 322px;
-  position: fixed;
-  bottom: 0;
   font-size: 13px;
   color: var(--black-200);
   background-color: var(--black-800);
