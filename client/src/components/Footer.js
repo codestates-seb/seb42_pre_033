@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Footerc = styled.div`
+const FooterComponent = styled.div`
   width: 100vw;
   height: 322px;
   font-size: 13px;
@@ -73,7 +73,7 @@ const Footerc = styled.div`
 `;
 function Footer() {
   return (
-    <Footerc>
+    <FooterComponent>
       <div className='footer_wrapper'>
         <div className='f_logo'>
           <h4>
@@ -150,7 +150,7 @@ function Footer() {
           </p>
         </div>
       </div>
-    </Footerc>
+    </FooterComponent>
   );
 }
 
