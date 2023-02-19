@@ -28,5 +28,7 @@ public class QuestionDto {
         private long questionId;
         private String title;
         private String content;
+        //조회수 관련 필드 추가
+        private int viewCnt;
     }
 }
