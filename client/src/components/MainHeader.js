@@ -75,6 +75,7 @@ const Section = styled.div`
     color: var(--white);
   }
   .filter_btn {
+    height: 35px;
     font-size: 13px;
     line-height: 30px;
     padding: 0 12px;
