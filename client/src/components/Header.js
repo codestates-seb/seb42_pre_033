@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Button from './UI/Button';
 
 const Nav = styled.div`
   width: 100vw;
@@ -6,13 +8,14 @@ const Nav = styled.div`
   color: var(--black-600);
   font-size: 13px;
   background-color: var(--black-025);
-  position: fixed;
+  position: sticky;
+  z-index: 10;
   ::before {
     content: '';
     width: 100%;
     position: absolute;
     bottom: 0;
-    box-shadow: 0px 1px 2px 1px var(--black-075);
+    box-shadow: 0px 1px 2px 1px var(--black-100);
   }
 
   .nav_b {
@@ -42,13 +45,13 @@ const Nav = styled.div`
   }
   .nav_text {
     height: 29px;
-    padding: 15px;
+    padding: 15px 13px;
     margin-top: 8px;
     line-height: 1px;
     cursor: pointer;
   }
   .nav_text_last {
-    margin-right: 5px;
+    margin-right: 10px;
   }
   .nav_text:hover {
     background-color: var(--black-075);
@@ -86,21 +89,9 @@ const Nav = styled.div`
     margin-left: 10px;
     margin-top: 8px;
     line-height: 0px;
-    border-radius: 3px;
-    color: var(--powder-700);
-    background-color: var(--powder-100);
-    border: 1px solid var(--powder-500);
-  }
-  .nav_button:hover {
-    background-color: var(--powder-300);
   }
   .nav_button_last {
     margin-left: 4px;
-    background-color: var(--blue-500);
-    color: var(--white);
-  }
-  .nav_button_last:hover {
-    background-color: var(--blue-600);
   }
 `;
 
@@ -110,11 +101,13 @@ function Header() {
       <div className='nav_b'></div>
       <div className='nav_wrapper'>
         <ul>
-          <li className='logo'>
-            <h1>
-              <img src='/image/sprites.svg' alt='Stack Overflow'></img>
-            </h1>
-          </li>
+          <Link to='/'>
+            <li className='logo'>
+              <h1>
+                <img src='/image/sprites.svg' alt='Stack Overflow'></img>
+              </h1>
+            </li>
+          </Link>
           <li className='nav_text'>About</li>
           <li className='nav_text'>Products</li>
           <li className='nav_text nav_text_last'>For Teams</li>
@@ -131,8 +124,16 @@ function Header() {
             </svg>
           </li>
           <li>
-            <button className='nav_button'>Log in</button>
-            <button className='nav_button nav_button_last'>Sign Up</button>
+            <Link to='/login'>
+              <Button variant='secondary' className='nav_button'>
+                Login
+              </Button>
+            </Link>
+          </li>
+          <li>
+            <Button variant='primary' className='nav_button nav_button_last'>
+              Sign Up
+            </Button>
           </li>
         </ul>
       </div>
