@@ -1,14 +1,12 @@
 package _BE_Project.question;
 
-import _BE_Project.member.MemberRepository;
+import _BE_Project.member.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
-import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -41,7 +39,12 @@ public class QuestionService {
     }
 
     public QuestionEntity findQuestion (long questionId) {
+
         QuestionEntity findQuestion = findVerifyQuestion(questionId);
+
+        //질문 조회수 증가
+        repository.increaseViewCnt(questionId);
+
         return findQuestion;
     }
 
@@ -58,4 +61,6 @@ public class QuestionService {
         QuestionEntity findQuestion = optionalQuestion.orElseThrow();
         return findQuestion;
     }
+
+
 }

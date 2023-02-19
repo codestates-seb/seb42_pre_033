@@ -1,6 +1,7 @@
 package _BE_Project.question;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -14,6 +15,4 @@ public interface QuestionMapper {
     QuestionDto.Response questionToQuestionResponseDto (QuestionEntity question);
 
     List<QuestionDto.Response> questionToQuestionResponseDtos (List<QuestionEntity> questions);
-
-    //커밋용 테스트
 }

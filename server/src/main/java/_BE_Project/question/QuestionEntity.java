@@ -1,13 +1,13 @@
 package _BE_Project.question;
 
 import _BE_Project.audit.BaseTime;
+import _BE_Project.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +52,10 @@ public class QuestionEntity extends BaseTime {
         votes.remove(vote);
         vote.setQuestion(null);
     }
+
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int viewCnt;
+
 
     @Enumerated(EnumType.STRING)
     private QuestionStatus questionStatus = QuestionStatus.QUESTION_REGISTER;
