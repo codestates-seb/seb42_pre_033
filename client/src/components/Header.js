@@ -113,7 +113,10 @@ function Header() {
                 </h1>
               </Logo>
             </Link>
-            <NavText>About</NavText>
+            {/* 회원수정 페이지 임의 연결 */}
+            <Link to='/users/edit'>
+              <NavText>About</NavText>
+            </Link>
             <NavText>Products</NavText>
             <NavText>For Teams</NavText>
             <Search>
@@ -129,7 +132,7 @@ function Header() {
             </Search>
             <ButtonWrapper>
               <Link to='/login'>
-                <Button variant='secondary'>Login</Button>
+                <Button variant='secondary'>Log in</Button>
               </Link>
             </ButtonWrapper>
             <ButtonWrapper>
