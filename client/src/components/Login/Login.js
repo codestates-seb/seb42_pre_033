@@ -14,57 +14,53 @@ const LoginWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  svg {
-    margin-bottom: 24px;
-    cursor: pointer;
-  }
+`;
+
+const LogoSvg = styled.svg`
+  margin-bottom: 24px;
+  cursor: pointer;
 `;
 
 const OauthButtons = styled.div`
   width: 289px;
   height: 137px;
   margin-bottom: 16px;
+`;
 
-  .opendid_buttons {
-    height: 38px;
-    margin: 4px 0 8px;
-    background-color: var(--white);
-    border-radius: 5px;
-    border: 1px solid var(--black-100);
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    padding-top: 10px;
-    font-size: 13px;
+const OpenIdButtons = styled.div`
+  height: 38px;
+  margin: 4px 0 8px;
+  background-color: var(--white);
+  border-radius: 5px;
+  border: 1px solid var(--black-100);
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  padding-top: 10px;
+  font-size: 13px;
 
-    svg {
-      margin-right: 5px;
-    }
+  svg {
+    margin-right: 5px;
   }
-  .opendid_buttons:hover {
-    background-color: var(--black-025);
-    cursor: pointer;
-  }
-  .github {
+  :nth-of-type(2) {
     background-color: var(--black-750);
     color: var(--white);
     border-color: transparent;
+    :hover {
+      background-color: var(--black-800);
+    }
   }
-  .github:hover {
-    background-color: var(--black-800);
-  }
-  .facebook {
+  :nth-of-type(3) {
     background-color: #385499;
     color: var(--white);
     border-color: transparent;
-  }
-  .facebook:hover {
-    background-color: #314a86;
+    :hover {
+      background-color: #314a86;
+    }
   }
 `;
 const FormContainer = styled.div`
@@ -76,6 +72,8 @@ const FormContainer = styled.div`
   box-shadow: 0 10px 24px hsla(0, 0%, 0%, 0.05),
     0 20px 48px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.1);
   border-radius: 7px;
+
+  /* 나중에 기능 구현을 위해 Input 페이지 따로 만들 예정... */
 
   form {
     width: 241px;
@@ -118,26 +116,29 @@ const LoginQuestion = styled.div`
   width: 288px;
   padding: 16px;
   font-size: 13px;
-  p {
-    text-align: center;
-    margin: 12px 0;
+`;
+
+const LoginQuestionP = styled.p`
+  text-align: center;
+  margin: 12px 0;
+`;
+
+const LoginQuestionSpan = styled.span`
+  position: relative;
+  margin: 0 5px;
+  color: var(--blue-600);
+  cursor: pointer;
+  :hover {
+    color: var(--blue-500);
   }
-  span {
-    position: relative;
-    margin: 0 5px;
-    color: var(--blue-600);
-    cursor: pointer;
-    :hover {
-      color: var(--blue-500);
-    }
-    .iconShare {
-      position: absolute;
-      top: 1px;
-      right: -17px;
-      :hover {
-        color: var(--blue-500);
-      }
-    }
+`;
+
+const SvgIcon = styled.svg`
+  position: absolute;
+  top: 1px;
+  right: -17px;
+  :hover {
+    color: var(--blue-500);
   }
 `;
 
@@ -147,7 +148,7 @@ function Login() {
       <Header />
       <LoginWrapper>
         <Link to='/'>
-          <svg
+          <LogoSvg
             aria-hidden='true'
             className='native svg-icon iconLogoGlyphMd'
             width='32'
@@ -159,17 +160,11 @@ function Login() {
               d='m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z'
               fill='#F48024'
             ></path>
-          </svg>
+          </LogoSvg>
         </Link>
         <OauthButtons>
-          <div className='opendid_buttons google'>
-            <svg
-              aria-hidden='true'
-              className='native svg-icon iconGoogle'
-              width='18'
-              height='18'
-              viewBox='0 0 18 18'
-            >
+          <OpenIdButtons className=' google'>
+            <svg aria-hidden='true' width='18' height='18' viewBox='0 0 18 18'>
               <path
                 fill='#4285F4'
                 d='M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18Z'
@@ -188,37 +183,25 @@ function Login() {
               ></path>
             </svg>
             Log in with Google
-          </div>
-          <div className='opendid_buttons github'>
-            <svg
-              aria-hidden='true'
-              className='svg-icon iconGitHub'
-              width='18'
-              height='18'
-              viewBox='0 0 18 18'
-            >
+          </OpenIdButtons>
+          <OpenIdButtons className='opendid_buttons github'>
+            <svg aria-hidden='true' width='18' height='18' viewBox='0 0 18 18'>
               <path
                 fill='#ffffff'
                 d='M9 1a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.42 7.42 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8.01 8.01 0 0 0 9 1Z'
               ></path>
             </svg>
             Log in with Github
-          </div>
-          <div className='opendid_buttons facebook'>
-            <svg
-              aria-hidden='true'
-              className='svg-icon iconFacebook'
-              width='18'
-              height='18'
-              viewBox='0 0 18 18'
-            >
+          </OpenIdButtons>
+          <OpenIdButtons className='opendid_buttons facebook'>
+            <svg aria-hidden='true' width='18' height='18' viewBox='0 0 18 18'>
               <path
                 fill='#ffffff'
                 d='M3 1a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3Zm6.55 16v-6.2H7.46V8.4h2.09V6.61c0-2.07 1.26-3.2 3.1-3.2.88 0 1.64.07 1.87.1v2.16h-1.29c-1 0-1.19.48-1.19 1.18V8.4h2.39l-.31 2.42h-2.08V17h-2.5Z'
               ></path>
             </svg>
             Log in with Facebook
-          </div>
+          </OpenIdButtons>
         </OauthButtons>
         <FormContainer>
           <form>
@@ -232,24 +215,24 @@ function Login() {
           </form>
         </FormContainer>
         <LoginQuestion>
-          <p>
-            Don&apos;t have an account? <span>Sign up</span>
-          </p>
+          <LoginQuestionP>
+            Don&apos;t have an account?{' '}
+            <LoginQuestionSpan>Sign up</LoginQuestionSpan>
+          </LoginQuestionP>
           <p>
             Are you an employer?
-            <span>
+            <LoginQuestionSpan>
               Sign up on Talent
-              <svg
+              <SvgIcon
                 fill='var(--blue-600)'
                 aria-hidden='true'
-                className='iconShare'
                 width='14'
                 height='14'
                 viewBox='0 0 14 14'
               >
                 <path d='M5 1H3a2 2 0 0 0-2 2v8c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V9h-2v2H3V3h2V1Zm2 0h6v6h-2V4.5L6.5 9 5 7.5 9.5 3H7V1Z'></path>
-              </svg>
-            </span>
+              </SvgIcon>
+            </LoginQuestionSpan>
           </p>
         </LoginQuestion>
       </LoginWrapper>
