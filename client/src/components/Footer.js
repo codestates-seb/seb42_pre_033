@@ -18,11 +18,11 @@ const FooterComponent = styled.div`
   }
 `;
 
-const FooterH4 = styled.h4`
+const FooterTitle = styled.h4`
   cursor: pointer;
 `;
 
-const FooterH5 = styled.h5`
+const FooterSubtitle = styled.h5`
   font-size: 13px;
   font-weight: bold;
   margin-bottom: 24px;
@@ -63,11 +63,11 @@ const FooterList5 = styled.div`
   font-size: 11px;
 `;
 
-const FooterList5Li = styled.li`
+const FooterListItem = styled.li`
   margin-right: 10px;
 `;
 
-const FooterList5Ul = styled.ul`
+const FooterList = styled.ul`
   display: flex;
   flex-direction: row;
 `;
@@ -78,7 +78,7 @@ const Copyright = styled.p`
   color: var(--black-350);
 `;
 
-const CopyrightSpan = styled.span`
+const CopyrightContent = styled.span`
   text-decoration: underline;
   cursor: pointer;
   :hover {
@@ -93,7 +93,7 @@ function Footer() {
         <FooterWrapper>
           <FooterLogo>
             <Link to='/'>
-              <FooterH4>
+              <FooterTitle>
                 <svg
                   aria-hidden='true'
                   width='32'
@@ -106,18 +106,18 @@ function Footer() {
                     fill='#F48024'
                   ></path>
                 </svg>
-              </FooterH4>
+              </FooterTitle>
             </Link>
           </FooterLogo>
           <FooterList1>
-            <FooterH5>STACK OVERFLOW</FooterH5>
+            <FooterSubtitle>STACK OVERFLOW</FooterSubtitle>
             <ul>
               <li>Questions</li>
               <li>Help</li>
             </ul>
           </FooterList1>
           <FooterList2>
-            <FooterH5>PRODUCTS</FooterH5>
+            <FooterSubtitle>PRODUCTS</FooterSubtitle>
             <ul>
               <li>Teams</li>
               <li>Advertising</li>
@@ -126,7 +126,7 @@ function Footer() {
             </ul>
           </FooterList2>
           <FooterList3>
-            <FooterH5>COMPANY</FooterH5>
+            <FooterSubtitle>COMPANY</FooterSubtitle>
             <ul>
               <li>About</li>
               <li>Press</li>
@@ -140,7 +140,7 @@ function Footer() {
             </ul>
           </FooterList3>
           <FooterList4>
-            <FooterH5>STACK EXCHANGE NETWORK</FooterH5>
+            <FooterSubtitle>STACK EXCHANGE NETWORK</FooterSubtitle>
             <ul>
               <li>Techology</li>
               <li>Culture & recreation</li>
@@ -153,16 +153,17 @@ function Footer() {
             </ul>
           </FooterList4>
           <FooterList5>
-            <FooterList5Ul>
-              <FooterList5Li>Blog</FooterList5Li>
-              <FooterList5Li>Facebook</FooterList5Li>
-              <FooterList5Li>Twitter</FooterList5Li>
-              <FooterList5Li>LinkedIn</FooterList5Li>
-              <FooterList5Li>Instagram</FooterList5Li>
-            </FooterList5Ul>
+            <FooterList>
+              <FooterListItem>Blog</FooterListItem>
+              <FooterListItem>Facebook</FooterListItem>
+              <FooterListItem>Twitter</FooterListItem>
+              <FooterListItem>LinkedIn</FooterListItem>
+              <FooterListItem>Instagram</FooterListItem>
+            </FooterList>
             <Copyright>
               Site design / logo © 2023 Stack Exchange Inc; user contributions
-              licensed under <CopyrightSpan>CC BY-SA.</CopyrightSpan> <br />
+              licensed under <CopyrightContent>CC BY-SA.</CopyrightContent>{' '}
+              <br />
               rev 2023.2.16.43246
             </Copyright>
           </FooterList5>

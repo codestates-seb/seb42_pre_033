@@ -7,6 +7,8 @@ const VARIANTS = {
     --btn-border-color: var(--powder-500);
     --btn-hover-bg-color: var(--blue-600);
     --btn-box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
+    --btn-box-height: 32px;
+    --btn-box-padding: 10px;
   `,
 
   secondary: css`
@@ -15,6 +17,8 @@ const VARIANTS = {
     --btn-border-color: var(--powder-500);
     --btn-hover-bg-color: var(--powder-300);
     --btn-box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.7);
+    --btn-box-height: 32px;
+    --btn-box-padding: 10px;
   `,
   tertiary: css`
     --btn-color: var(--blue-600);
@@ -22,6 +26,8 @@ const VARIANTS = {
     --btn-border-color: var(--blue-400);
     --btn-hover-bg-color: var(--blue-050);
     --btn-box-shadow: none;
+    --btn-box-height: 32px;
+    --btn-box-padding: 10px;
   `,
   text: css`
     --btn-color: var(--black);
@@ -29,6 +35,26 @@ const VARIANTS = {
     --btn-border-color: none;
     --btn-hover-bg-color: var(--white);
     --btn-box-shadow: none;
+    --btn-box-height: 32px;
+    --btn-box-padding: 10px;
+  `,
+  question: css`
+    --btn-color: var(--white);
+    --btn-bg-color: var(--blue-500);
+    --btn-border-color: var(--powder-500);
+    --btn-hover-bg-color: var(--blue-600);
+    --btn-box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
+    --btn-box-height: 38px;
+    --btn-box-padding: 10px;
+  `,
+  filter: css`
+    --btn-color: var(--powder-700);
+    --btn-bg-color: var(--powder-100);
+    --btn-border-color: var(--powder-500);
+    --btn-hover-bg-color: var(--powder-300);
+    --btn-box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.7);
+    --btn-box-height: 35px;
+    --btn-box-padding: 0 12px;
   `,
 };
 
@@ -36,8 +62,8 @@ const StyledButton = styled.button`
   ${({ variant }) => VARIANTS[variant]}
 
   font-size: 13px;
-  height: 32px;
-  padding: 10px;
+  height: var(--btn-box-height);
+  padding: var(--btn-box-padding);
   line-height: 0;
   border-radius: 3px;
   color: var(--btn-color);

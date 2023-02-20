@@ -1,5 +1,5 @@
-import MainHeader from './MainHeader';
 import Header from './Header';
+import MainWrapper from './MainWrapper';
 import Footer from './Footer';
 
 import styled from 'styled-components';
@@ -10,13 +10,14 @@ const MainComponent = styled.div`
   height: 2475px;
   margin-left: 165px;
   padding: 24px; */
+  width: 100vw;
 `;
 
 function Main() {
   return (
     <MainComponent>
       <Header />
-      <MainHeader />
+      <MainWrapper />
       <Footer />
     </MainComponent>
   );
