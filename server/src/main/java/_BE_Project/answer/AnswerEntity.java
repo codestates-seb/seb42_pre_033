@@ -52,6 +52,12 @@ public class AnswerEntity {
     @OneToMany(mappedBy = "answer" , cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Score> likeUsers;
 
+    public MemberDto.owner getOwner() {
+        MemberEntity memberEntity = this.member;
+        MemberDto.owner = new MemberDto.owner(member.getMemberId(), )
+        return owner;
+    }
+
 
     }
 
