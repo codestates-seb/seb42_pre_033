@@ -1,5 +1,6 @@
 package _BE_Project.answer;
 
+import _BE_Project.Score.Score;
 import _BE_Project.member.MemberEntity;
 import _BE_Project.question.QuestionEntity;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class AnswerEntity {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private MemberEntity memberEntity;
+    private Member member;
 
     //
     @Column
@@ -53,8 +55,8 @@ public class AnswerEntity {
     private List<Score> likeUsers;
 
     public MemberDto.owner getOwner() {
-        MemberEntity memberEntity = this.member;
-        MemberDto.owner = new MemberDto.owner(member.getMemberId(), )
+        Member member = this.member;
+        MemberDto.owner = new MemberDto.owner(member.getMemberId());
         return owner;
     }
 
