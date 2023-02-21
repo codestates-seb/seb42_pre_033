@@ -11,6 +11,7 @@ export const USERS = [
         consecutive: 2,
         location: 'Seoul',
         aboutme: "Hi, I'm currently studying Frontend/Backend Engineering!",
+        profilepic: 'http://localhost:3000/image/profile.png',
       },
     ],
   },
