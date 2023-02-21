@@ -12,6 +12,10 @@ spring:
       hibernate:
         format_sql: true
 
+  redis:
+    host: localhost
+    port: 6379
+
 
 logging:
   level:
@@ -19,3 +23,9 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
+
+
+jwt.key: stackOverflow
+jwt:
+  access-token-expiration-minutes: 60 * 60 * 1000
+  refresh-token-expiration-minutes: 4 * 60 * 60 * 1000
