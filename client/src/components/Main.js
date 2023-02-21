@@ -1,4 +1,3 @@
-import Header from './Header';
 import MainWrapper from './MainWrapper';
 import Footer from './Footer';
 
@@ -16,7 +15,6 @@ const MainComponent = styled.div`
 function Main() {
   return (
     <MainComponent>
-      <Header />
       <MainWrapper />
       <Footer />
     </MainComponent>
