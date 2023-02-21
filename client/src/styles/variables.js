@@ -97,6 +97,9 @@ const variables = css`
     --yellow-700: hsl(47, 79%, 40%);
     --yellow-800: hsl(47, 82%, 34%);
     --yellow-900: hsl(47, 84%, 28%);
+
+    --fc-light: hsl(210, 8%, 45%);
+    --fc-dark: hsl(210, 8%, 5%);
   }
 `;
 
