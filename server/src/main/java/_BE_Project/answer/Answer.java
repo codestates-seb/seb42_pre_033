@@ -1,8 +1,6 @@
 package _BE_Project.answer;
 
 import _BE_Project.Score.Score;
-import _BE_Project.member.MemberEntity;
-import _BE_Project.question.QuestionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class AnswerEntity {
+public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
