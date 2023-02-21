@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class QuestionEntity extends BaseTime {
+public class Question extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,18 +40,9 @@ public class QuestionEntity extends BaseTime {
     /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<AnswerEntity> answer = new ArrayList<>();*/
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
-    private List<VoteEntity> votes = new ArrayList<>();
+    /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+    private List<VoteEntity> votes = new ArrayList<>();*/
 
-    public void addVote(VoteEntity vote) {
-        votes.add(vote);
-        vote.setQuestion(this);
-    }
-
-    public void removeVote(VoteEntity vote) {
-        votes.remove(vote);
-        vote.setQuestion(null);
-    }
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int viewCnt;

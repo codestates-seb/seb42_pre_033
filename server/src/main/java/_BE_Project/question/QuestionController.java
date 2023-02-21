@@ -1,11 +1,9 @@
 package _BE_Project.question;
 
 import _BE_Project.dto.MultiResponseDto;
-import _BE_Project.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +23,7 @@ public class QuestionController {
     @PostMapping
     public ResponseEntity postQuestion(@RequestBody QuestionDto.Post post) {
 
-        QuestionEntity question = service.createQuestion(mapper.questionToQuestionPostDto(post));
+        Question question = service.createQuestion(mapper.questionToQuestionPostDto(post));
 
         return new ResponseEntity(mapper.questionToQuestionResponseDto(question),HttpStatus.CREATED);
     }
@@ -35,7 +33,7 @@ public class QuestionController {
                                         @RequestBody QuestionDto.Patch patch) {
 
         patch.setQuestionId(questionId);
-        QuestionEntity question = service.updateQuestion(mapper.questionToQuestionPatchDto(patch));
+        Question question = service.updateQuestion(mapper.questionToQuestionPatchDto(patch));
 
         return new ResponseEntity(mapper.questionToQuestionResponseDto(question) ,HttpStatus.OK);
 
@@ -45,7 +43,7 @@ public class QuestionController {
     @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable ("question-id") long questionId) {
 
-        QuestionEntity question = service.findQuestion(questionId);
+        Question question = service.findQuestion(questionId);
 
         return new ResponseEntity(mapper.questionToQuestionResponseDto(question),HttpStatus.OK);
     }
@@ -54,8 +52,8 @@ public class QuestionController {
     public ResponseEntity getQuestions (@RequestParam int page,
                                         @RequestParam int size) {
 
-        Page<QuestionEntity> pageQuestions = service.findQuestions(page -1, size);
-        List<QuestionEntity> questions = pageQuestions.getContent();
+        Page<Question> pageQuestions = service.findQuestions(page -1, size);
+        List<Question> questions = pageQuestions.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>
                 (mapper.questionToQuestionResponseDtos(questions), pageQuestions), HttpStatus.OK);
@@ -68,6 +66,4 @@ public class QuestionController {
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-
-
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> {
+public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Modifying
     @Query("update QuestionEntity q set q.viewCnt = q.viewCnt + 1 where q.questionId = :questionId")
