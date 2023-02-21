@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import Footer from '../Footer';
+import Footer from '../layout/Footer';
 import UserEditWrapper from './UserEditWrapper';
-import AsideLeft from '../AsideLeft';
+import AsideLeft from '../layout/AsideLeft';
 
 const UserEditComponent = styled.div`
   width: 1264px;
+  height: auto;
   margin: 0 auto;
   display: flex;
 `;
