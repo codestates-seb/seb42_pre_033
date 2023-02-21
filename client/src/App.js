@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/Login/Login';
 import GlobalStyles from './styles/GlobalStyles';
-import Header from './components/Header';
-import Main from './components/Main';
+import Header from './components/layout/Header';
+import Main from './components/layout/Main/Main';
 import UserEdit from './components/UserEdit/UserEdit';
 
 function App() {
