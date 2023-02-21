@@ -3,10 +3,13 @@ package _BE_Project.security.utils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+// 어노테이션이 없어서 실행시 에러발생 -> @Conponent 어노테이션 추가
+@Component
 public class CustomAuthorityUtils {
   private String adminEmail;
   private final List<String> ADMIN_ROLES_STRING = List.of("ROLE_USER", "ROLE_ADMIN");

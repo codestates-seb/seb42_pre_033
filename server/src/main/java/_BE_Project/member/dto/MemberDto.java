@@ -1,5 +1,6 @@
 package _BE_Project.member.dto;
 
+import _BE_Project.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 public class MemberDto {
 
@@ -22,13 +24,19 @@ public class MemberDto {
     @Getter
     @Setter
     public static class Patch {
+        private long memberId;
+        private String email;
+        private String password;
+
 
     }
 
     @AllArgsConstructor
     @Getter
     public static class Response {
-        private Long id;
+        private long memberId;
         private String email;
+        private Member.MemberStatus memberStatus;
+        private LocalDateTime createDate;
     }
 }

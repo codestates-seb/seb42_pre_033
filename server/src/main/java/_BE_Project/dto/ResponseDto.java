@@ -1,6 +1,6 @@
 package _BE_Project.dto;
 
-import _BE_Project.exceiption.ExceptionCode;
+import _BE_Project.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
