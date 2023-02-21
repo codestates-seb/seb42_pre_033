@@ -1,5 +1,6 @@
 package _BE_Project.question;
 
+import _BE_Project.Score.Score;
 import _BE_Project.audit.BaseTime;
 import _BE_Project.member.entity.Member;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,9 @@ public class Question extends BaseTime {
 
     /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<VoteEntity> votes = new ArrayList<>();*/
+
+    @OneToMany (mappedBy = "question", cascade = CascadeType.PERSIST)
+    private List<Score> scores = new ArrayList<>();
 
 
     @Column(columnDefinition = "integer default 0", nullable = false)

@@ -1,8 +1,8 @@
 package _BE_Project.Score;
 
-import com.codestates.pre032.pre032.answer.Answer;
-import com.codestates.pre032.pre032.question.Question;
-import com.codestates.pre032.pre032.user.User;
+import _BE_Project.answer.Answer;
+import _BE_Project.member.entity.Member;
+import _BE_Project.question.Question;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,16 +19,16 @@ public class Score {
     private Long scoreId;
 
     @ManyToOne
-    @JoinColumn(name = "question")
+    @JoinColumn(name = "question_id")
     private Question question;
 
     @ManyToOne
-    @JoinColumn(name = "answer")
+    @JoinColumn(name = "answer_id")
     private Answer answer;
 
     @ManyToOne
-    @JoinColumn(name = "user")
-    private User user;
+    @JoinColumn(name = "member_Id")
+    private Member member;
 
     @Column
     private int status = 0;
