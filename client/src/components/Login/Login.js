@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Header from '../Header';
 import Button from '../UI/Button';
 import Oauth from './Oauth';
 
 const LoginComponent = styled.div`
-  height: 100vh;
+  height: calc(100vh - 50px);
   background-color: var(--black-050);
 `;
 
@@ -108,7 +107,6 @@ const SvgIcon = styled.svg`
 function Login() {
   return (
     <LoginComponent>
-      <Header />
       <LoginWrapper>
         <Link to='/'>
           <LogoSvg

@@ -2,14 +2,19 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from './UI/Button';
 
-const Nav = styled.div`
+const StyleHeader = styled.header`
+  position: sticky;
+  top: 0;
   width: 100vw;
   height: 50px;
+
+  z-index: 10;
+`;
+
+const Nav = styled.div`
   color: var(--black-600);
   font-size: 13px;
   background-color: var(--black-025);
-  position: sticky;
-  z-index: 10;
   ::before {
     content: '';
     width: 100%;
@@ -98,7 +103,7 @@ const ButtonWrapper = styled.li`
 
 function Header() {
   return (
-    <header>
+    <StyleHeader>
       <Nav>
         <NavBackground></NavBackground>
         <NavWrapper>
@@ -141,7 +146,7 @@ function Header() {
           </NavUl>
         </NavWrapper>
       </Nav>
-    </header>
+    </StyleHeader>
   );
 }
 
