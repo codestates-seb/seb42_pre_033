@@ -5,6 +5,7 @@ import AsideLeft from '../AsideLeft';
 
 const UserEditComponent = styled.div`
   width: 1264px;
+  height: auto;
   margin: 0 auto;
   display: flex;
 `;
