@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { FaGlobeAmericas } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 
 const LeftAside = styled.aside`
   width: 163px;
   height: auto;
   padding-top: 24px;
+  padding-left: 8px;
   border-right: 1px solid var(--black-075);
 `;
 
@@ -14,15 +16,6 @@ const LeftSidebar = styled.div`
 
 const SideNav = styled.ol`
   font-size: 13px;
-  .selected {
-    width: 162px;
-    height: 34px;
-    font-weight: bold;
-    color: var(--black-900);
-    background-color: var(--black-050);
-    border-right: 3px solid var(--orange-400);
-    cursor: pointer;
-  }
 `;
 const NavListTitle = styled.li`
   margin-top: 10px;
@@ -45,6 +38,19 @@ const NavList = styled.li`
     font-size: 16px;
     vertical-align: -2px;
     margin-right: 5px;
+  }
+`;
+
+const LinkStyle = styled.div`
+  .selected {
+    display: block;
+    width: 156px;
+    height: 32px;
+    font-weight: bold;
+    color: var(--black-900);
+    background-color: var(--black-050);
+    border-right: 3px solid var(--orange-400);
+    cursor: pointer;
   }
 `;
 
@@ -124,7 +130,14 @@ function AsideLeft() {
     <LeftAside>
       <LeftSidebar>
         <SideNav>
-          <NavList className='selected'>Home</NavList>
+          <LinkStyle>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'selected' : '')}
+              to='/'
+            >
+              <NavList>Home</NavList>
+            </NavLink>
+          </LinkStyle>
           <NavListTitle>
             PUBLIC
             <Category>
@@ -133,7 +146,14 @@ function AsideLeft() {
                 Questions
               </NavList>
               <NavListInsert>Tags</NavListInsert>
-              <NavListInsert>Users</NavListInsert>
+              <LinkStyle>
+                <NavLink
+                  className={({ isActive }) => (isActive ? 'selected' : '')}
+                  to='/users/edit'
+                >
+                  <NavListInsert>Users</NavListInsert>
+                </NavLink>
+              </LinkStyle>
               <NavListInsert>Companies</NavListInsert>
             </Category>
           </NavListTitle>
