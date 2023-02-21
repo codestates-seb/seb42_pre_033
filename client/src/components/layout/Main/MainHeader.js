@@ -3,12 +3,11 @@ import Button from '../../UI/Button';
 
 const Section = styled.div`
   padding: 24px;
-  width: 100%;
   min-height: 105px;
 `;
 
 const MainHeaderWrapper = styled.div`
-  width: 727px;
+  flex: 1 0 400px;
 `;
 
 const MainTitle = styled.div`
