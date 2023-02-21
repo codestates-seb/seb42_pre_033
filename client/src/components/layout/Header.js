@@ -1,17 +1,18 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from './UI/Button';
+import Button from '../UI/Button';
 
 const StyleHeader = styled.header`
   position: sticky;
   top: 0;
-  width: 100vw;
+  width: 100%;
+  min-width: 800px;
   height: 50px;
 
   z-index: 10;
 `;
 
-const Nav = styled.div`
+const Nav = styled.nav`
   color: var(--black-600);
   font-size: 13px;
   background-color: var(--black-025);
@@ -24,19 +25,23 @@ const Nav = styled.div`
   }
 `;
 
-const NavUl = styled.ul`
+const NavList = styled.ul`
   display: flex;
-  justify-content: start;
+  padding: 0 16px;
+  gap: 10px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const NavBackground = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 3px;
   background-color: var(--orange-400);
 `;
 
 const NavWrapper = styled.div`
-  width: 1264px;
+  flex: 1 1 0;
   margin: 0 auto;
 `;
 
@@ -53,31 +58,27 @@ const LogoImg = styled.img`
 `;
 
 const NavText = styled.li`
-  height: 29px;
-  padding: 15px 13px;
-  margin-top: 8px;
   line-height: 1px;
   cursor: pointer;
   :hover {
     background-color: var(--black-075);
     border-radius: 20px;
   }
-
-  :last-child {
-    margin-right: 10px;
-  }
 `;
+
 const Search = styled.li`
-  width: 702px;
+  flex: 1 1 0;
+  display: flex;
   height: 33px;
   position: relative;
-  margin-top: 8px;
+
   border: 1px solid var(--black-200);
   border-radius: 3px;
   background-color: var(--white);
 `;
 const SearchInput = styled.input`
-  width: 660px;
+  flex: 1 1 200px;
+
   height: 31px;
   margin-left: 35px;
   border: none;
@@ -96,9 +97,8 @@ const SearchSvg = styled.svg`
 `;
 
 const ButtonWrapper = styled.li`
-  height: 33px;
-  padding-top: 8px;
-  padding-left: 4px;
+  display: flex;
+  gap: 4px;
 `;
 
 function Header() {
@@ -107,7 +107,7 @@ function Header() {
       <Nav>
         <NavBackground></NavBackground>
         <NavWrapper>
-          <NavUl>
+          <NavList>
             <Link to='/'>
               <Logo>
                 <h1>
@@ -119,9 +119,11 @@ function Header() {
               </Logo>
             </Link>
             {/* 회원수정 페이지 임의 연결 */}
-            <Link to='/users/edit'>
-              <NavText>About</NavText>
-            </Link>
+
+            <NavText>
+              <Link to='/users/edit'>About</Link>
+            </NavText>
+
             <NavText>Products</NavText>
             <NavText>For Teams</NavText>
             <Search>
@@ -139,11 +141,9 @@ function Header() {
               <Link to='/login'>
                 <Button variant='secondary'>Log in</Button>
               </Link>
-            </ButtonWrapper>
-            <ButtonWrapper>
               <Button variant='primary'>Sign Up</Button>
             </ButtonWrapper>
-          </NavUl>
+          </NavList>
         </NavWrapper>
       </Nav>
     </StyleHeader>

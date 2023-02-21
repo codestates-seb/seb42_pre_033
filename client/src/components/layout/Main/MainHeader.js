@@ -1,20 +1,16 @@
 import styled from 'styled-components';
-import Button from './UI/Button';
+import Button from '../../UI/Button';
 
 const Section = styled.div`
-  box-sizing: content-box;
   padding: 24px;
-  width: 727px;
-  height: 90px;
+  min-height: 105px;
 `;
 
 const MainHeaderWrapper = styled.div`
-  width: 727px;
-  height: 105px;
+  flex: 1 0 400px;
 `;
 
 const MainTitle = styled.div`
-  height: 50px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
@@ -79,7 +75,7 @@ const FilterIcon = styled.svg`
   margin-bottom: -0.3em;
 `;
 
-function MainHeader() {
+function MainHeader({ displayDataController = true }) {
   return (
     <Section>
       <MainHeaderWrapper>
@@ -87,32 +83,34 @@ function MainHeader() {
           <Title>All Questions</Title>
           <Button variant='question'>Ask Question</Button>
         </MainTitle>
-        <DataController>
-          <QuestionNum>23,505,622 questions</QuestionNum>
-          <CategoryNav>
-            <Tab className='selected'>Newest</Tab>
-            <Tab>Active</Tab>
-            <Tab>
-              Bountied <Badge> 291</Badge>
-            </Tab>
-            <Tab>Unanswered</Tab>
-            <Tab>
-              More <DownArrow>▼</DownArrow>
-            </Tab>
-          </CategoryNav>
-          <Button variant='filter'>
-            <FilterIcon
-              fill='hsl(205,47%,42%)'
-              aria-hidden='true'
-              width='18'
-              height='18'
-              viewBox='0 0 18 18'
-            >
-              <path d='M2 4h14v2H2V4Zm2 4h10v2H4V8Zm8 4H6v2h6v-2Z'></path>
-            </FilterIcon>
-            Filter
-          </Button>
-        </DataController>
+        {displayDataController && (
+          <DataController>
+            <QuestionNum>23,505,622 questions</QuestionNum>
+            <CategoryNav>
+              <Tab className='selected'>Newest</Tab>
+              <Tab>Active</Tab>
+              <Tab>
+                Bountied <Badge> 291</Badge>
+              </Tab>
+              <Tab>Unanswered</Tab>
+              <Tab>
+                More <DownArrow>▼</DownArrow>
+              </Tab>
+            </CategoryNav>
+            <Button variant='filter'>
+              <FilterIcon
+                fill='hsl(205,47%,42%)'
+                aria-hidden='true'
+                width='18'
+                height='18'
+                viewBox='0 0 18 18'
+              >
+                <path d='M2 4h14v2H2V4Zm2 4h10v2H4V8Zm8 4H6v2h6v-2Z'></path>
+              </FilterIcon>
+              Filter
+            </Button>
+          </DataController>
+        )}
       </MainHeaderWrapper>
     </Section>
   );
