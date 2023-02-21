@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Modifying
-    @Query("update QuestionEntity q set q.viewCnt = q.viewCnt + 1 where q.questionId = :questionId")
+    @Query("update Question q set q.viewCnt = q.viewCnt + 1 where q.questionId = :questionId")
     int increaseViewCnt(@Param ("questionId") Long questionId);
 
 }

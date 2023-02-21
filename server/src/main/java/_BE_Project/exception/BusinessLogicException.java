@@ -1,4 +1,4 @@
-package _BE_Project.exceiption;
+package _BE_Project.exception;
 
 import lombok.Getter;
 
