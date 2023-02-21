@@ -56,6 +56,15 @@ const VARIANTS = {
     --btn-box-height: 35px;
     --btn-box-padding: 0 12px;
   `,
+  edit: css`
+    --btn-color: var(--black-500);
+    --btn-bg-color: transparent;
+    --btn-border-color: var(--black-500);
+    --btn-hover-bg-color: var(--black-025);
+    --btn-box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.7);
+    --btn-box-height: 35px;
+    --btn-box-padding: 0px 12px 0px 10px;
+  `,
 };
 
 const StyledButton = styled.button`
