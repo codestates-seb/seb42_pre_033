@@ -118,6 +118,7 @@ function Header() {
                 </h1>
               </Logo>
             </Link>
+            {/* 회원가입 수정 임의경로 삭제 */}
             <NavText>About</NavText>
             <NavText>Products</NavText>
             <NavText>For Teams</NavText>

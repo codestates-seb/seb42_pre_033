@@ -147,6 +147,7 @@ function AsideLeft() {
               </NavList>
               <NavListInsert>Tags</NavListInsert>
               <LinkStyle>
+                {/* 회원가입 수정 임의경로 설정 */}
                 <NavLink
                   className={({ isActive }) => (isActive ? 'selected' : '')}
                   to='/users/edit'
