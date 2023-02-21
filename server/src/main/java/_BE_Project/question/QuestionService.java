@@ -22,15 +22,15 @@ public class QuestionService {
         this.memberRepository = memberRepository;
     }
 
-    public QuestionEntity createQuestion (QuestionEntity question) {
+    public Question createQuestion (Question question) {
 
-        QuestionEntity saveQuestion = repository.save(question);
+        Question saveQuestion = repository.save(question);
 
         return saveQuestion;
     }
 
-    public QuestionEntity updateQuestion (QuestionEntity question) {
-        QuestionEntity findQuestion = findVerifyQuestion(question.getQuestionId());
+    public Question updateQuestion (Question question) {
+        Question findQuestion = findVerifyQuestion(question.getQuestionId());
 
         Optional.ofNullable(question.getTitle()).ifPresent(title -> findQuestion.setTitle(title));
         Optional.ofNullable(question.getContent()).ifPresent(content -> findQuestion.setContent(content));
@@ -38,9 +38,9 @@ public class QuestionService {
         return repository.save(findQuestion);
     }
 
-    public QuestionEntity findQuestion (long questionId) {
+    public Question findQuestion (long questionId) {
 
-        QuestionEntity findQuestion = findVerifyQuestion(questionId);
+        Question findQuestion = findVerifyQuestion(questionId);
 
         //질문 조회수 증가
         repository.increaseViewCnt(questionId);
@@ -48,7 +48,7 @@ public class QuestionService {
         return findQuestion;
     }
 
-    public Page<QuestionEntity> findQuestions(int page, int size) {
+    public Page<Question> findQuestions(int page, int size) {
         return repository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
@@ -56,9 +56,9 @@ public class QuestionService {
         repository.deleteById(questionId);
     }
 
-    private QuestionEntity findVerifyQuestion (long questionId) {
-        Optional<QuestionEntity> optionalQuestion = repository.findById(questionId);
-        QuestionEntity findQuestion = optionalQuestion.orElseThrow();
+    private Question findVerifyQuestion (long questionId) {
+        Optional<Question> optionalQuestion = repository.findById(questionId);
+        Question findQuestion = optionalQuestion.orElseThrow();
         return findQuestion;
     }
 
