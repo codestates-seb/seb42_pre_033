@@ -116,10 +116,9 @@ function Header() {
                 </h1>
               </Logo>
             </Link>
-            {/* 회원수정 페이지 임의 연결 */}
-
+            {/* 회원 페이지 임의 연결 */}
             <NavText>
-              <Link to='/users/edit'>About</Link>
+              <Link to='/users'>About</Link>
             </NavText>
 
             <NavText>Products</NavText>

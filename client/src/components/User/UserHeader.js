@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import UserEditTab from './UserEditTab';
-import UserInfos from './UserInfos';
+import UserTab from './UserTab';
+import UserInfos from '../User/UserInfos';
 
 const UserEditProfile = styled.div`
   width: 1050px;
@@ -31,7 +31,7 @@ const UserInfo = styled.div`
   margin-left: 8px;
 `;
 
-function UserEditHeader() {
+function UserHeader() {
   return (
     <section>
       <UserEditProfile>
@@ -42,9 +42,9 @@ function UserEditHeader() {
           <UserInfos />
         </UserInfo>
       </UserEditProfile>
-      <UserEditTab />
+      <UserTab />
     </section>
   );
 }
 
-export default UserEditHeader;
+export default UserHeader;
