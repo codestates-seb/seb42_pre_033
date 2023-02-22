@@ -30,6 +30,11 @@ const NavList = styled.ul`
   height: 100%;
   justify-content: center;
   align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const NavBackground = styled.div`
@@ -39,6 +44,7 @@ const NavBackground = styled.div`
 `;
 
 const NavWrapper = styled.div`
+  max-width: 1264px;
   flex: 1 1 0;
   margin: 0 auto;
 `;

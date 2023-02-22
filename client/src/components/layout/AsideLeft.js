@@ -11,6 +11,8 @@ const LeftAside = styled.aside`
 `;
 
 const LeftSidebar = styled.div`
+  position: sticky;
+  top: 50px;
   width: 164px;
 `;
 

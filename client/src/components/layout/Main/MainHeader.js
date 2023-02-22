@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import Button from '../../UI/Button';
 
-const Section = styled.div`
-  padding: 24px;
-  min-height: 105px;
-`;
+const Section = styled.div``;
 
 const MainHeaderWrapper = styled.div`
   flex: 1 0 400px;
@@ -75,12 +72,12 @@ const FilterIcon = styled.svg`
   margin-bottom: -0.3em;
 `;
 
-function MainHeader({ displayDataController = true }) {
+function MainHeader({ title = 'All Questions', displayDataController = true }) {
   return (
     <Section>
       <MainHeaderWrapper>
         <MainTitle>
-          <Title>All Questions</Title>
+          <Title>{title}</Title>
           <Button variant='question'>Ask Question</Button>
         </MainTitle>
         {displayDataController && (
