@@ -1,5 +1,7 @@
 package _BE_Project.question;
 
+import _BE_Project.exception.BusinessLogicException;
+import _BE_Project.exception.ExceptionCode;
 import _BE_Project.member.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -58,7 +60,7 @@ public class QuestionService {
 
     private Question findVerifyQuestion (long questionId) {
         Optional<Question> optionalQuestion = repository.findById(questionId);
-        Question findQuestion = optionalQuestion.orElseThrow();
+        Question findQuestion = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
         return findQuestion;
     }
 
