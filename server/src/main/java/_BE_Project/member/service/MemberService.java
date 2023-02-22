@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,6 +24,7 @@ public class MemberService {
   private final MemberRepository memberRepository;
   private final PasswordEncoder passwordEncoder;
   private final CustomAuthorityUtils authorityUtils;
+
 
 
   public Member saveMember(Member member){
@@ -62,4 +64,5 @@ public class MemberService {
       throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     }
   }*/
+
 }

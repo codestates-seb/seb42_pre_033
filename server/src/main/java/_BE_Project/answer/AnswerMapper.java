@@ -14,8 +14,8 @@ public interface AnswerMapper {
                 answer.getCreationDate(),
                 answer.getAnswerId(),
                 answer.getAnswerContent(),
-                answer.getQuestionEntity().getQuestionId(),
-                answer.getMemberDto()
+                answer.getQuestion().getQuestionId(),
+                answer.getMemberDto() // 에러남
         );
         return response;
     };
