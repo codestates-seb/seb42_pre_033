@@ -27,6 +27,10 @@ const Nav = styled.nav`
 const NavList = styled.ul`
   display: flex;
   padding: 0 16px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 0 16px;
   gap: 10px;
   height: 100%;
   justify-content: center;
@@ -63,7 +67,12 @@ const LogoImg = styled.img`
 `;
 
 const NavText = styled.li`
-  line-height: 1px;
+  width: auto;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 1000px;
+  margin-right: 4px;
+  line-height: 30px;
   cursor: pointer;
   :hover {
     background-color: var(--black-075);
@@ -76,7 +85,7 @@ const Search = styled.li`
   display: flex;
   height: 33px;
   position: relative;
-
+  margin-right: 10px;
   border: 1px solid var(--black-200);
   border-radius: 3px;
   background-color: var(--white);
@@ -124,7 +133,7 @@ function Header() {
             </Link>
             {/* 회원 페이지 임의 연결 */}
             <NavText>
-              <Link to='/users'>About</Link>
+              <Link to='/users/profile'>About</Link>
             </NavText>
 
             <NavText>Products</NavText>

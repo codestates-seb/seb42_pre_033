@@ -1,25 +1,25 @@
 import styled from 'styled-components';
 import Footer from '../../layout/Footer';
 import AsideLeft from '../../layout/AsideLeft';
-import UserProfileWrapper from './UserProfileWrapper';
+import UserDeleteWrapper from './UserDeleteWrapper';
 
-const UserComponent = styled.div`
+const UserDeleteComponent = styled.div`
   width: 1264px;
   height: auto;
   margin: 0 auto;
   display: flex;
 `;
 
-function UserProfile() {
+function UserDelete() {
   return (
     <div>
-      <UserComponent>
+      <UserDeleteComponent>
         <AsideLeft />
-        <UserProfileWrapper />
-      </UserComponent>
+        <UserDeleteWrapper />
+      </UserDeleteComponent>
       <Footer />
     </div>
   );
 }
 
-export default UserProfile;
+export default UserDelete;
