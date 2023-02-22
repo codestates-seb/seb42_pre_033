@@ -31,7 +31,7 @@ const TabList = styled.li`
   }
 `;
 
-function UserEditTab() {
+function UserTab() {
   return (
     <Tab>
       <TabList>Profile</TabList>
@@ -41,4 +41,4 @@ function UserEditTab() {
   );
 }
 
-export default UserEditTab;
+export default UserTab;

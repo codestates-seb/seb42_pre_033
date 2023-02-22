@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ImageUpload from './ImageUpload';
-import { USERS } from './UserDummy';
-import Button from '../UI/Button';
+import { USERS } from '../UserDummy';
+import Button from '../../UI/Button';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 

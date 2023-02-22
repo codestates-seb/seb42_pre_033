@@ -1,4 +1,4 @@
-import UserEditHeader from './UserEditHeader';
+import UserHeader from '../UserHeader';
 import styled from 'styled-components';
 import UserEditContent from './UserEditContent';
 
@@ -11,7 +11,7 @@ const UserEditMain = styled.section`
 function UserEditWrapper() {
   return (
     <UserEditMain>
-      <UserEditHeader />
+      <UserHeader />
       <UserEditContent />
     </UserEditMain>
   );
