@@ -5,10 +5,12 @@ import _BE_Project.exception.ExceptionCode;
 import _BE_Project.member.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -52,6 +54,12 @@ public class QuestionService {
 
     public Page<Question> findQuestions(int page, int size) {
         return repository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
+    }
+
+    @Transactional
+    public Page<Question> searchQuestion (String keyword, Pageable pageable) {
+        Page<Question> questionList = repository.findByTitleContaining(keyword, pageable);
+        return questionList;
     }
 
     public void deleteQuestion (long questionId) {
