@@ -87,7 +87,7 @@ function QuestionDetail({ onVoteUp, onVoteDown }) {
           displayEditButton
         />
       </Container>
-      <Editor />
+      <Editor onChange={() => {}} />
       <PostButton onClick={handleClick}>Post Youre Answer</PostButton>
     </Wrapper>
   );

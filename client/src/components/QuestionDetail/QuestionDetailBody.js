@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import DOMPurify from 'dompurify';
-import Button from '../UI/Button';
 import QuestionDetailBottom from './QuestionDetailBottom';
+import Tags from '../Tags/Tags';
 
 const Container = styled.div`
   display: flex;
@@ -35,32 +35,7 @@ const Content = styled.div`
 
 const TagContainer = styled.div``;
 
-const TagList = styled.ul`
-  display: flex;
-  justify-content: flex-start;
-  gap: 8px;
-`;
-
-const Tag = styled.li`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 12px;
-`;
-
-const TagButton = styled(Button)`
-  display: inline-block;
-  padding: 4.8px 6px;
-  line-height: 1;
-  white-space: nowrap;
-  text-decoration: none;
-  text-align: center;
-  border: 1px solid transparent;
-  height: unset;
-`;
-
-function QuestionDetailBody({ content, tags, displayEditButton }) {
+function QuestionDetailBody({ content, tags = [], displayEditButton }) {
   function createMarkup() {
     return { __html: DOMPurify.sanitize(content) };
   }
@@ -68,20 +43,7 @@ function QuestionDetailBody({ content, tags, displayEditButton }) {
   return (
     <Container>
       <Content dangerouslySetInnerHTML={createMarkup()} />
-      <TagContainer>
-        {' '}
-        {tags?.length > 0 && (
-          <TagList>
-            {tags.map(({ tag, url }) => (
-              <Tag key={tag}>
-                <TagButton variant='filter' href={url} tag='a'>
-                  {tag}
-                </TagButton>
-              </Tag>
-            ))}
-          </TagList>
-        )}
-      </TagContainer>
+      <TagContainer>{tags.length > 0 && <Tags tags={tags} />}</TagContainer>
       <QuestionDetailBottom
         name='정정수'
         avator=''
