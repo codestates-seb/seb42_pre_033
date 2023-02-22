@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import UserHeader from '../UserHeader';
+import UserDeleteContent from './UserDeleteContent';
 
 const UserDeleteMain = styled.section`
   width: 1100px;
@@ -7,13 +8,11 @@ const UserDeleteMain = styled.section`
   padding: 24px;
 `;
 
-const DelteTitle = styled.h3``;
-
 function UserDeleteWrapper() {
   return (
     <UserDeleteMain>
       <UserHeader />
-      <DelteTitle>Delete</DelteTitle>
+      <UserDeleteContent />
     </UserDeleteMain>
   );
 }
