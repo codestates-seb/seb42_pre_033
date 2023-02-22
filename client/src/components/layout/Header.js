@@ -77,7 +77,6 @@ const Search = styled.li`
 `;
 const SearchInput = styled.input`
   flex: 1 1 200px;
-
   height: 31px;
   margin-left: 35px;
   border: none;

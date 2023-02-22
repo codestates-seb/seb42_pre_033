@@ -1,81 +1,111 @@
 import styled from 'styled-components';
 import ImageUpload from './ImageUpload';
 import { USERS } from './UserDummy';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Button from '../UI/Button';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const EditContent = styled.div`
-  ck.ck-editor__editable:not(.ck-editor__nested-editable) {
-    min-height: 400px;
-    margin-bottom: 20px;
-
-    .ck.ck-editor__editable:not(.ck-editor__nested-editable) {
-      min-height: 500px;
-    }
-  }
+  padding: 8px;
+  margin-bottom: 30px;
 `;
 
-const EditTitle = styled.h3``;
-
-const Underbar = styled.div``;
-
-const InfoTitle = styled.h4``;
-
-const InfoEdit = styled.div`
+const EditTitle = styled.h3`
   width: 835px;
-  height: 758px;
-  border: 1px solid #000;
-  padding: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  font-size: 27px;
+  border-bottom: 1px solid var(--black-200);
 `;
 
-const InputTitle = styled.h5``;
+const InfoTitle = styled.h4`
+  font-size: 21px;
+  padding-bottom: 8px;
+`;
+
+const InfoEdit = styled.form`
+  width: 835px;
+  height: auto;
+  border: 1px solid var(--black-075);
+  border-radius: 5px;
+  padding: 24px;
+  margin-bottom: 30px;
+`;
+
+const InputTitle = styled.h5`
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  padding: 2px;
+`;
+
+const InputText = styled.input`
+  width: 421px;
+  height: 33px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  text-indent: 8px;
+  border: 1px solid var(--black-200);
+  border-radius: 4px;
+`;
 
 const Editor = styled.div`
-  width: 100%;
-  height: 90%;
+  margin-bottom: 30px;
+`;
+
+const QuilEditor = styled(ReactQuill)`
+  width: 785px;
+  height: 255px;
+  padding-bottom: 0px;
+`;
+
+const ButtonWrapper = styled.div`
+  width: 165px;
+  margin-top: 70px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
+`;
+
+const Cancel = styled.button`
+  background-color: #fff;
+  border: transparent;
+  padding: 10px;
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--blue-500);
+
+  :hover {
+    background-color: var(--powder-050);
+  }
 `;
 
 function UserEditContent() {
   return (
     <EditContent>
-      <div>
+      <section>
         <EditTitle>Edit your profile</EditTitle>
-        <Underbar />
         <InfoTitle>Public information</InfoTitle>
-      </div>
+      </section>
       {USERS.map(({ users }) =>
         users.map(({ name, id, title, location, aboutme }) => (
           <InfoEdit key={id}>
             <InputTitle>Profile image</InputTitle>
             <ImageUpload />
             <InputTitle>Display name</InputTitle>
-            <input defaultValue={name} />
+            <InputText defaultValue={name} />
             <InputTitle>Location</InputTitle>
-            <input defaultValue={location} />
+            <InputText defaultValue={location} />
             <InputTitle>Title</InputTitle>
-            <input defaultValue={title} />
+            <InputText defaultValue={title} />
             <InputTitle>About me</InputTitle>
             <Editor>
-              <CKEditor
-                editor={ClassicEditor}
-                data={aboutme}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                  console.log({ event, editor, data });
-                }}
-                onReady={(editor) => {
-                  // You can store the "editor" and use when it is needed.
-                  // console.log("Editor is ready to use!", editor);
-                  editor.editing.view.change((writer) => {
-                    writer.setStyle(
-                      'min-height',
-                      '300px',
-                      editor.editing.view.document.getRoot(),
-                    );
-                  });
-                }}
-              />
+              <QuilEditor theme='snow' value={aboutme} />
             </Editor>
+            <ButtonWrapper>
+              <Button variant='question'>Save Profile</Button>
+              <Cancel>Cancel</Cancel>
+            </ButtonWrapper>
           </InfoEdit>
         )),
       )}

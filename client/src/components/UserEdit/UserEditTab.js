@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Tab = styled.ul`
   width: 150px;
   height: 29px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-s;
   align-items: center;
