@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Editor from '../AnswerEditor/Editor';
+import AnswerEditor from '../AnswerEditor/AnswerEditor';
 import QuestionDeatilAnswerHeader from './QuestionDeatilAnswerHeader';
 import QuestionDetailBody from './QuestionDetailBody';
 import QuestionDetailLeft from './QuestionDetailLeft';
@@ -77,7 +77,7 @@ function QuestionDetail({ onVoteUp, onVoteDown }) {
           displayEditButton
         />
       </Container>
-      <Editor />
+      <AnswerEditor />
     </Wrapper>
   );
 }
