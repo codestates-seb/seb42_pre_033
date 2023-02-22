@@ -15,11 +15,27 @@ const Container = styled.article`
   gap: 20px;
 `;
 
+const Header = styled.div`
+  height: 100px;
+  background: url('https://cdn.sstatic.net/Img/ask/background.svg?v=2e9a8205b368');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+`;
+
+const TitleContainer = styled.div`
+  width: 300px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: var(--white);
+`;
+
 const Title = styled.h1`
   font-weight: 600;
   font-size: 27px;
   line-height: 1.3;
-  margin: 32px 0 36px;
+  text-align: center;
 `;
 
 const EditorCard = styled(Card)`
@@ -56,7 +72,11 @@ function AskQuestion() {
 
   return (
     <Container>
-      <Title>Ask a public question</Title>
+      <Header>
+        <TitleContainer>
+          <Title>Ask a public question</Title>
+        </TitleContainer>
+      </Header>
       <AskQuetionNotice />
       <Card variant='secondary'>
         <Input
