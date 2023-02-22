@@ -8,7 +8,6 @@ const StyleHeader = styled.header`
   width: 100%;
   min-width: 800px;
   height: 50px;
-
   z-index: 10;
 `;
 

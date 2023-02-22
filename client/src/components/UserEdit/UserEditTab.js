@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Tab = styled.ul`
-  width: 138px;
+  width: 150px;
   height: 29px;
   margin-bottom: 16px;
   display: flex;
@@ -35,7 +35,8 @@ function UserEditTab() {
   return (
     <Tab>
       <TabList>Profile</TabList>
-      <TabList className='selected'>Settings</TabList>
+      <TabList className='selected'>Edit</TabList>
+      <TabList>Delete</TabList>
     </Tab>
   );
 }
