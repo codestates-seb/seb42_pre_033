@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import AnswerEditor from '../AnswerEditor/AnswerEditor';
+import Editor from '../Editor/Editor';
 import QuestionDeatilAnswerHeader from './QuestionDeatilAnswerHeader';
 import QuestionDetailBody from './QuestionDetailBody';
 import QuestionDetailLeft from './QuestionDetailLeft';
+import Button from '../UI/Button';
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,6 +18,13 @@ const Container = styled.div`
   gap: 16px;
 `;
 
+const PostButton = styled(Button)`
+  margin: 40px 0 32px 0;
+  width: 140px;
+  height: 36px;
+  line-height: 15px;
+`;
+
 function QuestionDetail({ onVoteUp, onVoteDown }) {
   const [sortedOption, setSortedOption] = useState('modifieddesc');
   console.log(sortedOption);
@@ -24,6 +32,8 @@ function QuestionDetail({ onVoteUp, onVoteDown }) {
   const handleChange = (option) => {
     setSortedOption(option);
   };
+
+  const handleClick = () => {};
 
   return (
     <Wrapper>
@@ -77,7 +87,8 @@ function QuestionDetail({ onVoteUp, onVoteDown }) {
           displayEditButton
         />
       </Container>
-      <AnswerEditor />
+      <Editor />
+      <PostButton onClick={handleClick}>Post Youre Answer</PostButton>
     </Wrapper>
   );
 }
