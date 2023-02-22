@@ -3,8 +3,8 @@ import AsideLeft from '../components/layout/AsideLeft';
 import Footer from '../components/layout/Footer';
 import Main from '../components/layout/Main/Main';
 import MainHeader from '../components/layout/Main/MainHeader';
-import QuestionDetail from '../components/QuestionDetail.js/QuestionDetail';
-import QuestionDetailInfo from '../components/QuestionDetail.js/QuestionDetailInfo';
+import QuestionDetail from '../components/QuestionDetail/QuestionDetail';
+import QuestionDetailInfo from '../components/QuestionDetail/QuestionDetailInfo';
 import AsideRight from './AsideRight';
 
 const Wrapper = styled.section`
