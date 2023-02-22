@@ -18,7 +18,7 @@ const LinkStyle = styled.li`
   border-radius: 1000px;
   font-size: 13px;
   text-align: center;
-  margin-right: 10px;
+  margin-right: 5px;
   cursor: pointer;
   :hover {
     background-color: var(--black-075);

@@ -4,7 +4,7 @@ import UserDeleteContent from './UserDeleteContent';
 
 const UserDeleteMain = styled.section`
   width: 1100px;
-  height: auto;
+  height: 932px;
   padding: 24px;
 `;
 
