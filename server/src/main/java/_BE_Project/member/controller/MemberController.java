@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -44,5 +45,10 @@ public class MemberController {
   @DeleteMapping("{id}")
   public ResponseEntity<?> deleteMember(@PathVariable Long id){
   
+  }
+  @GetMapping("/logout")
+  public ResponseEntity<?> logout(HttpServletRequest request){
+    memberService.logout(request);
+    return new ResponseEntity<>("successfully logged out.",HttpStatus.OK);
   }
 }

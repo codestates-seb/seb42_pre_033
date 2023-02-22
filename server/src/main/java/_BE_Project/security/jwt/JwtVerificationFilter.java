@@ -1,5 +1,8 @@
 package _BE_Project.security.jwt;
 
+import _BE_Project.exceiption.BusinessLogicException;
+import _BE_Project.exceiption.ExceptionCode;
+import _BE_Project.member.repository.RefreshTokenRedisRepository;
 import _BE_Project.security.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import java.util.Map;
 public class JwtVerificationFilter extends OncePerRequestFilter {
   private final JwtTokenProvider jwtTokenProvider;
   private final CustomAuthorityUtils authorityUtils;
+  private final RefreshTokenRedisRepository redisRepository;
   private final String HEADER_PREFIX = "Bearer ";
   
   @Override
@@ -50,9 +54,12 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
   
   public Claims verifyJws(HttpServletRequest request){
     String jws = request.getHeader("Authorization").substring(HEADER_PREFIX.length());
+    
+    if(redisRepository.findBy(jws) != null){
+      throw new BusinessLogicException(ExceptionCode.MEMBER_LOGOUT);
+    }
+    
     return jwtTokenProvider.parseClaims(jws);
-//    Map<String, Object> claims = jwtTokenProvider.parseClaims(jws);
-//    return claims;
   }
   
   public void setAuthenticationToContext(Claims claims){

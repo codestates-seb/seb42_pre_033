@@ -43,7 +43,8 @@ public class SecurityConfiguration {
         .antMatchers(HttpMethod.PATCH,"/questions").hasRole("USER")
         .antMatchers(HttpMethod.POST,"/answers").hasRole("USER")
         .antMatchers(HttpMethod.PATCH,"/answers").hasRole("USER")
-        .antMatchers(HttpMethod.PATCH,"/questions").hasRole("USER");
+        .antMatchers(HttpMethod.PATCH,"/questions").hasRole("USER")
+        .anyRequest().permitAll();
       });
       
       return http.build();
