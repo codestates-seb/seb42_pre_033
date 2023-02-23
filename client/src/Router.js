@@ -38,7 +38,7 @@ function Router() {
           path='/question/:questionId/edit'
           element={<QuestionEditPage />}
         />
-        <Route path='/users/profile' element={<UserProfilePage />} />
+        <Route path='/users' element={<UserProfilePage />} />
         <Route path='/users/edit' element={<UserEditPage />} />
         <Route path='/users/Delete' element={<UserDeletePage />} />
       </Route>
