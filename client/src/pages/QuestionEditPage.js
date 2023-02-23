@@ -4,7 +4,8 @@ import QuestionEditGuide from '../components/QuestionEdit/QuestionEditGuide';
 
 const Article = styled.article`
   display: flex;
-  width: 100%;
+  max-width: 1264px;
+  width: 1080px;
   padding: 16px;
   gap: 24px;
 `;

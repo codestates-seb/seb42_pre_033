@@ -121,10 +121,16 @@ function Header() {
                 </h1>
               </Logo>
             </Link>
-            <NavText>About</NavText>
-
-            <NavText>Products</NavText>
-            <NavText>For Teams</NavText>
+            {/* 404 페이지 임의연결 */}
+            <Link to='/abc'>
+              <NavText>About</NavText>
+            </Link>
+            <Link to='/abc'>
+              <NavText>Products</NavText>
+            </Link>
+            <Link to='/abc'>
+              <NavText>For Teams</NavText>
+            </Link>
             <Search>
               <SearchInput type='text' placeholder='Search...' />
               <SearchSvg
