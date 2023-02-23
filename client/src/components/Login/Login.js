@@ -4,7 +4,7 @@ import Button from '../UI/Button';
 import Oauth from './Oauth';
 
 const LoginComponent = styled.div`
-  height: calc(100vh - 50px);
+  height: 100%;
   background-color: var(--black-050);
 `;
 

@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import Button from '../../UI/Button';
 
-const Section = styled.div``;
+const Section = styled.div`
+  width: 100%;
+  padding: 0 16px;
+`;
 
 const MainHeaderWrapper = styled.div`
   flex: 1 0 400px;

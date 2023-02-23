@@ -153,7 +153,9 @@ function Header() {
               <Link to='/login'>
                 <Button variant='secondary'>Log in</Button>
               </Link>
-              <Button variant='primary'>Sign Up</Button>
+              <Link to='/signup'>
+                <Button variant='primary'>Sign Up</Button>
+              </Link>
             </ButtonWrapper>
           </NavList>
         </NavWrapper>
