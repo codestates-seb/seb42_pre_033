@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const FooterComponent = styled.div`
-  width: 100vw;
+  width: 100%;
+  min-width: 800px;
   height: 322px;
   font-size: 13px;
   color: var(--black-200);
@@ -30,7 +31,7 @@ const FooterSubtitle = styled.h5`
 `;
 
 const FooterWrapper = styled.div`
-  width: 1264px;
+  width: 100%;
   height: 322px;
   margin: 0 auto;
   padding: 32px 12px 12px;

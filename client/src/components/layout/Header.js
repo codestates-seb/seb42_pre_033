@@ -26,11 +26,10 @@ const Nav = styled.nav`
 
 const NavList = styled.ul`
   display: flex;
-  padding: 0 16px;
-  gap: 10px;
   height: 100%;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 `;
 
 const NavBackground = styled.div`
@@ -40,6 +39,7 @@ const NavBackground = styled.div`
 `;
 
 const NavWrapper = styled.div`
+  max-width: 1264px;
   flex: 1 1 0;
   margin: 0 auto;
 `;
@@ -57,7 +57,12 @@ const LogoImg = styled.img`
 `;
 
 const NavText = styled.li`
-  line-height: 1px;
+  width: auto;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 1000px;
+  margin-right: 4px;
+  line-height: 30px;
   cursor: pointer;
   :hover {
     background-color: var(--black-075);
@@ -70,7 +75,7 @@ const Search = styled.li`
   display: flex;
   height: 33px;
   position: relative;
-
+  margin-right: 10px;
   border: 1px solid var(--black-200);
   border-radius: 3px;
   background-color: var(--white);
@@ -116,10 +121,7 @@ function Header() {
                 </h1>
               </Logo>
             </Link>
-            {/* 회원 페이지 임의 연결 */}
-            <NavText>
-              <Link to='/users'>About</Link>
-            </NavText>
+            <NavText>About</NavText>
 
             <NavText>Products</NavText>
             <NavText>For Teams</NavText>
@@ -138,7 +140,9 @@ function Header() {
               <Link to='/login'>
                 <Button variant='secondary'>Log in</Button>
               </Link>
-              <Button variant='primary'>Sign Up</Button>
+              <Link to='/signup'>
+                <Button variant='primary'>Sign Up</Button>
+              </Link>
             </ButtonWrapper>
           </NavList>
         </NavWrapper>

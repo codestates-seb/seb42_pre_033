@@ -11,7 +11,7 @@ const RightBLog = styled.div`
 
 function AsideRight() {
   return (
-    <div>
+    <aside>
       <RightBLog>
         {BLOGS.map(({ title, contentList }) => (
           <RightAside key={title} color='yellow' title={title}>
@@ -26,7 +26,6 @@ function AsideRight() {
           </RightAside>
         ))}
       </RightBLog>
-
       {COLLETIVE.map(({ title, companyList }) => (
         <RightAside
           key={title}
@@ -45,7 +44,7 @@ function AsideRight() {
           ))}
         </RightAside>
       ))}
-    </div>
+    </aside>
   );
 }
 

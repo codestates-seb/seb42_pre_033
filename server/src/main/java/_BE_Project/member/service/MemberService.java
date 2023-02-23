@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -26,6 +27,7 @@ public class MemberService {
   private final PasswordEncoder passwordEncoder;
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
+
 
   public Member saveMember(Member member){
     Member findMember = memberRepository.findByEmail(member.getEmail());
@@ -65,4 +67,12 @@ public class MemberService {
     Member findMember = memberRepository.findByMemberId(memberId);
     memberRepository.delete(findMember);
   }
+//  public void verifyExistsEmail(String email){
+//    Optional<Member> optionalMember = memberRepository.findByEmail(email);
+//    Member byEmail = memberRepository.findByEmail(email);
+//    if(optionalMember.isPresent()){
+//      throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
+//    }
+//  }
+
 }

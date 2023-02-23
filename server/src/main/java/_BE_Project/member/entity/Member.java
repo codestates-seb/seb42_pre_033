@@ -29,6 +29,9 @@ public class Member extends BaseTime {
     @Column(nullable = false)
     private String email;
 
+    @Column
+    private String nickname;
+
     @Range(min = 4, max = 30)
     @Column(nullable = false, name = "member_password")
     private String password;

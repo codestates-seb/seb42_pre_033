@@ -11,6 +11,8 @@ const LeftAside = styled.aside`
 `;
 
 const LeftSidebar = styled.div`
+  position: sticky;
+  top: 50px;
   width: 164px;
 `;
 
@@ -141,16 +143,23 @@ function AsideLeft() {
           <NavListTitle>
             PUBLIC
             <Category>
-              <NavList>
-                <FaGlobeAmericas className='globe' />
-                Questions
-              </NavList>
+              <LinkStyle>
+                <NavLink
+                  className={({ isActive }) => (isActive ? 'selected' : '')}
+                  to='/questions'
+                >
+                  <NavList>
+                    <FaGlobeAmericas className='globe' />
+                    Questions
+                  </NavList>
+                </NavLink>
+              </LinkStyle>
               <NavListInsert>Tags</NavListInsert>
               <LinkStyle>
                 {/* 회원가입 수정 임의경로 설정 */}
                 <NavLink
                   className={({ isActive }) => (isActive ? 'selected' : '')}
-                  to='/users/edit'
+                  to='/users'
                 >
                   <NavListInsert>Users</NavListInsert>
                 </NavLink>

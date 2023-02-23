@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import Button from '../../UI/Button';
 
 const Section = styled.div`
-  padding: 24px;
-  min-height: 105px;
+  padding: 24px 0px 12px 24px;
+  width: 100%;
+  border-bottom: 1px solid var(--black-100);
 `;
 
 const MainHeaderWrapper = styled.div`
@@ -13,7 +14,7 @@ const MainHeaderWrapper = styled.div`
 const MainTitle = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 `;
 
 const Title = styled.h2`
@@ -39,6 +40,7 @@ const CategoryNav = styled.div`
   flex-direction: row;
   border: 1px solid var(--black-400);
   border-radius: 3px;
+  margin-left: 29.3px;
   margin-right: 16px;
   .selected {
     background-color: var(--black-100);
@@ -75,12 +77,12 @@ const FilterIcon = styled.svg`
   margin-bottom: -0.3em;
 `;
 
-function MainHeader({ displayDataController = true }) {
+function MainHeader({ title = 'All Questions', displayDataController = true }) {
   return (
     <Section>
       <MainHeaderWrapper>
         <MainTitle>
-          <Title>All Questions</Title>
+          <Title>{title}</Title>
           <Button variant='question'>Ask Question</Button>
         </MainTitle>
         {displayDataController && (

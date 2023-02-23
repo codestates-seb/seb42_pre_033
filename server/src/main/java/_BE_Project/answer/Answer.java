@@ -2,6 +2,7 @@ package _BE_Project.answer;
 
 import _BE_Project.Score.Score;
 import _BE_Project.audit.BaseTime;
+import _BE_Project.member.dto.MemberDto;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Answer extends BaseTime {
+public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,13 +55,13 @@ public class Answer extends BaseTime {
     @OneToMany(mappedBy = "answer" , cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Score> likeUsers;
 
-    /*public MemberDto.owner getOwner() {
-        Member member = this.member;
-        MemberDto.owner = new MemberDto.owner(member.getMemberId());
-        return owner;
-    }
+//    public MemberDto.owner getOwnerDto() {
+//        Member member = this.member;
+//        MemberDto.owner = new MemberDto.owner(member.getMemberId(), member.getNickname());
+//        return owner;
+//    }
 
 
-    }*/
+
 
 }

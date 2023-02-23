@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
@@ -19,6 +20,9 @@ public class MemberDto {
         private String email;
         @Range(min = 4, max = 20)
         private String password;
+
+        @NotBlank
+        private String nickname;
     }
 
     @Getter
@@ -27,6 +31,7 @@ public class MemberDto {
         private long memberId;
         private String email;
         private String password;
+        private String nickname;
 
 
     }
@@ -36,7 +41,20 @@ public class MemberDto {
     public static class Response {
         private long memberId;
         private String email;
+
+        private String nickname;
         private Member.MemberStatus memberStatus;
         private LocalDateTime createDate;
+    }
+
+    @Getter
+    public static class owner{
+        private Long memberId;
+        private String nickname;
+
+        public owner(Long memberId, String nickname) {
+            this.memberId = memberId;
+            this.nickname = nickname;
+        }
     }
 }
