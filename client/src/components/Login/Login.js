@@ -80,12 +80,12 @@ const LoginQuestion = styled.div`
   font-size: 13px;
 `;
 
-const LoginQuestionP = styled.p`
+const LoginQuestionText = styled.p`
   text-align: center;
   margin: 12px 0;
 `;
 
-const LoginQuestionSpan = styled.span`
+const LoginQuestionLink = styled.span`
   position: relative;
   margin: 0 5px;
   color: var(--blue-600);
@@ -136,13 +136,15 @@ function Login() {
           </form>
         </FormContainer>
         <LoginQuestion>
-          <LoginQuestionP>
+          <LoginQuestionText>
             Don&apos;t have an account?{' '}
-            <LoginQuestionSpan>Sign up</LoginQuestionSpan>
-          </LoginQuestionP>
+            <Link to='/signup'>
+              <LoginQuestionLink>Sign up</LoginQuestionLink>
+            </Link>
+          </LoginQuestionText>
           <p>
             Are you an employer?
-            <LoginQuestionSpan>
+            <LoginQuestionLink>
               Sign up on Talent
               <SvgIcon
                 fill='var(--blue-600)'
@@ -153,7 +155,7 @@ function Login() {
               >
                 <path d='M5 1H3a2 2 0 0 0-2 2v8c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V9h-2v2H3V3h2V1Zm2 0h6v6h-2V4.5L6.5 9 5 7.5 9.5 3H7V1Z'></path>
               </SvgIcon>
-            </LoginQuestionSpan>
+            </LoginQuestionLink>
           </p>
         </LoginQuestion>
       </LoginWrapper>
