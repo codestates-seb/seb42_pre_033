@@ -56,6 +56,15 @@ const VARIANTS = {
     --btn-box-height: 35px;
     --btn-box-padding: 0 12px;
   `,
+  delete: css`
+    --btn-color: var(--white);
+    --btn-bg-color: var(--red-500);
+    --btn-border-color: var(transparent);
+    --btn-hover-bg-color: var(--red-600);
+    --btn-box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
+    --btn-box-height: 38px;
+    --btn-box-padding: 10px;
+  `,
 };
 
 const StyledButton = styled.button`
@@ -73,6 +82,10 @@ const StyledButton = styled.button`
 
   &:hover {
     background-color: var(--btn-hover-bg-color);
+  }
+
+  &:disabled {
+    opacity: 0.5;
   }
 `;
 

@@ -2,8 +2,12 @@ package _BE_Project.question;
 
 import _BE_Project.dto.MultiResponseDto;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,13 +43,22 @@ public class QuestionController {
 
     }
 
-
     @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable ("question-id") long questionId) {
 
         Question question = service.findQuestion(questionId);
 
         return new ResponseEntity(mapper.questionToQuestionResponseDto(question),HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public String search(String keyword, Model model, @PageableDefault(sort = "questionId", direction = Sort.Direction.DESC)
+                         Pageable pageable) {
+        Page<Question> searchQuestion = service.searchQuestion(keyword, pageable);
+
+        model.addAttribute("searchQuestion", searchQuestion);
+
+        return "posts-search";
     }
 
     @GetMapping

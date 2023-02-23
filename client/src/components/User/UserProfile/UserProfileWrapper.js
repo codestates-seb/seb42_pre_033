@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import UserHeader from '../UserHeader';
+import UserProfileContent from './UserProfileContent';
 
 const UserMain = styled.section`
   width: 1100px;
@@ -11,6 +12,7 @@ function UserWrapper() {
   return (
     <UserMain>
       <UserHeader />
+      <UserProfileContent />
     </UserMain>
   );
 }

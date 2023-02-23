@@ -1,27 +1,29 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
 import styled from 'styled-components';
-import Button from '../UI/Button';
-
-const PostButton = styled(Button)`
-  margin: 40px 0 32px 0;
-  width: 140px;
-  height: 36px;
-  line-height: 15px;
-`;
 
 const StyledEditor = styled(ReactQuill)`
-  height: 300px;
+  height: ${({ editorHeight }) => editorHeight};
+
+  .ql-container {
+    max-height: calc(100% - 64px);
+    overflow: auto;
+  }
 `;
 
 hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'rust'],
 });
 
-function AnswerEditor({ placeholder = '입력을 해주세요' }) {
+function Editor({
+  onChange,
+  editorHeight = '300px',
+  placeholder = '입력을 해주세요',
+  ...props
+}) {
   const [input, setInput] = useState('');
 
   const handleChange = (value) => {
@@ -30,7 +32,9 @@ function AnswerEditor({ placeholder = '입력을 해주세요' }) {
     setInput(value);
   };
 
-  const handleClick = () => {};
+  useEffect(() => {
+    onChange(input);
+  }, [input]);
 
   const modules = useMemo(() => {
     return {
@@ -69,18 +73,17 @@ function AnswerEditor({ placeholder = '입력을 해주세요' }) {
   ];
 
   return (
-    <>
-      <StyledEditor
-        placeholder={placeholder}
-        theme='snow'
-        value={input}
-        onChange={handleChange}
-        modules={modules}
-        format={formats}
-      />
-      <PostButton onClick={handleClick}>Post Youre Answer</PostButton>
-    </>
+    <StyledEditor
+      placeholder={placeholder}
+      theme='snow'
+      value={input}
+      onChange={handleChange}
+      modules={modules}
+      format={formats}
+      editorHeight={editorHeight}
+      {...props}
+    />
   );
 }
 
-export default AnswerEditor;
+export default Editor;

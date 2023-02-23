@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Oauth from '../components/Login/Oauth';
-import Main from '../components/layout/Main/Main';
 import SignupBottom from '../components/Signup/SignupBottom';
 import SignupForm from '../components/Signup/SignupForm';
 import SignupHeader from '../components/Signup/SignupHeader';
@@ -26,16 +25,14 @@ function SignupPage() {
   const onSubmit = () => {};
 
   return (
-    <Main>
-      <Container>
-        <SignupHeader />
-        <SignupFormContainer>
-          <Oauth />
-          <SignupForm onSubmit={onSubmit} />
-          <SignupBottom />
-        </SignupFormContainer>
-      </Container>
-    </Main>
+    <Container>
+      <SignupHeader />
+      <SignupFormContainer>
+        <Oauth />
+        <SignupForm onSubmit={onSubmit} />
+        <SignupBottom />
+      </SignupFormContainer>
+    </Container>
   );
 }
 

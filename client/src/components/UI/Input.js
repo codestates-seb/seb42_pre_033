@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import Label from './Label';
+import SubLabel from './SubLabel';
 
 const Container = styled.fieldset`
   display: flex;
@@ -7,16 +9,6 @@ const Container = styled.fieldset`
   gap: 6px;
   border: 0;
   width: 100%;
-`;
-
-const Label = styled.label`
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--fc-dark);
-
-  :active {
-    color: var(--blue-500);
-  }
 `;
 
 const StyledInput = styled.input`
@@ -29,10 +21,11 @@ const StyledInput = styled.input`
   font-size: 13px;
 `;
 
-function Input({ label, placeholder, type = 'text' }) {
+function Input({ label, placeholder, subLabel, type = 'text' }) {
   return (
     <Container>
       <Label>{label}</Label>
+      {subLabel?.length > 0 && <SubLabel>{subLabel}</SubLabel>}
       <StyledInput placeholder={placeholder} type={type} />
     </Container>
   );
