@@ -9,6 +9,7 @@ import QuestionEditPage from './pages/QuestionEditPage';
 import UserProfilePage from './pages/UserProfilePage';
 import UserEditPage from './pages/UserEditPage';
 import UserDeletePage from './pages/UserDeletePage';
+import ErrorPage from './pages/ErrorPage';
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route element={<Layout />}>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignupPage />} />
+        <Route path='/abc' element={<ErrorPage />} />
       </Route>
 
       <Route

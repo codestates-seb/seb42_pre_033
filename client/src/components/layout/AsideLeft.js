@@ -5,13 +5,12 @@ import { NavLink } from 'react-router-dom';
 const LeftAside = styled.aside`
   width: 163px;
   height: auto;
-  padding-top: 24px;
-  padding-left: 8px;
   border-right: 1px solid var(--black-075);
 `;
 
 const LeftSidebar = styled.div`
   position: sticky;
+  padding-top: 24px;
   top: 50px;
   width: 164px;
 `;
@@ -46,7 +45,7 @@ const NavList = styled.li`
 const LinkStyle = styled.div`
   .selected {
     display: block;
-    width: 156px;
+    width: 163px;
     height: 32px;
     font-weight: bold;
     color: var(--black-900);
