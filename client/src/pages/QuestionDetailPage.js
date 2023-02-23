@@ -8,7 +8,7 @@ const Article = styled.article`
   display: flex;
   flex-direction: column;
   max-width: 1264px;
-  width: 1080px;
+  width: 100%;
   padding: 16px;
   gap: 3px;
 `;
