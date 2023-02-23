@@ -1,6 +1,7 @@
 package _BE_Project.security.service;
 
 import _BE_Project.member.entity.Member;
+import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.service.MemberService;
 import _BE_Project.security.utils.CustomAuthorityUtils;
 import lombok.AllArgsConstructor;
@@ -17,10 +18,13 @@ import java.util.Collection;
 public class UserDetailsServiceImpl implements UserDetailsService {
   private final MemberService memberService;
   private final CustomAuthorityUtils authorityUtils;
-  
+
+  // loadUserByUsername 이부분 구현코드 빨간줄 떠서 memberRepository 에서 값 가져오는 로직으로 임시 변경
+  private final MemberRepository memberRepository;
+
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Member findedMember = memberService.verifyExistsEmail(username);
+    Member findedMember = memberRepository.findByEmail(username);
     
     return new UserDetailsImpl(findedMember);
   }

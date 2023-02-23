@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import Footer from '../layout/Footer';
+import Footer from '../../layout/Footer';
 import UserEditWrapper from './UserEditWrapper';
-import AsideLeft from '../layout/AsideLeft';
+import AsideLeft from '../../layout/AsideLeft';
 
 const UserEditComponent = styled.div`
   width: 1264px;

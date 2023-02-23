@@ -1,8 +1,9 @@
-package _BE_Project.security.jwt;
+package _BE_Project.security.filter;
 
 import _BE_Project.member.entity.Member;
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
 import _BE_Project.security.dto.LoginDto;
+import _BE_Project.security.jwt.JwtTokenProvider;
 import _BE_Project.security.service.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -43,8 +45,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     
     redisRepository.save(member.getEmail(), refreshToken);
     
-    response.addHeader("Authorization", "Bearer " + accessToken);
-    response.addHeader("Refresh", refreshToken);
+    response.setHeader("Authorization", "Bearer " + accessToken);
+    response.setHeader("Refresh", refreshToken);
     chain.doFilter(request, response);
   }
   

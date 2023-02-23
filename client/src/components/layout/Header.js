@@ -8,7 +8,6 @@ const StyleHeader = styled.header`
   width: 100%;
   min-width: 800px;
   height: 50px;
-
   z-index: 10;
 `;
 
@@ -78,7 +77,6 @@ const Search = styled.li`
 `;
 const SearchInput = styled.input`
   flex: 1 1 200px;
-
   height: 31px;
   margin-left: 35px;
   border: none;
@@ -118,10 +116,9 @@ function Header() {
                 </h1>
               </Logo>
             </Link>
-            {/* 회원수정 페이지 임의 연결 */}
-
+            {/* 회원 페이지 임의 연결 */}
             <NavText>
-              <Link to='/users/edit'>About</Link>
+              <Link to='/users'>About</Link>
             </NavText>
 
             <NavText>Products</NavText>

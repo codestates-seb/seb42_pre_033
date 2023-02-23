@@ -42,7 +42,7 @@ public class AnswerController {
             throw new UnauthorizedException("로그인이 필요합니다.");
         }
         Member member = memberService.findByAccessToken(requestBody.getAccessToken());
-        AnswerEntity answerEntity = mapper.answerPostDtoAnswer(requestBody);
+        Answer answer = mapper.answerPostDtoAnswer(requestBody);
         answerService.create(id, answerEntity, member);
         return new ResponseEntity(HttpStatus.CREATED);
 
@@ -57,7 +57,7 @@ public class AnswerController {
         if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){
             throw new UnauthorizedException("작성자가 아닙니다.");
         }
-        AnswerEntity updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
+        Answer updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

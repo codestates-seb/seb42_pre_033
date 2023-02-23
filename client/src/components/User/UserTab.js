@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 const Tab = styled.ul`
-  width: 138px;
+  width: 150px;
   height: 29px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-s;
   align-items: center;
@@ -31,13 +31,14 @@ const TabList = styled.li`
   }
 `;
 
-function UserEditTab() {
+function UserTab() {
   return (
     <Tab>
       <TabList>Profile</TabList>
-      <TabList className='selected'>Settings</TabList>
+      <TabList className='selected'>Edit</TabList>
+      <TabList>Delete</TabList>
     </Tab>
   );
 }
 
-export default UserEditTab;
+export default UserTab;

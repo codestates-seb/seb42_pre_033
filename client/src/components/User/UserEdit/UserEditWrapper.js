@@ -1,8 +1,8 @@
-import UserEditHeader from './UserEditHeader';
+import UserHeader from '../UserHeader';
 import styled from 'styled-components';
-import UserEditMiddleWrapper from './UserEditMiddleWrapper';
+import UserEditContent from './UserEditContent';
 
-const UserEditMain = styled.div`
+const UserEditMain = styled.section`
   width: 1100px;
   height: auto;
   padding: 24px;
@@ -11,8 +11,8 @@ const UserEditMain = styled.div`
 function UserEditWrapper() {
   return (
     <UserEditMain>
-      <UserEditHeader />
-      <UserEditMiddleWrapper />
+      <UserHeader />
+      <UserEditContent />
     </UserEditMain>
   );
 }

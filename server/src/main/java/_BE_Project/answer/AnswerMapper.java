@@ -5,17 +5,17 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AnswerMapper {
-    AnswerEntity answerPostDtoAnswer(AnswerDto.Post answerPostDto);
-    AnswerEntity answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);
-    default AnswerDto.Response answerToAnswerResponseDto(AnswerEntity answerEntity){
+    Answer answerPostDtoAnswer(AnswerDto.Post answerPostDto);
+    Answer answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);
+    default AnswerDto.Response answerToAnswerResponseDto(Answer answer){
         AnswerDto.Response response = new AnswerDto.Response(
-                answerEntity.isAccepted(),
-                answerEntity.getScore(),
-                answerEntity.getCreationDate(),
-                answerEntity.getAnswerId(),
-                answerEntity.getAnswerContent(),
-                answerEntity.getQuestionEntity().getQuestionId(),
-                answerEntity.getMemberDto()
+                answer.isAccepted(),
+                answer.getScore(),
+                answer.getCreationDate(),
+                answer.getAnswerId(),
+                answer.getAnswerContent(),
+                answer.getQuestionEntity().getQuestionId(),
+                answer.getMemberDto()
         );
         return response;
     };

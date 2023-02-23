@@ -1,11 +1,11 @@
 package _BE_Project.security.config;
 
+import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
 import _BE_Project.security.handler.MemberAuthenticationFailureHandler;
-import _BE_Project.security.handler.MemberAuthenticationSuccessHandler;
-import _BE_Project.security.jwt.JwtAuthenticationFilter;
+import _BE_Project.security.filter.JwtAuthenticationFilter;
 import _BE_Project.security.jwt.JwtTokenProvider;
-import _BE_Project.security.jwt.JwtVerificationFilter;
+import _BE_Project.security.filter.JwtVerificationFilter;
 import _BE_Project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +17,7 @@ public class JwtSecurityConfiguration extends SecurityConfigurerAdapter<DefaultS
   private final JwtTokenProvider jwtTokenProvider;
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
+  private final MemberRepository memberRepository;
   
   @Override
   public void configure(HttpSecurity http) throws Exception {
@@ -25,9 +26,10 @@ public class JwtSecurityConfiguration extends SecurityConfigurerAdapter<DefaultS
     jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
     jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
     jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
-    jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+    
   
-    JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenProvider, authorityUtils, redisRepository);
+    JwtVerificationFilter jwtVerificationFilter =
+      new JwtVerificationFilter(jwtTokenProvider, authorityUtils, redisRepository, memberRepository);
     
     http.addFilter(jwtAuthenticationFilter);
     http.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);

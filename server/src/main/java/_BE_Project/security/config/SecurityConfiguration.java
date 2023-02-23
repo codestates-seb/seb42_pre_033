@@ -1,5 +1,10 @@
 package _BE_Project.security.config;
 
+import _BE_Project.member.repository.MemberRepository;
+import _BE_Project.member.repository.RefreshTokenRedisRepository;
+import _BE_Project.security.jwt.JwtTokenProvider;
+import _BE_Project.security.utils.CustomAuthorityUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +24,13 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity(debug = true)
+@RequiredArgsConstructor
 @ConditionalOnDefaultWebSecurity
 public class SecurityConfiguration {
+  private final JwtTokenProvider jwtTokenProvider;
+  private final CustomAuthorityUtils authorityUtils;
+  private final RefreshTokenRedisRepository redisRepository;
+  private final MemberRepository memberRepository;
   
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
@@ -32,6 +42,8 @@ public class SecurityConfiguration {
       .and()
       .csrf().disable()
       .cors(Customizer.withDefaults())
+      .apply(new JwtSecurityConfiguration(jwtTokenProvider, authorityUtils, redisRepository, memberRepository))
+      .and()
       .authorizeHttpRequests(authorize -> { authorize
         .antMatchers(HttpMethod.POST,"/members/login","/members").permitAll()
         .antMatchers(HttpMethod.POST,"/members").hasRole("USER")

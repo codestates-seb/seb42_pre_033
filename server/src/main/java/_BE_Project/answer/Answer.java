@@ -1,15 +1,15 @@
 package _BE_Project.answer;
 
 import _BE_Project.Score.Score;
-import _BE_Project.member.MemberEntity;
-import _BE_Project.question.QuestionEntity;
+import _BE_Project.audit.BaseTime;
+import _BE_Project.member.entity.Member;
+import _BE_Project.question.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class AnswerEntity {
+public class Answer extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class AnswerEntity {
 
     @ManyToOne
     @JoinColumn(name="question_id")
-    private QuestionEntity questionEntity;
+    private Question question;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -54,13 +54,13 @@ public class AnswerEntity {
     @OneToMany(mappedBy = "answer" , cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Score> likeUsers;
 
-    public MemberDto.owner getOwner() {
+    /*public MemberDto.owner getOwner() {
         Member member = this.member;
         MemberDto.owner = new MemberDto.owner(member.getMemberId());
         return owner;
     }
 
 
-    }
+    }*/
 
 }

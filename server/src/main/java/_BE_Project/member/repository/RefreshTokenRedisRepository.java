@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class RefreshTokenRedisRepository {
     redisTemplate.opsForValue().set(
       email,
       refreshToken,
-      jwtTokenProvider.parseClaims(refreshToken).getExpiration().getTime(),
+      jwtTokenProvider.parseClaims(refreshToken).getExpiration().getTime() - new Date().getTime(),
       TimeUnit.MILLISECONDS
     );
   }
@@ -35,7 +36,7 @@ public class RefreshTokenRedisRepository {
     redisTemplate.opsForValue().set(
       accessToken,
       "logout",
-      jwtTokenProvider.parseClaims(accessToken).getExpiration().getTime(),
+      jwtTokenProvider.parseClaims(accessToken).getExpiration().getTime() - new Date().getTime(),
       TimeUnit.MILLISECONDS
     );
   }
