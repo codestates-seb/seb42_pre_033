@@ -21,12 +21,12 @@ const StyledInput = styled.input`
   font-size: 13px;
 `;
 
-function Input({ label, placeholder, subLabel, type = 'text' }) {
+function Input({ label, subLabel, type = 'text', ...props }) {
   return (
     <Container>
       <Label>{label}</Label>
       {subLabel?.length > 0 && <SubLabel>{subLabel}</SubLabel>}
-      <StyledInput placeholder={placeholder} type={type} />
+      <StyledInput type={type} {...props} />
     </Container>
   );
 }
