@@ -6,7 +6,6 @@ import HomePage from './pages/HomePage';
 import AskQuestionPage from './pages/AskQuestionPage';
 import QuestionDetailPage from './pages/QuestionDetailPage';
 import QuestionEditPage from './pages/QuestionEditPage';
-
 import UserProfilePage from './pages/UserProfilePage';
 import UserEditPage from './pages/UserEditPage';
 import UserDeletePage from './pages/UserDeletePage';
@@ -35,12 +34,10 @@ function Router() {
 
       <Route element={<Layout displayLeftAside displayFooter />}>
         <Route path='/question/:questionId' element={<QuestionDetailPage />} />
-
         <Route
           path='/question/:questionId/edit'
           element={<QuestionEditPage />}
         />
-
         <Route path='/users/profile' element={<UserProfilePage />} />
         <Route path='/users/edit' element={<UserEditPage />} />
         <Route path='/users/Delete' element={<UserDeletePage />} />
