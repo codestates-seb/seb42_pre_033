@@ -2,6 +2,7 @@ package _BE_Project.security.jwt;
 
 import _BE_Project.member.entity.Member;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -25,11 +26,11 @@ public class JwtTokenProvider {
   
   private Key key;
   
-  @Value("${jwt.access-token-expiration-minutes}")
-  private int accessTokenExpirationMinutes;
+  @Value("${jwt.access-token-expiration-millisecond}")
+  private int accessTokenExpirationMillisecond;
   
-  @Value("${jwt.refresh-token-expiration-minutes}")
-  private int refreshTokenExpirationMinutes;
+  @Value("${jwt.refresh-token-expiration-millisecond}")
+  private int refreshTokenExpirationMillisecond;
   
   public JwtTokenProvider(@Value("${jwt.key}") String secretKey) {
     String base64EncodedSecretKey = Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
@@ -39,7 +40,7 @@ public class JwtTokenProvider {
   
   public String generateAccessToken(Member member){
     Calendar calendar = Calendar.getInstance();
-    calendar.add(Calendar.MILLISECOND, accessTokenExpirationMinutes);
+    calendar.add(Calendar.MILLISECOND, accessTokenExpirationMillisecond);
     Map<String, Object> claims = new HashMap<>();
     claims.put("roles", member.getRoles());
     claims.put("email", member.getEmail());
@@ -55,7 +56,7 @@ public class JwtTokenProvider {
   
   public String generateRefreshToken(Member member){
     Calendar calendar = Calendar.getInstance();
-    calendar.add(Calendar.MILLISECOND, refreshTokenExpirationMinutes);
+    calendar.add(Calendar.MILLISECOND, refreshTokenExpirationMillisecond);
     
     return Jwts.builder()
       .setSubject(member.getEmail())

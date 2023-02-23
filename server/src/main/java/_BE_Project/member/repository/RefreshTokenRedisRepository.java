@@ -1,7 +1,6 @@
 package _BE_Project.member.repository;
 
 import _BE_Project.security.jwt.JwtTokenProvider;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,32 +13,30 @@ import java.util.concurrent.TimeUnit;
 public class RefreshTokenRedisRepository {
   
   private final RedisTemplate<String, String> redisTemplate;
-  private final RedisTemplate<String, String> redisBlackListTemplate;
-  
   private final JwtTokenProvider jwtTokenProvider;
   
   public void save(String email, String refreshToken){
     redisTemplate.opsForValue().set(
       email,
       refreshToken,
-      jwtTokenProvider.parseClaims(refreshToken).getExpiration().getTime(),
+      jwtTokenProvider.parseClaims(refreshToken).getExpiration().getTime() - new Date().getTime(),
       TimeUnit.MILLISECONDS
     );
   }
   
-  public String findByEmail(String email){
-    return redisTemplate.opsForValue().get(email);
+  public String findBy(String key){
+    return redisTemplate.opsForValue().get(key);
   }
   
-  public void deleteByEmail(String email){
-    redisTemplate.delete(email);
+  public void deleteBy(String key){
+    redisTemplate.delete(key);
   }
   
-  public void setBlackList(String email, String accessToken, Long expiration){
-    redisBlackListTemplate.opsForValue().set(
-      email,
+  public void setBlackList(String accessToken){
+    redisTemplate.opsForValue().set(
       accessToken,
-      expiration,
+      "logout",
+      jwtTokenProvider.parseClaims(accessToken).getExpiration().getTime() - new Date().getTime(),
       TimeUnit.MILLISECONDS
     );
   }
