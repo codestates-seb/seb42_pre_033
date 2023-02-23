@@ -1,6 +1,7 @@
 package _BE_Project.question;
 
 import _BE_Project.Score.Score;
+import _BE_Project.answer.Answer;
 import _BE_Project.audit.BaseTime;
 import _BE_Project.member.entity.Member;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,9 @@ public class Question extends BaseTime {
     @Column
     private boolean isAnswered; // 질문 등록자가 맞는지 안맞는지
 
+    @Column
+    private int score;
+
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
@@ -42,8 +46,8 @@ public class Question extends BaseTime {
         this.member = member;
     }
 
-    /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
-    private List<AnswerEntity> answer = new ArrayList<>();*/
+    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+    private List<Answer> answer = new ArrayList<>();
 
     /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<VoteEntity> votes = new ArrayList<>();*/

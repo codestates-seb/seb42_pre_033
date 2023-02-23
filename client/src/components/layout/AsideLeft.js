@@ -143,16 +143,23 @@ function AsideLeft() {
           <NavListTitle>
             PUBLIC
             <Category>
-              <NavList>
-                <FaGlobeAmericas className='globe' />
-                Questions
-              </NavList>
+              <LinkStyle>
+                <NavLink
+                  className={({ isActive }) => (isActive ? 'selected' : '')}
+                  to='/questions'
+                >
+                  <NavList>
+                    <FaGlobeAmericas className='globe' />
+                    Questions
+                  </NavList>
+                </NavLink>
+              </LinkStyle>
               <NavListInsert>Tags</NavListInsert>
               <LinkStyle>
                 {/* 회원가입 수정 임의경로 설정 */}
                 <NavLink
                   className={({ isActive }) => (isActive ? 'selected' : '')}
-                  to='/users'
+                  to='/users/profile'
                 >
                   <NavListInsert>Users</NavListInsert>
                 </NavLink>

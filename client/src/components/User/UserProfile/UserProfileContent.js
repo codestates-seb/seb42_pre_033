@@ -1,4 +1,3 @@
-import { USERS } from '../UserDummy';
 import styled from 'styled-components';
 
 const ProfileContent = styled.section`
@@ -93,53 +92,44 @@ const Date = styled.li`
   padding: 5px;
 `;
 
-function UserProfileContent() {
+function UserProfileContent({ users, answers, questions }) {
+  console.log(users);
   return (
     <ProfileContent>
       <ProfileTitle>Profile</ProfileTitle>
-
       <CategoryTitle>About</CategoryTitle>
       <AboutWrap>
-        {USERS.map(({ users }) =>
-          users.map(({ id, aboutme }) => (
-            <Aboutme key={id}>
-              <p>{aboutme}</p>
-            </Aboutme>
-          )),
-        )}
+        {users.map(({ id, aboutme }) => (
+          <Aboutme key={id}>
+            <p>{aboutme}</p>
+          </Aboutme>
+        ))}
       </AboutWrap>
-
       <CategoryTitle>Answers</CategoryTitle>
       <AnswersWrap>
-        {USERS.map(({ answers }) =>
-          answers.map(({ id, votes, title, date }) => (
-            <Wrapper key={id}>
-              <Answers>
-                <Votes>{votes}</Votes>
-                <Title>{title}</Title>
-                <Date>{date}</Date>
-              </Answers>
-            </Wrapper>
-          )),
-        )}
+        {answers.map(({ id, votes, title, date }) => (
+          <Wrapper key={id}>
+            <Answers>
+              <Votes>{votes}</Votes>
+              <Title>{title}</Title>
+              <Date>{date}</Date>
+            </Answers>
+          </Wrapper>
+        ))}
       </AnswersWrap>
-
       <CategoryTitle>Questions</CategoryTitle>
       <QuestionsWrap>
-        {USERS.map(({ questions }) =>
-          questions.map(({ id, votes, title, date }) => (
-            <Wrapper key={id}>
-              <Questions>
-                <Votes>{votes}</Votes>
-                <Title>{title}</Title>
-                <Date>{date}</Date>
-              </Questions>
-            </Wrapper>
-          )),
-        )}
+        {questions.map(({ id, votes, title, date }) => (
+          <Wrapper key={id}>
+            <Questions>
+              <Votes>{votes}</Votes>
+              <Title>{title}</Title>
+              <Date>{date}</Date>
+            </Questions>
+          </Wrapper>
+        ))}
       </QuestionsWrap>
     </ProfileContent>
   );
 }
-
 export default UserProfileContent;

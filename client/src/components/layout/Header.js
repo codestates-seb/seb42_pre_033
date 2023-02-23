@@ -26,20 +26,10 @@ const Nav = styled.nav`
 
 const NavList = styled.ul`
   display: flex;
-  padding: 0 16px;
   height: 100%;
   justify-content: center;
   align-items: center;
-  padding: 0 16px;
   gap: 10px;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  padding: 0 16px;
-  gap: 10px;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
 `;
 
 const NavBackground = styled.div`
@@ -131,10 +121,7 @@ function Header() {
                 </h1>
               </Logo>
             </Link>
-            {/* 회원 페이지 임의 연결 */}
-            <NavText>
-              <Link to='/users/profile'>About</Link>
-            </NavText>
+            <NavText>About</NavText>
 
             <NavText>Products</NavText>
             <NavText>For Teams</NavText>
