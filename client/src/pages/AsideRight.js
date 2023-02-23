@@ -4,6 +4,10 @@ import RightAsideCollectivesItem from '../components/layout/RightAside/RightAsid
 import RightAsideItem from '../components/layout/RightAside/RightAsideItem';
 import styled from 'styled-components';
 
+const AsieRightwrapper = styled.aside`
+  margin-left: -100px;
+`;
+
 const RightBLog = styled.div`
   margin-top: 24px;
   margin-bottom: 16px;
@@ -11,7 +15,7 @@ const RightBLog = styled.div`
 
 function AsideRight() {
   return (
-    <div>
+    <AsieRightwrapper>
       <RightBLog>
         {BLOGS.map(({ title, contentList }) => (
           <RightAside key={title} color='yellow' title={title}>
@@ -26,7 +30,6 @@ function AsideRight() {
           </RightAside>
         ))}
       </RightBLog>
-
       {COLLETIVE.map(({ title, companyList }) => (
         <RightAside
           key={title}
@@ -45,7 +48,7 @@ function AsideRight() {
           ))}
         </RightAside>
       ))}
-    </div>
+    </AsieRightwrapper>
   );
 }
 

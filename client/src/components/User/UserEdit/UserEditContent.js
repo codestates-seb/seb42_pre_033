@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import ImageUpload from './ImageUpload';
-import { USERS } from '../UserDummy';
 import Button from '../../UI/Button';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -80,35 +79,34 @@ const Cancel = styled.button`
   }
 `;
 
-function UserEditContent() {
+function UserEditContent({ users }) {
+  console.log(users);
   return (
     <EditContent>
       <section>
         <EditTitle>Edit your profile</EditTitle>
         <InfoTitle>Public information</InfoTitle>
       </section>
-      {USERS.map(({ users }) =>
-        users.map(({ name, id, title, location, aboutme }) => (
-          <InfoEdit key={id}>
-            <InputTitle>Profile image</InputTitle>
-            <ImageUpload />
-            <InputTitle>Display name</InputTitle>
-            <InputText defaultValue={name} />
-            <InputTitle>Location</InputTitle>
-            <InputText defaultValue={location} />
-            <InputTitle>Title</InputTitle>
-            <InputText defaultValue={title} />
-            <InputTitle>About me</InputTitle>
-            <Editor>
-              <QuilEditor theme='snow' value={aboutme} />
-            </Editor>
-            <ButtonWrapper>
-              <Button variant='question'>Save Profile</Button>
-              <Cancel>Cancel</Cancel>
-            </ButtonWrapper>
-          </InfoEdit>
-        )),
-      )}
+      {users.map(({ name, id, title, location, aboutme }) => (
+        <InfoEdit key={id}>
+          <InputTitle>Profile image</InputTitle>
+          <ImageUpload />
+          <InputTitle>Display name</InputTitle>
+          <InputText defaultValue={name} />
+          <InputTitle>Location</InputTitle>
+          <InputText defaultValue={location} />
+          <InputTitle>Title</InputTitle>
+          <InputText defaultValue={title} />
+          <InputTitle>About me</InputTitle>
+          <Editor>
+            <QuilEditor theme='snow' value={aboutme} />
+          </Editor>
+          <ButtonWrapper>
+            <Button variant='question'>Save Profile</Button>
+            <Cancel>Cancel</Cancel>
+          </ButtonWrapper>
+        </InfoEdit>
+      ))}
     </EditContent>
   );
 }

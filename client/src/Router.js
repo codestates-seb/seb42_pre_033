@@ -5,9 +5,9 @@ import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
 import AskQuestionPage from './pages/AskQuestionPage';
 import QuestionDetailPage from './pages/QuestionDetailPage';
-import UserEditWrapper from './components/User/UserEdit/UserEditWrapper';
-import UserProfileWrapper from './components/User/UserProfile/UserProfileWrapper';
-import UserDeleteWrapper from './components/User/UserDelete/UserDeleteWrapper';
+import UserProfilePage from './pages/UserProfilePage';
+import UserEditPage from './pages/UserEditPage';
+import UserDeletePage from './pages/UserDeletePage';
 
 function Router() {
   return (
@@ -28,13 +28,14 @@ function Router() {
         }
       >
         <Route path='/' element={<HomePage />} />
+        <Route path='/questions' element={<HomePage />} />
       </Route>
 
       <Route element={<Layout displayLeftAside displayFooter />}>
         <Route path='/question/:questionId' element={<QuestionDetailPage />} />
-        <Route path='/users/profile' element={<UserProfileWrapper />} />
-        <Route path='/users/edit' element={<UserEditWrapper />} />
-        <Route path='/users/Delete' element={<UserDeleteWrapper />} />
+        <Route path='/users/profile' element={<UserProfilePage />} />
+        <Route path='/users/edit' element={<UserEditPage />} />
+        <Route path='/users/Delete' element={<UserDeletePage />} />
       </Route>
 
       <Route element={<Layout displayFooter />}>
