@@ -44,8 +44,9 @@ function UserTab() {
     <Tab>
       <LinkStyle>
         <NavLink
+          end
           className={({ isActive }) => (isActive ? 'selected' : '')}
-          to='/users/profile'
+          to='/users'
         >
           <Test>Profile</Test>
         </NavLink>

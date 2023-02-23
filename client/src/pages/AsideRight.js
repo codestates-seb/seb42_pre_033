@@ -4,9 +4,7 @@ import RightAsideCollectivesItem from '../components/layout/RightAside/RightAsid
 import RightAsideItem from '../components/layout/RightAside/RightAsideItem';
 import styled from 'styled-components';
 
-const AsieRightwrapper = styled.aside`
-  margin-left: -100px;
-`;
+const AsieRightwrapper = styled.aside``;
 
 const RightBLog = styled.div`
   margin-top: 24px;
