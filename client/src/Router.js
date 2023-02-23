@@ -8,6 +8,7 @@ import QuestionDetailPage from './pages/QuestionDetailPage';
 import UserEditWrapper from './components/User/UserEdit/UserEditWrapper';
 import UserProfileWrapper from './components/User/UserProfile/UserProfileWrapper';
 import UserDeleteWrapper from './components/User/UserDelete/UserDeleteWrapper';
+import QuestionEditPage from './pages/QuestionEditPage';
 
 function Router() {
   return (
@@ -32,6 +33,10 @@ function Router() {
 
       <Route element={<Layout displayLeftAside displayFooter />}>
         <Route path='/question/:questionId' element={<QuestionDetailPage />} />
+        <Route
+          path='/question/:questionId/edit'
+          element={<QuestionEditPage />}
+        />
         <Route path='/users/profile' element={<UserProfileWrapper />} />
         <Route path='/users/edit' element={<UserEditWrapper />} />
         <Route path='/users/Delete' element={<UserDeleteWrapper />} />

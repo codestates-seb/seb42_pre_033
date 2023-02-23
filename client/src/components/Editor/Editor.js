@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 const StyledEditor = styled(ReactQuill)`
   height: ${({ editorHeight }) => editorHeight};
-
   .ql-container {
     max-height: calc(100% - 64px);
     overflow: auto;
@@ -19,16 +18,14 @@ hljs.configure({
 });
 
 function Editor({
-  onChange,
+  onChange = () => {},
   editorHeight = '300px',
   placeholder = '입력을 해주세요',
-  ...props
+  value = '',
 }) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(value);
 
   const handleChange = (value) => {
-    console.log(value);
-
     setInput(value);
   };
 
@@ -81,7 +78,6 @@ function Editor({
       modules={modules}
       format={formats}
       editorHeight={editorHeight}
-      {...props}
     />
   );
 }

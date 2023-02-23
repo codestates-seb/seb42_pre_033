@@ -62,17 +62,15 @@ const List = styled.ul`
 function RightAside({ color, title, headbuttonText = '', children, ...props }) {
   return (
     <Container color={color} {...props}>
-      <Container>
-        <Header>
-          <Title color={color}>{title}</Title>
-          {headbuttonText.length > 0 && (
-            <HeadButton variant='text' as='a'>
-              {headbuttonText}
-            </HeadButton>
-          )}
-        </Header>
-        <List>{children}</List>
-      </Container>
+      <Header>
+        <Title color={color}>{title}</Title>
+        {headbuttonText.length > 0 && (
+          <HeadButton variant='text' as='a'>
+            {headbuttonText}
+          </HeadButton>
+        )}
+      </Header>
+      <List>{children}</List>
     </Container>
   );
 }
