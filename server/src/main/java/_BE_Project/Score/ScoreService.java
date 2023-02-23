@@ -1,8 +1,9 @@
 package _BE_Project.Score;
 
 import _BE_Project.answer.Answer;
+import _BE_Project.member.entity.Member;
+import _BE_Project.question.Question;
 
-import java.lang.reflect.Member;
 import java.util.Optional;
 
 public class ScoreService {
@@ -21,6 +22,16 @@ public class ScoreService {
             return new Score();
         }
     }
+
+    public Score findByUserAndQuestion (Member member, Question question) {
+        Optional<Score> score = this.scoreRepository.findByUserAndQuestion(member, question);
+        if (score.isPresent()) {
+            return score.get();
+        } else {
+            return new Score();
+        }
+    }
+
     public void saveScore(Score score){
         this.scoreRepository.save(score);
     }
