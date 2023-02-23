@@ -14,10 +14,10 @@ import ErrorPage from './pages/ErrorPage';
 function Router() {
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route element={<Layout fullWidth />}>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignupPage />} />
-        <Route path='/abc' element={<ErrorPage />} />
+        <Route path='*' element={<ErrorPage />} />
       </Route>
 
       <Route
