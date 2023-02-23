@@ -19,20 +19,18 @@ const Container = styled.div`
 
 function QuestionDetailPage() {
   return (
-    <>
-      <Article>
-        <MainHeader displayDataController={false} />
-        <QuestionDetailInfo
-          date='2019-01-09T15:25:59'
-          updateDate='2019-01-09T15:25:59'
-          viewed='46126'
-        />
-        <Container>
-          <QuestionDetail />
-          <AsideRight />
-        </Container>
-      </Article>
-    </>
+    <Article>
+      <MainHeader displayDataController={false} />
+      <QuestionDetailInfo
+        date='2019-01-09T15:25:59'
+        updateDate='2019-01-09T15:25:59'
+        viewed='46126'
+      />
+      <Container>
+        <QuestionDetail />
+        <AsideRight />
+      </Container>
+    </Article>
   );
 }
 
