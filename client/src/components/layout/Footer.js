@@ -31,7 +31,7 @@ const FooterSubtitle = styled.h5`
 `;
 
 const FooterWrapper = styled.div`
-  width: 100%;
+  max-width: 1264px;
   height: 322px;
   margin: 0 auto;
   padding: 32px 12px 12px;

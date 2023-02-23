@@ -7,7 +7,8 @@ import AsideRight from './AsideRight';
 const Article = styled.article`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  max-width: 1264px;
+  width: 1080px;
   padding: 16px;
   gap: 3px;
 `;

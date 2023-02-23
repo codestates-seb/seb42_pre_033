@@ -9,8 +9,9 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 100%;
+  width: 100vw;
   gap: 48px;
+  background-color: var(--black-050);
 `;
 
 const SignupFormContainer = styled.article`

@@ -12,15 +12,15 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
+  background-color: unset;
   display: flex;
   width: 100%;
   margin: 0 auto;
   gap: 3px;
-  min-width: 800px;
+  min-width: 1264px;
+  height: calc(100vh - 50px);
   min-height: calc(100vh - 50px);
-  height: 100%;
-  max-width: 1264px;
-  display: flex;
+  max-width: max-content;
   justify-content: center;
 `;
 
