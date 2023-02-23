@@ -17,10 +17,8 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   gap: 3px;
-  min-width: 1264px;
-  height: calc(100vh - 50px);
+  max-width: ${(props) => (props.fullWidth ? 'max-content' : '1264px')};
   min-height: calc(100vh - 50px);
-  max-width: max-content;
   justify-content: center;
 `;
 
@@ -29,11 +27,12 @@ function Layout({
   displayFooter = false,
   displayLeftAside = false,
   displayRightAside = false,
+  fullWidth = false,
 }) {
   return (
     <Wrapper>
       {displayHeader && <Header />}
-      <Container>
+      <Container fullWidth={fullWidth}>
         {displayLeftAside && <AsideLeft />}
         <Main>
           <Outlet />

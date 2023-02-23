@@ -6,7 +6,6 @@ const MainComponent = styled.main`
   min-height: 100%;
   margin: 0 auto;
   display: flex;
-  margin-bottom: 16px;
 `;
 
 function Main({ children }) {
