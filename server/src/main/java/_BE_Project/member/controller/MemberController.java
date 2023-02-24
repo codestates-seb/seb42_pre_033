@@ -34,22 +34,31 @@ public class MemberController {
     
     return new ResponseEntity<>(mapper.memberToMemberResponseDto(savedMember), HttpStatus.CREATED);
   }
-  @GetMapping("/{id}")
-  public ResponseEntity<?> getMember(@PathVariable ("id") @Positive long memberId){
-    Member findMember = memberService.findMember(memberId);
-    
-    return new ResponseEntity<>(mapper.memberToMemberResponseDto(findMember), HttpStatus.OK);
+  
+  @GetMapping("/mypage")
+  ResponseEntity<?> getMyPage(){
+    Member findMember = memberService.findByEmail();
+    MemberDto.Response responseDto = mapper.memberToMemberResponseDto(findMember);
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
-
-  // 전체 회원을 불러올 수 있는 로직 추가 (사용여부는 확인요망)
-  @GetMapping
-  public ResponseEntity getMembers (@Positive @RequestParam int page,
-                                    @Positive @RequestParam int size) {
-    Page<Member> pageMembers = memberService.findMembers(page -1, size);
-    List<Member> members = pageMembers.getContent();
-
-    return new ResponseEntity<>(new MultiResponseDto(mapper.membersToMemberResponseDtos(members), pageMembers), HttpStatus.OK);
-  }
+  
+  
+//  @GetMapping("/{id}")
+//  public ResponseEntity<?> getMember(@PathVariable ("id") @Positive long memberId){
+//    Member findMember = memberService.findMember(memberId);
+//
+//    return new ResponseEntity<>(mapper.memberToMemberResponseDto(findMember), HttpStatus.OK);
+//  }
+//
+//  // 전체 회원을 불러올 수 있는 로직 추가 (사용여부는 확인요망)
+//  @GetMapping
+//  public ResponseEntity getMembers (@Positive @RequestParam int page,
+//                                    @Positive @RequestParam int size) {
+//    Page<Member> pageMembers = memberService.findMembers(page -1, size);
+//    List<Member> members = pageMembers.getContent();
+//
+//    return new ResponseEntity<>(new MultiResponseDto(mapper.membersToMemberResponseDtos(members), pageMembers), HttpStatus.OK);
+//  }
 
 
   @PatchMapping("/{id}")
@@ -69,12 +78,5 @@ public class MemberController {
   public ResponseEntity<?> logout(HttpServletRequest request){
     memberService.logout(request);
     return new ResponseEntity<>("successfully logged out.",HttpStatus.OK);
-  }
-  
-  @GetMapping("/mypage")
-  ResponseEntity<?> getMyPage(){
-    Member findMember = memberService.findByEmail();
-    MemberDto.Response responseDto = mapper.memberToMemberResponseDto(findMember);
-    return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
 }

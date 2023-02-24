@@ -44,7 +44,7 @@ public interface MemberMapper {
   }
   
   default List<AnswerDto.Response> answersToAnswerResponseDtos(List<Answer> answers){
-    return answers.stream().map(answer -> {
+    return answers.stream().map( answer -> {
       AnswerDto.Response responseDto = new AnswerDto.Response();
       responseDto.setAnswerId(answer.getAnswerId());
       responseDto.setScore(answer.getScore());
