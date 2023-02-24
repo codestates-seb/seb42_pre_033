@@ -51,7 +51,7 @@ const STEP = [
   'Review your question and post it to the site.',
 ];
 
-function AskQuetionNotice() {
+function QuestionAskNotice() {
   return (
     <Container>
       <Title>Writing a good question</Title>
@@ -81,4 +81,4 @@ function AskQuetionNotice() {
   );
 }
 
-export default AskQuetionNotice;
+export default QuestionAskNotice;

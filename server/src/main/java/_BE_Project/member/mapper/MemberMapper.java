@@ -58,5 +58,5 @@ public interface MemberMapper {
   }
   
 
-//  List<MemberDto.Response> membersToMemberResponseDtos(List<Member> members);
+  List<MemberDto.Response> membersToMemberResponseDtos(List<Member> members);
 }

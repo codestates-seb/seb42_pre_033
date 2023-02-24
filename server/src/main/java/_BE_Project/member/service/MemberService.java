@@ -5,6 +5,7 @@ import _BE_Project.exception.ExceptionCode;
 import _BE_Project.member.entity.Member;
 import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
+import _BE_Project.security.jwt.JwtTokenProvider;
 import _BE_Project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -29,7 +30,6 @@ public class MemberService {
   private final RefreshTokenRedisRepository redisRepository;
   private final RedisTemplate<String, String> redisTemplate;
   
-  @Transactional()
   public Member saveMember(Member member){
     verifyExistsEmail(member.getEmail());
     member.setPassword(passwordEncoder.encode(member.getPassword()));
@@ -43,6 +43,7 @@ public class MemberService {
     findMember.setPassword(member.getPassword());
     findMember.setNickname(member.getNickname());
   }
+  
   public void logout(HttpServletRequest request){
     String accessToken = request.getHeader("Authorization").substring(7);
     String email = getCurrentMemberEmail();
@@ -66,7 +67,7 @@ public class MemberService {
   public void deleteMember () {
     Member findMember = findByEmail();
     memberRepository.delete(findMember);
-    redisRepository.deleteBy(findMember.getEmail());
+    redisTemplate.delete(findMember.getEmail());
   }
   
   @Transactional

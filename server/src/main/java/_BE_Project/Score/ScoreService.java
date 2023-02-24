@@ -4,6 +4,10 @@ import _BE_Project.answer.Answer;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;
 
+<<<<<<< Updated upstream
+=======
+import _BE_Project.member.entity.Member;
+>>>>>>> Stashed changes
 import java.util.Optional;
 
 public class ScoreService {

@@ -74,6 +74,7 @@ public class MemberController {
   @GetMapping("/mypage")
   ResponseEntity<?> getMyPage(){
     Member findMember = memberService.findByEmail();
-    
+    MemberDto.Response responseDto = mapper.memberToMemberResponseDto(findMember);
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
 }
