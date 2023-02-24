@@ -7,6 +7,7 @@ import _BE_Project.answer.AnswerDto;
 public interface AnswerMapper {
     Answer answerPostDtoAnswer(AnswerDto.Post answerPostDto);
     Answer answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);
+
     default AnswerDto.Response answerToAnswerResponseDto(Answer answer){
 
         AnswerDto.Response response = new AnswerDto.Response();

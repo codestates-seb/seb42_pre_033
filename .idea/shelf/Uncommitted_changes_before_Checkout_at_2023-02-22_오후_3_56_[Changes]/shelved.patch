@@ -1,0 +1,329 @@
+Index: server/src/main/java/_BE_Project/answer/AnswerService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport org.springframework.stereotype.Service;\r\n\r\n@Service\r\npublic class AnswerService {\r\n    private final AnswerRepository answerRepository;\r\n    private final QuestionService questionService;\r\n    private final ScoreService scoreService;\r\n\r\n    public AnswerService(AnswerRepository answerRepository, QuestionService questionService, ScoreService scoreService) {\r\n        this.answerRepository = answerRepository;\r\n        this.questionService = questionService;\r\n        this.scoreService = scoreService;\r\n    }\r\n\r\n    public Answer create(Long memberId,)\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerService.java b/server/src/main/java/_BE_Project/answer/AnswerService.java
+--- a/server/src/main/java/_BE_Project/answer/AnswerService.java	(revision f6269d29d8d8b735fa599942f72360c5f29871fb)
++++ b/server/src/main/java/_BE_Project/answer/AnswerService.java	(date 1677047720988)
+@@ -1,7 +1,15 @@
+ package _BE_Project.answer;
+ 
++import _BE_Project.Score.Score;
++import _BE_Project.Score.ScoreService;
++import _BE_Project.question.Question;
++import _BE_Project.question.QuestionService;
+ import org.springframework.stereotype.Service;
+ 
++import java.lang.reflect.Member;
++import java.time.LocalDateTime;
++import java.util.Optional;
++
+ @Service
+ public class AnswerService {
+     private final AnswerRepository answerRepository;
+@@ -14,5 +22,62 @@
+         this.scoreService = scoreService;
+     }
+ 
+-    public Answer create(Long memberId,)
++    public Answer create(Long questionId, Answer answer, Member member){
++        Question question = questionService.findVerifyQuestion(questionId);
++        question.setViewCnt(question.getViewCnt()+1);
++//        question.setAnswered(true);
++        answer.setQuestion(question);
++        answer.setAccepted(false);
++        answer.setScore(0);
++        answer.setMember(member);
++
++        return answerRepository.save(answer);
++    }
++
++    public Answer findById(Long id){
++        return this.answerRepository.findById(id).get();
++    }
++
++    public Answer updateAnswer(Long answerId, Answer answer){
++        Answer findAnswer = findVerifiedAnswer(answerId);
++        findAnswer.setAnswerContent(answer.getAnswerContent());
++        findAnswer.setModifiedAt(LocalDateTime.now());
++        return answerRepository.save(findAnswer);
++    }
++
++    public Answer findVerifiedAnswer(Long answerId) {
++        Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
++        if(optionalAnswer.isPresent()){
++            return optionalAnswer.get();
++        }
++
++    }
++
++    public void delete(Long answerId){
++        Answer answer = findVerifiedAnswer(answerId);
++        Question question = answer.getQuestion();
++        question.setAnswerCount(answer.getQuestion().getAnswerCount()-1);
++        if (question.getAnswerCount()==0){
++            question.setAnswered(false);
++        }
++        answerRepository.delete(answer);
++    }
++    // 추천 기능
++    public void upVote(Answer answer, Member member) {
++        Score score = scoreService.findByUserAndAnswer(member, answer);
++
++        if (score.getStatus()!=1){
++            score.setStatus(score.getStatus()+1);
++            answer.setScore(answer.getScore()+1);
++        }
++        score.setAnswer(answer);
++        score.setUser(user);
++        scoreService.saveScore(score);
++        Question question = answer.getQuestion();
++        questionService.downViewCount(question);
++        answerRepository.save(answer);
++    }
++
++
++
+ }
+Index: server/src/main/java/_BE_Project/answer/Answer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport _BE_Project.Score.Score;\r\nimport _BE_Project.audit.BaseTime;\r\nimport _BE_Project.member.entity.Member;\r\nimport _BE_Project.question.Question;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\n\r\nimport javax.persistence.*;\r\nimport java.time.LocalDateTime;\r\nimport java.util.List;\r\n\r\n@AllArgsConstructor\r\n@NoArgsConstructor\r\n@Getter\r\n@Setter\r\n@Entity\r\npublic class Answer extends BaseTime {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long answerId;\r\n\r\n    // 답변을 적을수 있는 칸\r\n    @Column(nullable = false, columnDefinition = \"Text\")\r\n    private String answerContent;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name=\"question_id\")\r\n    private Question question;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"member_id\")\r\n    private Member member;\r\n\r\n    //\r\n    @Column\r\n    private boolean isAccepted;\r\n\r\n    // 좋아요의 개수\r\n    @Column\r\n    private int score;\r\n\r\n    // 답변을 달았을 때 시간을 알려주는 코드\r\n    @Column(nullable = false)\r\n    private LocalDateTime creationDate = LocalDateTime.now();\r\n\r\n    @Column(nullable = false)\r\n    private LocalDateTime modifiedAt = LocalDateTime.now();\r\n\r\n    @OneToMany(mappedBy = \"answer\" , cascade = CascadeType.REMOVE, orphanRemoval = true)\r\n    private List<Score> likeUsers;\r\n\r\n    /*public MemberDto.owner getOwner() {\r\n        Member member = this.member;\r\n        MemberDto.owner = new MemberDto.owner(member.getMemberId());\r\n        return owner;\r\n    }\r\n\r\n\r\n    }*/\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/Answer.java b/server/src/main/java/_BE_Project/answer/Answer.java
+--- a/server/src/main/java/_BE_Project/answer/Answer.java	(revision f6269d29d8d8b735fa599942f72360c5f29871fb)
++++ b/server/src/main/java/_BE_Project/answer/Answer.java	(date 1677048994572)
+@@ -2,6 +2,7 @@
+ 
+ import _BE_Project.Score.Score;
+ import _BE_Project.audit.BaseTime;
++import _BE_Project.member.dto.MemberDto;
+ import _BE_Project.member.entity.Member;
+ import _BE_Project.question.Question;
+ import lombok.AllArgsConstructor;
+@@ -18,7 +19,7 @@
+ @Getter
+ @Setter
+ @Entity
+-public class Answer extends BaseTime {
++public class Answer {
+ 
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+@@ -54,13 +55,14 @@
+     @OneToMany(mappedBy = "answer" , cascade = CascadeType.REMOVE, orphanRemoval = true)
+     private List<Score> likeUsers;
+ 
+-    /*public MemberDto.owner getOwner() {
+-        Member member = this.member;
+-        MemberDto.owner = new MemberDto.owner(member.getMemberId());
+-        return owner;
+-    }
++//    public MemberDto.owner getOwnerDto() {
++//        Member member = this.member;
++//        MemberDto = new MemberDto.owner(member.getMemberId(), member.getnickname());
++//        return owner;
++//    }
++    // 닉네임을 추가!
+ 
+ 
+-    }*/
++
+ 
+ }
+Index: server/src/main/java/_BE_Project/answer/AnswerController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport _BE_Project.member.MemberService;\r\nimport _BE_Project.member.service.MemberService;\r\nimport _BE_Project.question.QuestionService;\r\nimport exception.UnauthorizedException;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.validation.annotation.Validated;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport javax.validation.Valid;\r\nimport javax.validation.constraints.Positive;\r\nimport java.lang.reflect.Member;\r\n\r\n@RestController\r\n@RequestMapping(\"/v1/answer\")\r\n@Validated\r\n@CrossOrigin\r\npublic class AnswerController {\r\n\r\n    private final AnswerService answerService;\r\n    private final AnswerMapper mapper;\r\n\r\n    private final MemberService memberService;\r\n\r\n    private final QuestionService questionService;\r\n\r\n    public AnswerController(AnswerService answerService, AnswerMapper mapper, MemberService memberService, QuestionService questionService){\r\n        this.answerService = answerService;\r\n        this.mapper = mapper;\r\n        this.memberService = memberService;\r\n        this.questionService = questionService;\r\n    }\r\n\r\n\r\n    // 이메일 아이디 의 질문에 대한 답변\r\n    @PostMapping(\"/{id}/add\")\r\n    public ResponseEntity addAnswer(@PathVariable Long id,\r\n                                    @RequestBody AnswerDto.Post requestBody) {\r\n        if (requestBody.getAccessToken().equals(\"not\")) {\r\n            throw new UnauthorizedException(\"로그인이 필요합니다.\");\r\n        }\r\n        Member member = memberService.findByAccessToken(requestBody.getAccessToken());\r\n        Answer answer = mapper.answerPostDtoAnswer(requestBody);\r\n        answerService.create(id, answerEntity, member);\r\n        return new ResponseEntity(HttpStatus.CREATED);\r\n\r\n    }\r\n\r\n    // 답변을 수정\r\n\r\n    @PostMapping(\"/{id}/edit\")\r\n    public ResponseEntity patchAnswer(@PathVariable(\"id\") @Positive long answerId,\r\n                                      @Valid @RequestBody AnswerDto.Patch patchDto){\r\n\r\n        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){\r\n            throw new UnauthorizedException(\"작성자가 아닙니다.\");\r\n        }\r\n        Answer updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));\r\n\r\n        return new ResponseEntity<>(HttpStatus.OK);\r\n    }\r\n\r\n    //답변 삭제\r\n    @DeleteMapping(\"/{id}/delete\")\r\n    public ResponseEntity deleteAnswer(@PathVariable(\"id\") @Positive long answerId,\r\n                                       @RequestBody TokenDto tokenDto){\r\n        if (tokenDto.getAccessToken().equals(\"not\")) {\r\n            throw new UnauthorizedException(\"로그인이 필요합니다.\");\r\n        }\r\n        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(tokenDto.getAccessToken()))){\r\n            throw new UnauthorizedException(\"작성자가 아닙니다.\");\r\n        }\r\n        answerService.delete(answerId);\r\n\r\n        return new ResponseEntity<>(HttpStatus.OK);\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerController.java b/server/src/main/java/_BE_Project/answer/AnswerController.java
+--- a/server/src/main/java/_BE_Project/answer/AnswerController.java	(revision f6269d29d8d8b735fa599942f72360c5f29871fb)
++++ b/server/src/main/java/_BE_Project/answer/AnswerController.java	(date 1677048737431)
+@@ -1,15 +1,15 @@
+ package _BE_Project.answer;
+ 
+-import _BE_Project.member.MemberService;
+ import _BE_Project.member.service.MemberService;
+ import _BE_Project.question.QuestionService;
+-import exception.UnauthorizedException;
++import _BE_Project.security.dto.TokenDto;
+ import org.springframework.http.HttpStatus;
+ import org.springframework.http.ResponseEntity;
+ import org.springframework.validation.annotation.Validated;
+ import org.springframework.web.bind.annotation.*;
+ 
+ import javax.validation.Valid;
++import javax.validation.constraints.NotNull;
+ import javax.validation.constraints.Positive;
+ import java.lang.reflect.Member;
+ 
+@@ -34,16 +34,16 @@
+     }
+ 
+ 
+-    // 이메일 아이디 의 질문에 대한 답변
++    // 이메일 아이디 의 질문에 대한 답변 (토큰 없이 어떻게 구현을 해야할까..)
+     @PostMapping("/{id}/add")
+     public ResponseEntity addAnswer(@PathVariable Long id,
+                                     @RequestBody AnswerDto.Post requestBody) {
+-        if (requestBody.getAccessToken().equals("not")) {
+-            throw new UnauthorizedException("로그인이 필요합니다.");
+-        }
++//        if (requestBody.getAccessToken().equals("not")) {
++//            throw new UnauthorizedException("로그인이 필요합니다.");
++//        }
+         Member member = memberService.findByAccessToken(requestBody.getAccessToken());
+         Answer answer = mapper.answerPostDtoAnswer(requestBody);
+-        answerService.create(id, answerEntity, member);
++        answerService.create(id, answer,member);
+         return new ResponseEntity(HttpStatus.CREATED);
+ 
+     }
+@@ -54,9 +54,9 @@
+     public ResponseEntity patchAnswer(@PathVariable("id") @Positive long answerId,
+                                       @Valid @RequestBody AnswerDto.Patch patchDto){
+ 
+-        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){
+-            throw new UnauthorizedException("작성자가 아닙니다.");
+-        }
++//        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){
++//            throw new UnauthorizedException("작성자가 아닙니다.");
++//        }
+         Answer updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
+ 
+         return new ResponseEntity<>(HttpStatus.OK);
+@@ -66,12 +66,12 @@
+     @DeleteMapping("/{id}/delete")
+     public ResponseEntity deleteAnswer(@PathVariable("id") @Positive long answerId,
+                                        @RequestBody TokenDto tokenDto){
+-        if (tokenDto.getAccessToken().equals("not")) {
+-            throw new UnauthorizedException("로그인이 필요합니다.");
+-        }
+-        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(tokenDto.getAccessToken()))){
+-            throw new UnauthorizedException("작성자가 아닙니다.");
+-        }
++//        if (tokenDto.getAccessToken().equals("not")) {
++//            throw new UnauthorizedException("로그인이 필요합니다.");
++//        }
++//        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(tokenDto.getAccessToken()))){
++//            throw new UnauthorizedException("작성자가 아닙니다.");
++//        }
+         answerService.delete(answerId);
+ 
+         return new ResponseEntity<>(HttpStatus.OK);
+Index: server/src/main/java/_BE_Project/member/service/MemberService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.member.service;\r\n\r\nimport _BE_Project.exception.BusinessLogicException;\r\nimport _BE_Project.exception.ExceptionCode;\r\nimport _BE_Project.member.entity.Member;\r\nimport _BE_Project.member.repository.MemberRepository;\r\nimport _BE_Project.security.utils.CustomAuthorityUtils;\r\nimport lombok.RequiredArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.data.domain.Page;\r\nimport org.springframework.data.domain.PageRequest;\r\nimport org.springframework.data.domain.Sort;\r\nimport org.springframework.security.crypto.password.PasswordEncoder;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.transaction.annotation.Transactional;\r\n\r\nimport java.util.Optional;\r\n\r\n@Service\r\n@RequiredArgsConstructor\r\npublic class MemberService {\r\n  \r\n  private final MemberRepository memberRepository;\r\n  private final PasswordEncoder passwordEncoder;\r\n  private final CustomAuthorityUtils authorityUtils;\r\n\r\n\r\n  public Member saveMember(Member member){\r\n    Member findMember = memberRepository.findByEmail(member.getEmail());\r\n    member.setPassword(passwordEncoder.encode(member.getPassword()));\r\n    member.setRoles(authorityUtils.createRoles(member.getEmail()));\r\n    \r\n    return memberRepository.save(member);\r\n  }\r\n\r\n  // 회원정보 수정 로직 임시구현 (내용이 적어서 어떤것을 바꿔야할지..)\r\n  public Member updateMember(Member member) {\r\n    Member findMember = findMember(member.getMemberId());\r\n\r\n    return memberRepository.save(findMember);\r\n  }\r\n  \r\n  @Transactional(readOnly = true)\r\n  public Member findMember(long memberId){\r\n    Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));\r\n    return findMember;\r\n  }\r\n\r\n  @Transactional(readOnly = true)\r\n  public Page<Member> findMembers (int page, int size) {\r\n    return memberRepository.findAll(PageRequest.of(page, size, Sort.by(\"memberId\").descending()));\r\n  }\r\n\r\n  public void deleteMember (long memberId) {\r\n    Member findMember = memberRepository.findByMemberId(memberId);\r\n    memberRepository.delete(findMember);\r\n  }\r\n  \r\n  /*public void verifyExistsEmail(String email){\r\n    Optional<Member> optionalMember = memberRepository.findByEmail(email);\r\n    if(optionalMember.isPresent()){\r\n      throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);\r\n    }\r\n  }*/\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/member/service/MemberService.java b/server/src/main/java/_BE_Project/member/service/MemberService.java
+--- a/server/src/main/java/_BE_Project/member/service/MemberService.java	(revision f6269d29d8d8b735fa599942f72360c5f29871fb)
++++ b/server/src/main/java/_BE_Project/member/service/MemberService.java	(date 1677048361223)
+@@ -14,6 +14,7 @@
+ import org.springframework.stereotype.Service;
+ import org.springframework.transaction.annotation.Transactional;
+ 
++import java.util.Map;
+ import java.util.Optional;
+ 
+ @Service
+@@ -25,6 +26,7 @@
+   private final CustomAuthorityUtils authorityUtils;
+ 
+ 
++
+   public Member saveMember(Member member){
+     Member findMember = memberRepository.findByEmail(member.getEmail());
+     member.setPassword(passwordEncoder.encode(member.getPassword()));
+@@ -62,4 +64,5 @@
+       throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
+     }
+   }*/
++
+ }
+Index: server/src/main/java/_BE_Project/answer/AnswerMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport org.mapstruct.Mapper;\r\nimport org.mapstruct.ReportingPolicy;\r\n\r\n@Mapper(componentModel = \"spring\",unmappedTargetPolicy = ReportingPolicy.IGNORE)\r\npublic interface AnswerMapper {\r\n    Answer answerPostDtoAnswer(AnswerDto.Post answerPostDto);\r\n    Answer answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);\r\n    default AnswerDto.Response answerToAnswerResponseDto(Answer answer){\r\n        AnswerDto.Response response = new AnswerDto.Response(\r\n                answer.isAccepted(),\r\n                answer.getScore(),\r\n                answer.getCreationDate(),\r\n                answer.getAnswerId(),\r\n                answer.getAnswerContent(),\r\n                answer.getQuestionEntity().getQuestionId(),\r\n                answer.getMemberDto()\r\n        );\r\n        return response;\r\n    };\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerMapper.java b/server/src/main/java/_BE_Project/answer/AnswerMapper.java
+--- a/server/src/main/java/_BE_Project/answer/AnswerMapper.java	(revision f6269d29d8d8b735fa599942f72360c5f29871fb)
++++ b/server/src/main/java/_BE_Project/answer/AnswerMapper.java	(date 1677047551349)
+@@ -14,7 +14,7 @@
+                 answer.getCreationDate(),
+                 answer.getAnswerId(),
+                 answer.getAnswerContent(),
+-                answer.getQuestionEntity().getQuestionId(),
++                answer.getQuestion().getQuestionId(),
+                 answer.getMemberDto()
+         );
+         return response;
+Index: server/src/main/java/_BE_Project/member/dto/MemberDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.member.dto;\r\n\r\nimport _BE_Project.member.entity.Member;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.Getter;\r\nimport lombok.Setter;\r\nimport org.hibernate.validator.constraints.Range;\r\n\r\nimport javax.validation.constraints.Email;\r\nimport javax.validation.constraints.Pattern;\r\nimport java.time.LocalDateTime;\r\n\r\npublic class MemberDto {\r\n\r\n    @AllArgsConstructor\r\n    @Getter\r\n    public static class Post {\r\n        @Email\r\n        private String email;\r\n        @Range(min = 4, max = 20)\r\n        private String password;\r\n    }\r\n\r\n    @Getter\r\n    @Setter\r\n    public static class Patch {\r\n        private long memberId;\r\n        private String email;\r\n        private String password;\r\n\r\n\r\n    }\r\n\r\n    @AllArgsConstructor\r\n    @Getter\r\n    public static class Response {\r\n        private long memberId;\r\n        private String email;\r\n        private Member.MemberStatus memberStatus;\r\n        private LocalDateTime createDate;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/member/dto/MemberDto.java b/server/src/main/java/_BE_Project/member/dto/MemberDto.java
+--- a/server/src/main/java/_BE_Project/member/dto/MemberDto.java	(revision f6269d29d8d8b735fa599942f72360c5f29871fb)
++++ b/server/src/main/java/_BE_Project/member/dto/MemberDto.java	(date 1677048994565)
+@@ -7,6 +7,7 @@
+ import org.hibernate.validator.constraints.Range;
+ 
+ import javax.validation.constraints.Email;
++import javax.validation.constraints.NotBlank;
+ import javax.validation.constraints.Pattern;
+ import java.time.LocalDateTime;
+ 
+@@ -19,6 +20,9 @@
+         private String email;
+         @Range(min = 4, max = 20)
+         private String password;
++
++        @NotBlank
++        private String nickname;
+     }
+ 
+     @Getter
+@@ -39,4 +43,14 @@
+         private Member.MemberStatus memberStatus;
+         private LocalDateTime createDate;
+     }
++
++    @Getter
++    public static class owner{
++        private Long memberId;
++
++        public owner(Long memberId, String nickname) {
++            this.memberId = memberId;
++            this.nickname = nickname;
++        }
++    }
+ }
+Index: server/src/main/java/_BE_Project/security/dto/TokenDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/security/dto/TokenDto.java b/server/src/main/java/_BE_Project/security/dto/TokenDto.java
+new file mode 100644
+--- /dev/null	(date 1677048737438)
++++ b/server/src/main/java/_BE_Project/security/dto/TokenDto.java	(date 1677048737438)
+@@ -0,0 +1,5 @@
++package _BE_Project.security.dto;
++
++public class TokenDto {
++    private String accessToken;
++}
