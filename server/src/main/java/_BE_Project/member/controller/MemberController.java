@@ -36,7 +36,7 @@ public class MemberController {
   }
   
   @GetMapping("/mypage")
-  ResponseEntity<?> getMyPage(){
+  ResponseEntity<?> getMyPage() {
     Member findMember = memberService.findByEmail();
     MemberDto.Response responseDto = mapper.memberToMemberResponseDto(findMember);
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -61,7 +61,7 @@ public class MemberController {
 //  }
 
 
-  @PatchMapping("/{id}")
+  @PatchMapping
   public ResponseEntity<?> updateMember(@RequestBody MemberDto.Patch patch) {
     memberService.updateMember(mapper.memberPatchDtoToMember(patch));
 

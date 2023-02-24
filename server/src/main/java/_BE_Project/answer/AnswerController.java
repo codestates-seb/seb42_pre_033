@@ -41,11 +41,10 @@ public class AnswerController {
     public ResponseEntity addAnswer(@PathVariable Long id,
                                     @RequestBody AnswerDto.Post requestBody) {
 
-        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = getCurrentMemberEmail();
         Member findMember = memberService.findByEmail(email);
-//        Member member = memberService.findByAccessToken(requestBody.getAccessToken());
         Answer answer = mapper.answerPostDtoAnswer(requestBody);
-        answerService.create(id, answer,member);
+        answerService.create(id, answer, findMember);
         return new ResponseEntity(HttpStatus.CREATED);
 
     }
@@ -56,9 +55,11 @@ public class AnswerController {
     public ResponseEntity patchAnswer(@PathVariable("id") @Positive long answerId,
                                       @Valid @RequestBody AnswerDto.Patch patchDto){
 
+        getCurrentMemberEmail();
         if (!answerService.findByEmail(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){
             throw new UnauthorizedException("작성자가 아닙니다.");
         }
+        
         Answer updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -95,6 +96,8 @@ public class AnswerController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
-
-
+    
+    public String getCurrentMemberEmail(){
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 }
