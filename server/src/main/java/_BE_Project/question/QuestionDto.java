@@ -32,6 +32,7 @@ public class QuestionDto {
         private String title;
         private String content;
         private LocalDateTime createDate;
+        private int score;
         //조회수 관련 필드 추가
         private int viewCnt;
     }
