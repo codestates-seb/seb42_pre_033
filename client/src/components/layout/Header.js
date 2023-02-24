@@ -122,13 +122,13 @@ function Header() {
               </Logo>
             </Link>
             {/* 404 페이지 임의연결 */}
-            <Link to='/abc'>
+            <Link to='/*'>
               <NavText>About</NavText>
             </Link>
-            <Link to='/abc'>
+            <Link to='/*'>
               <NavText>Products</NavText>
             </Link>
-            <Link to='/abc'>
+            <Link to='/*'>
               <NavText>For Teams</NavText>
             </Link>
             <Search>
