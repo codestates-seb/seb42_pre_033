@@ -49,6 +49,9 @@ public class Member extends BaseTime {
     private List<Question> questions = new ArrayList<>();
 
     public void setQuestion(Question question) {
+        if(this.questions.contains(question)){
+            this.questions.remove(question);
+        }
         this.questions.add(question);
         if(question.getMember() != this) {
             question.setMember(this);
