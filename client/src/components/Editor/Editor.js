@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import hljs from 'highlight.js';
@@ -22,17 +22,8 @@ function Editor({
   editorHeight = '300px',
   placeholder = '입력을 해주세요',
   value = '',
+  nmae = '',
 }) {
-  const [input, setInput] = useState(value);
-
-  const handleChange = (value) => {
-    setInput(value);
-  };
-
-  useEffect(() => {
-    onChange(input);
-  }, [input]);
-
   const modules = useMemo(() => {
     return {
       syntax: {
@@ -73,11 +64,12 @@ function Editor({
     <StyledEditor
       placeholder={placeholder}
       theme='snow'
-      value={input}
-      onChange={handleChange}
+      value={value}
+      onChange={onChange}
       modules={modules}
       format={formats}
       editorHeight={editorHeight}
+      nmae={nmae}
     />
   );
 }
