@@ -28,16 +28,17 @@ public class AnswerDto {
 
     }
 
-    @AllArgsConstructor
     @Getter
+    @Setter
     public static class Response{
 
         private Long answerId;
         private String answerContent;
         private Long questionId;
+        private String questionTitle;
         private LocalDateTime creationDate;
         private int score;
         private boolean isAccepted;
-
+        
     }
 }
