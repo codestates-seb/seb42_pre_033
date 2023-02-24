@@ -5,7 +5,7 @@ import QuestionEditGuide from '../components/QuestionEdit/QuestionEditGuide';
 const Article = styled.article`
   display: flex;
   max-width: 1264px;
-  width: 1080px;
+  width: 100%;
   padding: 16px;
   gap: 24px;
 `;

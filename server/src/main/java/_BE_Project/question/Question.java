@@ -49,9 +49,6 @@ public class Question extends BaseTime {
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<Answer> answer = new ArrayList<>();
 
-    /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
-    private List<VoteEntity> votes = new ArrayList<>();*/
-
     @OneToMany (mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<Score> scores = new ArrayList<>();
 
