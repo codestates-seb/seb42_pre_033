@@ -7,15 +7,20 @@ import _BE_Project.answer.AnswerDto;
 public interface AnswerMapper {
     Answer answerPostDtoAnswer(AnswerDto.Post answerPostDto);
     Answer answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);
+
     default AnswerDto.Response answerToAnswerResponseDto(Answer answer){
-        AnswerDto.Response response = new AnswerDto.Response(
-                answer.getAnswerId(),
-                answer.isAccepted(),
-                answer.getQuestion().getQuestionId(),
-                answer.getAnswerContent(),
-                answer.getCreationDate(),
-                answer.getScore()
-        );
+
+        AnswerDto.Response response = new AnswerDto.Response();
+
+        response.setAnswerId(answer.getAnswerId());
+        response.setAnswerContent(answer.getAnswerContent());
+        response.setQuestionId(answer.getQuestion().getQuestionId());
+        response.setQuestionTitle(answer.getQuestion().getTitle());
+        response.setCreationDate(answer.getCreationDate());
+        response.setScore(answer.getScore());
+        response.setAccepted(answer.isAccepted());
+
         return response;
-    };
+
+    }
 }
