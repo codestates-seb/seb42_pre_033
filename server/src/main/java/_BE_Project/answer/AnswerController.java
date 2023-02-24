@@ -1,6 +1,9 @@
 package _BE_Project.answer;
 
+import _BE_Project.exception.UnauthorizedException;
+import _BE_Project.member.entity.Member;
 import _BE_Project.member.service.MemberService;
+import _BE_Project.question.Question;
 import _BE_Project.question.QuestionService;
 import _BE_Project.security.dto.TokenDto;
 import org.springframework.http.HttpStatus;
@@ -9,9 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.lang.reflect.Member;
 
 @RestController
 @RequestMapping("/v1/answer")
@@ -75,6 +76,23 @@ public class AnswerController {
         answerService.delete(answerId);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 질문자가 답변 채택 취소
+    @PostMapping("/{id}/accept/undo")
+    public ResponseEntity getAcceptUndo(@PathVariable("id") @Positive long answerId,
+                                        @RequestBody TokenDto tokenDto){
+        if (tokenDto.getAccessToken().equals("not")) {
+            throw new UnauthorizedException("로그인이 필요합니다.");
+        }
+        Answer answer = answerService.findById(answerId);
+        Question question = answer.getQuestion();
+        if (!questionService.hasQuestion(question.getQuestionId(),memberService.findByAccessToken(tokenDto.getAccessToken()))){
+            throw new UnauthorizedException("작성자가 아닙니다.");
+        }
+        Answer getAccept = answerService.get(answerId);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 

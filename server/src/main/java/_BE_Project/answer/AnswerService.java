@@ -2,11 +2,12 @@ package _BE_Project.answer;
 
 import _BE_Project.Score.Score;
 import _BE_Project.Score.ScoreService;
+import _BE_Project.exception.DataNotFoundException;
+import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;
 import _BE_Project.question.QuestionService;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -72,6 +73,20 @@ public class AnswerService {
         if (score.getStatus()!=1){
             score.setStatus(score.getStatus()+1);
             answer.setScore(answer.getScore()+1);
+        }
+        score.setAnswer(answer);
+        score.setMember(member);
+        scoreService.saveScore(score);
+        answerRepository.save(answer);
+    }
+
+    // 비추천 기능
+    public void downVote(Answer answer, Member member) {
+        Score score = scoreService.findByUserAndAnswer(member, answer);
+
+        if (score.getStatus()!=-1){
+            score.setStatus(score.getStatus()-1);
+            answer.setScore(answer.getScore()-1);
         }
         score.setAnswer(answer);
         score.setMember(member);

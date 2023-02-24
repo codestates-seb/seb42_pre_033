@@ -53,13 +53,13 @@ public class Answer {
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "answer" , cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Score> likeUsers;
+    private List<Score> likeMembers;
 
-//    public MemberDto.owner getOwnerDto() {
-//        Member member = this.member;
-//        MemberDto.owner = new MemberDto.owner(member.getMemberId(), member.getNickname());
-//        return owner;
-//    }
+    public MemberDto.owner getOwnerDto() {
+        Member member = this.member;
+        MemberDto.owner owner = new MemberDto.owner(member.getMemberId(), member.getNickname());
+        return owner;
+    }
 
 
 

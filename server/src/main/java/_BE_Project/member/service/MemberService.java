@@ -4,7 +4,11 @@ import _BE_Project.exception.BusinessLogicException;
 import _BE_Project.exception.ExceptionCode;
 import _BE_Project.member.entity.Member;
 import _BE_Project.member.repository.MemberRepository;
+<<<<<<< Updated upstream
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
+=======
+import _BE_Project.security.jwt.JwtTokenProvider;
+>>>>>>> Stashed changes
 import _BE_Project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +30,13 @@ public class MemberService {
   private final MemberRepository memberRepository;
   private final PasswordEncoder passwordEncoder;
   private final CustomAuthorityUtils authorityUtils;
+<<<<<<< Updated upstream
   private final RefreshTokenRedisRepository redisRepository;
+=======
+
+  private final JwtTokenProvider JwtTokenProvider;
+
+>>>>>>> Stashed changes
 
 
   public Member saveMember(Member member){
@@ -35,6 +45,11 @@ public class MemberService {
     member.setRoles(authorityUtils.createRoles(member.getEmail()));
     
     return memberRepository.save(member);
+  }
+
+  public MemberService(MemberRepository memberRepository, JwtTokenProvider jwtTokenProvider){
+    this.memberRepository = memberRepository;
+    this.JwtTokenProvider = jwtTokenProvider;
   }
 
   // 회원정보 수정 로직 임시구현 (내용이 적어서 어떤것을 바꿔야할지..)
@@ -63,6 +78,15 @@ public class MemberService {
     return memberRepository.findAll(PageRequest.of(page, size, Sort.by("memberId").descending()));
   }
 
+  //액세스 토큰으로 사용자 찾기
+  public Member findByAccessToken(String AccessToken){
+    String jws = AccessToken.replace("bearer ", "");
+    String base64EncodedSecretKey = _BE_Project.security.jwt.JwtTokenProvider.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+    Map<String, Object> claims = _BE_Project.security.jwt.JwtTokenProvider.parseClaims(jws, base64EncodedSecretKey).getBody();
+    String email = (String) claims.get("email");
+    Member member = findByEmail(email);
+    return member;
+  }
   public void deleteMember (long memberId) {
     Member findMember = memberRepository.findByMemberId(memberId);
     memberRepository.delete(findMember);
