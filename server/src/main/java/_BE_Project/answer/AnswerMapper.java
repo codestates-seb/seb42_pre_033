@@ -8,14 +8,18 @@ public interface AnswerMapper {
     Answer answerPostDtoAnswer(AnswerDto.Post answerPostDto);
     Answer answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);
     default AnswerDto.Response answerToAnswerResponseDto(Answer answer){
-        AnswerDto.Response response = new AnswerDto.Response(
-                answer.isAccepted(),
-                answer.getScore(),
-                answer.getAnswerId(),
-                answer.getAnswerContent(),
-                answer.getQuestion().getQuestionId(),
-                answer.getOwnerDto() // 에러남
-        );
+
+        AnswerDto.Response response = new AnswerDto.Response();
+
+        response.setAnswerId(answer.getAnswerId());
+        response.setAnswerContent(answer.getAnswerContent());
+        response.setQuestionId(answer.getQuestion().getQuestionId());
+        response.setQuestionTitle(answer.getQuestion().getTitle());
+        response.setCreationDate(answer.getCreationDate());
+        response.setScore(answer.getScore());
+        response.setAccepted(answer.isAccepted());
+
         return response;
-    };
+
+    }
 }
