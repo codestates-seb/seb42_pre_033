@@ -2,6 +2,7 @@ package _BE_Project.security.config;
 
 import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
+import _BE_Project.member.service.MemberService;
 import _BE_Project.security.jwt.JwtTokenProvider;
 import _BE_Project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class SecurityConfiguration {
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
   private final MemberRepository memberRepository;
-  
+  @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
       .headers().frameOptions().sameOrigin()

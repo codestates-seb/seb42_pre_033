@@ -2,6 +2,7 @@ package _BE_Project.security.config;
 
 import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
+import _BE_Project.member.service.MemberService;
 import _BE_Project.security.handler.MemberAuthenticationFailureHandler;
 import _BE_Project.security.filter.JwtAuthenticationFilter;
 import _BE_Project.security.jwt.JwtTokenProvider;

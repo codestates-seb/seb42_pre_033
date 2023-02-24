@@ -51,30 +51,24 @@ public class AnswerController {
 
     // 답변을 수정
 
-    @PostMapping("/{id}/edit")
+    @PatchMapping("/{id}/edit")
     public ResponseEntity patchAnswer(@PathVariable("id") @Positive long answerId,
                                       @Valid @RequestBody AnswerDto.Patch patchDto){
-
-        getCurrentMemberEmail();
-        if (!answerService.findByEmail(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){
-            throw new UnauthorizedException("작성자가 아닙니다.");
-        }
         
+        Member findmember = memberService.findByEmail();
         Answer updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+
     //답변 삭제
     @DeleteMapping("/{id}/delete")
     public ResponseEntity deleteAnswer(@PathVariable("id") @Positive long answerId,
                                        @RequestBody TokenDto tokenDto){
-//        if (tokenDto.getAccessToken().equals("not")) {
-//            throw new UnauthorizedException("로그인이 필요합니다.");
-//        }
-//        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(tokenDto.getAccessToken()))){
-//            throw new UnauthorizedException("작성자가 아닙니다.");
-//        }
+
+        Member findmember = memberService.findByEmail();
         answerService.delete(answerId);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -84,19 +78,29 @@ public class AnswerController {
     @PostMapping("/{id}/accept/undo")
     public ResponseEntity getAcceptUndo(@PathVariable("id") @Positive long answerId,
                                         @RequestBody TokenDto tokenDto){
-        if (tokenDto.getAccessToken().equals("not")) {
-            throw new UnauthorizedException("로그인이 필요합니다.");
-        }
-        Answer answer = answerService.findById(answerId);
-        Question question = answer.getQuestion();
-        if (!questionService.hasQuestion(question.getQuestionId(),memberService.findByAccessToken(tokenDto.getAccessToken()))){
-            throw new UnauthorizedException("작성자가 아닙니다.");
-        }
-        Answer getAccept = answerService.get(answerId);
+//        if (tokenDto.getAccessToken().equals("not")) {
+//            throw new UnauthorizedException("로그인이 필요합니다.");
+//        }
+//        Answer answer = answerService.findById(answerId);
+//        Question question = answer.getQuestion();
+//        if (!questionService.hasQuestion(question.getQuestionId(),memberService.findByAccessToken(tokenDto.getAccessToken()))){
+//            throw new UnauthorizedException("작성자가 아닙니다.");
+//        }
+        Member findmember = memberService.findByEmail();
 
         return new ResponseEntity(HttpStatus.OK);
+    } //녹녹
+    // 추천기능
+    @PostMapping("{answerId}/upVote")
+    public ResponseEntity upVote(@PathVariable("answerId") Long id,
+                                 @RequestBody TokenDto tokenDto) {
+        Answer answer = answerService.findById(id);
+
+        Member findmember = memberService.findByEmail();
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
-    
     public String getCurrentMemberEmail(){
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }

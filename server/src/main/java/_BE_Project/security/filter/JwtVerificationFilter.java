@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -77,7 +78,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         String findRefreshToken = redisRepository.findBy(refreshTokenClaims.getSubject());
   
         if (refreshToken.equals(findRefreshToken)) {
-          Member findMember = memberRepository.findByEmail(refreshTokenClaims.getSubject());
+          Member findMember = memberRepository.findByEmail(refreshTokenClaims.getSubject()).orElse(null);
+//          Member findMember = memberService.findByEmail(refreshTokenClaims.getSubject());
           String newAccessToken = jwtTokenProvider.generateAccessToken(findMember);
           response.setHeader("Authorization", "Bearer " + newAccessToken);
           return jwtTokenProvider.parseClaims(newAccessToken);
