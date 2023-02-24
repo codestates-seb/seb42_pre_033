@@ -1,17 +1,18 @@
 package _BE_Project.answer;
 
+import _BE_Project.member.entity.Member;
 import _BE_Project.member.service.MemberService;
 import _BE_Project.question.QuestionService;
 import _BE_Project.security.dto.TokenDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.lang.reflect.Member;
 
 @RestController
 @RequestMapping("/v1/answer")

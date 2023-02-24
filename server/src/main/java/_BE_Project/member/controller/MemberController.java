@@ -29,8 +29,6 @@ public class MemberController {
   @PostMapping("/signup")
   public ResponseEntity<?> createMember(@Valid @RequestBody MemberDto.Post postDto){
     
-    String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    
     Member member = mapper.memberPostDtoToMember(postDto);
     Member savedMember = memberService.saveMember(member);
     
@@ -55,17 +53,15 @@ public class MemberController {
 
 
   @PatchMapping("/{id}")
-  public ResponseEntity<?> updateMember(@PathVariable ("id") @Positive long memberId,
-                                        @RequestBody MemberDto.Patch patch) {
-    Member member = memberService.updateMember(mapper.memberPatchDtoToMember(patch));
+  public ResponseEntity<?> updateMember(@RequestBody MemberDto.Patch patch) {
+    memberService.updateMember(mapper.memberPatchDtoToMember(patch));
 
-    return new ResponseEntity<>(mapper.memberToMemberResponseDto(member), HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteMember(@PathVariable ("id") @Positive long memberId){
-
-    memberService.deleteMember(memberId);
+  @DeleteMapping
+  public ResponseEntity<?> deleteMember(){
+    memberService.deleteMember();
     
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
@@ -73,5 +69,11 @@ public class MemberController {
   public ResponseEntity<?> logout(HttpServletRequest request){
     memberService.logout(request);
     return new ResponseEntity<>("successfully logged out.",HttpStatus.OK);
+  }
+  
+  @GetMapping("/mypage")
+  ResponseEntity<?> getMyPage(){
+    Member findMember = memberService.findByEmail();
+    
   }
 }

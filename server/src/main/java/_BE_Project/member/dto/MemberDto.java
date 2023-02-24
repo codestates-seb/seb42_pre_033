@@ -20,7 +20,6 @@ public class MemberDto {
         private String email;
         @Range(min = 4, max = 20)
         private String password;
-
         @NotBlank
         private String nickname;
     }
@@ -29,7 +28,6 @@ public class MemberDto {
     @Setter
     public static class Patch {
         private long memberId;
-        private String email;
         private String password;
         private String nickname;
 

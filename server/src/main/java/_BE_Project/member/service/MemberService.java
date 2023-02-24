@@ -7,6 +7,7 @@ import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
 import _BE_Project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -27,25 +27,25 @@ public class MemberService {
   private final PasswordEncoder passwordEncoder;
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
-
-
+  private final RedisTemplate<String, String> redisTemplate;
+  
+  @Transactional()
   public Member saveMember(Member member){
-    Member findMember = memberRepository.findByEmail(member.getEmail());
+    verifyExistsEmail(member.getEmail());
     member.setPassword(passwordEncoder.encode(member.getPassword()));
     member.setRoles(authorityUtils.createRoles(member.getEmail()));
     
     return memberRepository.save(member);
   }
-
-  // 회원정보 수정 로직 임시구현 (내용이 적어서 어떤것을 바꿔야할지..)
-  public Member updateMember(Member member) {
-    Member findMember = findMember(member.getMemberId());
-
-    return memberRepository.save(findMember);
+  @Transactional
+  public void updateMember(Member member) {
+    Member findMember = findByEmail();
+    findMember.setPassword(member.getPassword());
+    findMember.setNickname(member.getNickname());
   }
   public void logout(HttpServletRequest request){
     String accessToken = request.getHeader("Authorization").substring(7);
-    String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    String email = getCurrentMemberEmail();
     // blacklist 에 등록 이후 해당 토큰으로 요청시 거절함
     redisRepository.setBlackList(accessToken);
     // refresh 토큰 제거
@@ -62,17 +62,35 @@ public class MemberService {
   public Page<Member> findMembers (int page, int size) {
     return memberRepository.findAll(PageRequest.of(page, size, Sort.by("memberId").descending()));
   }
-
-  public void deleteMember (long memberId) {
-    Member findMember = memberRepository.findByMemberId(memberId);
+  @Transactional
+  public void deleteMember () {
+    Member findMember = findByEmail();
     memberRepository.delete(findMember);
+    redisRepository.deleteBy(findMember.getEmail());
   }
-//  public void verifyExistsEmail(String email){
-//    Optional<Member> optionalMember = memberRepository.findByEmail(email);
-//    Member byEmail = memberRepository.findByEmail(email);
-//    if(optionalMember.isPresent()){
-//      throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
-//    }
-//  }
+  
+  @Transactional
+  public Member findByEmail(){
+    String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    Optional<Member> optionalMember = memberRepository.findByEmail(email);
+    return optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+  }
+  
+  @Transactional
+  public Member findByEmail(String email){
+    Optional<Member> optionalMember = memberRepository.findByEmail(email);
+    return optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+  }
+  
+  public void verifyExistsEmail(String email){
+    Optional<Member> optionalMember = memberRepository.findByEmail(email);
+    if(optionalMember.isPresent()){
+      throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
+    }
+  }
+  
+  public String getCurrentMemberEmail(){
+    return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  }
 
 }
