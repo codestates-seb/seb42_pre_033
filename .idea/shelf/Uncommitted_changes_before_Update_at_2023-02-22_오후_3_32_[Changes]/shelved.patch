@@ -1,0 +1,155 @@
+Index: server/src/main/java/_BE_Project/answer/AnswerService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport org.springframework.stereotype.Service;\r\n\r\n@Service\r\npublic class AnswerService {\r\n    private final AnswerRepository answerRepository;\r\n    private final QuestionService questionService;\r\n    private final ScoreService scoreService;\r\n\r\n    public AnswerService(AnswerRepository answerRepository, QuestionService questionService, ScoreService scoreService) {\r\n        this.answerRepository = answerRepository;\r\n        this.questionService = questionService;\r\n        this.scoreService = scoreService;\r\n    }\r\n\r\n    public Answer create(Long memberId,)\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerService.java b/server/src/main/java/_BE_Project/answer/AnswerService.java
+--- a/server/src/main/java/_BE_Project/answer/AnswerService.java	(revision 29112c0c50c3631c1fa9a2bd73749175bd37d1c9)
++++ b/server/src/main/java/_BE_Project/answer/AnswerService.java	(date 1677044034542)
+@@ -1,7 +1,14 @@
+ package _BE_Project.answer;
+ 
++import _BE_Project.Score.ScoreService;
++import _BE_Project.question.Question;
++import _BE_Project.question.QuestionService;
+ import org.springframework.stereotype.Service;
+ 
++import java.lang.reflect.Member;
++import java.time.LocalDateTime;
++import java.util.Optional;
++
+ @Service
+ public class AnswerService {
+     private final AnswerRepository answerRepository;
+@@ -14,5 +21,62 @@
+         this.scoreService = scoreService;
+     }
+ 
+-    public Answer create(Long memberId,)
++    public Answer create(Long questionId, Answer answer, Member member){
++        Question question = questionService.findVerifyQuestion(questionId);
++        question.setViewCnt(question.getViewCnt()+1);
++//        question.setAnswered(true);
++        answer.setQuestion(question);
++        answer.setAccepted(false);
++        answer.setScore(0);
++        answer.setMember(member);
++
++        return answerRepository.save(answer);
++    }
++
++    public Answer findById(Long id){
++        return this.answerRepository.findById(id).get();
++    }
++
++    public Answer updateAnswer(Long answerId, Answer answer){
++        Answer findAnswer = findVerifiedAnswer(answerId);
++        findAnswer.setAnswerContent(answer.getAnswerContent());
++        findAnswer.setModifiedAt(LocalDateTime.now());
++        return answerRepository.save(findAnswer);
++    }
++
++    public Answer findVerifiedAnswer(Long answerId) {
++        Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
++        if(optionalAnswer.isPresent()){
++            return optionalAnswer.get();
++        }
++
++    }
++
++    public void delete(Long answerId){
++        Answer answer = findVerifiedAnswer(answerId);
++        Question question = answer.getQuestion();
++        question.setAnswerCount(answer.getQuestion().getAnswerCount()-1);
++        if (question.getAnswerCount()==0){
++            question.setAnswered(false);
++        }
++        answerRepository.delete(answer);
++    }
++    // 추천 기능
++    public void upVote(Answer answer, User user) {
++        Score score = scoreService.findByUserAndAnswer(user, answer);
++
++        if (score.getStatus()!=1){
++            score.setStatus(score.getStatus()+1);
++            answer.setScore(answer.getScore()+1);
++        }
++        score.setAnswer(answer);
++        score.setUser(user);
++        scoreService.saveScore(score);
++        Question question = answer.getQuestion();
++        questionService.downViewCount(question);
++        answerRepository.save(answer);
++    }
++
++
++
+ }
+Index: server/src/main/java/_BE_Project/answer/Answer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport _BE_Project.Score.Score;\r\nimport _BE_Project.audit.BaseTime;\r\nimport _BE_Project.member.entity.Member;\r\nimport _BE_Project.question.Question;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\n\r\nimport javax.persistence.*;\r\nimport java.time.LocalDateTime;\r\nimport java.util.List;\r\n\r\n@AllArgsConstructor\r\n@NoArgsConstructor\r\n@Getter\r\n@Setter\r\n@Entity\r\npublic class Answer extends BaseTime {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long answerId;\r\n\r\n    // 답변을 적을수 있는 칸\r\n    @Column(nullable = false, columnDefinition = \"Text\")\r\n    private String answerContent;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name=\"question_id\")\r\n    private Question question;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"member_id\")\r\n    private Member member;\r\n\r\n    //\r\n    @Column\r\n    private boolean isAccepted;\r\n\r\n    // 좋아요의 개수\r\n    @Column\r\n    private int score;\r\n\r\n    // 답변을 달았을 때 시간을 알려주는 코드\r\n    @Column(nullable = false)\r\n    private LocalDateTime creationDate = LocalDateTime.now();\r\n\r\n    @Column(nullable = false)\r\n    private LocalDateTime modifiedAt = LocalDateTime.now();\r\n\r\n    @OneToMany(mappedBy = \"answer\" , cascade = CascadeType.REMOVE, orphanRemoval = true)\r\n    private List<Score> likeUsers;\r\n\r\n    /*public MemberDto.owner getOwner() {\r\n        Member member = this.member;\r\n        MemberDto.owner = new MemberDto.owner(member.getMemberId());\r\n        return owner;\r\n    }\r\n\r\n\r\n    }*/\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/Answer.java b/server/src/main/java/_BE_Project/answer/Answer.java
+--- a/server/src/main/java/_BE_Project/answer/Answer.java	(revision 29112c0c50c3631c1fa9a2bd73749175bd37d1c9)
++++ b/server/src/main/java/_BE_Project/answer/Answer.java	(date 1677044034548)
+@@ -2,6 +2,7 @@
+ 
+ import _BE_Project.Score.Score;
+ import _BE_Project.audit.BaseTime;
++import _BE_Project.member.dto.MemberDto;
+ import _BE_Project.member.entity.Member;
+ import _BE_Project.question.Question;
+ import lombok.AllArgsConstructor;
+@@ -18,7 +19,7 @@
+ @Getter
+ @Setter
+ @Entity
+-public class Answer extends BaseTime {
++public class Answer {
+ 
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+@@ -54,13 +55,13 @@
+     @OneToMany(mappedBy = "answer" , cascade = CascadeType.REMOVE, orphanRemoval = true)
+     private List<Score> likeUsers;
+ 
+-    /*public MemberDto.owner getOwner() {
+-        Member member = this.member;
+-        MemberDto.owner = new MemberDto.owner(member.getMemberId());
+-        return owner;
+-    }
++//    public MemberDto.owner getOwner() {
++//        Member member = this.member;
++//        MemberDto.owner = new MemberDto.owner(member.getMemberId());
++//        return owner;
++//    }
+ 
+ 
+-    }*/
++
+ 
+ }
+Index: server/src/main/java/_BE_Project/answer/AnswerMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport org.mapstruct.Mapper;\r\nimport org.mapstruct.ReportingPolicy;\r\n\r\n@Mapper(componentModel = \"spring\",unmappedTargetPolicy = ReportingPolicy.IGNORE)\r\npublic interface AnswerMapper {\r\n    Answer answerPostDtoAnswer(AnswerDto.Post answerPostDto);\r\n    Answer answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);\r\n    default AnswerDto.Response answerToAnswerResponseDto(Answer answer){\r\n        AnswerDto.Response response = new AnswerDto.Response(\r\n                answer.isAccepted(),\r\n                answer.getScore(),\r\n                answer.getCreationDate(),\r\n                answer.getAnswerId(),\r\n                answer.getAnswerContent(),\r\n                answer.getQuestionEntity().getQuestionId(),\r\n                answer.getMemberDto()\r\n        );\r\n        return response;\r\n    };\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerMapper.java b/server/src/main/java/_BE_Project/answer/AnswerMapper.java
+--- a/server/src/main/java/_BE_Project/answer/AnswerMapper.java	(revision 29112c0c50c3631c1fa9a2bd73749175bd37d1c9)
++++ b/server/src/main/java/_BE_Project/answer/AnswerMapper.java	(date 1677044034554)
+@@ -14,7 +14,7 @@
+                 answer.getCreationDate(),
+                 answer.getAnswerId(),
+                 answer.getAnswerContent(),
+-                answer.getQuestionEntity().getQuestionId(),
++                answer.getQuestion().getQuestionId(),
+                 answer.getMemberDto()
+         );
+         return response;

@@ -1,13 +1,18 @@
 package _BE_Project.question;
 
-import _BE_Project.member.MemberRepository;
+import _BE_Project.Score.ScoreService;
+import _BE_Project.exception.BusinessLogicException;
+import _BE_Project.exception.ExceptionCode;
+import _BE_Project.member.entity.Member;
+import _BE_Project.member.repository.MemberRepository;
+import _BE_Project.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,23 +21,28 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository repository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
+
+    private final ScoreService scoreService;
 
     public QuestionService(QuestionRepository repository,
-                           MemberRepository memberRepository) {
+                           MemberService memberService, ScoreService scoreService) {
         this.repository = repository;
-        this.memberRepository = memberRepository;
+        this.memberService = memberService;
+        this.scoreService = scoreService;
     }
 
-    public QuestionEntity createQuestion (QuestionEntity question) {
-
-        QuestionEntity saveQuestion = repository.save(question);
+    public Question createQuestion (Question question) {
+        memberService.findMember(question.getMember().getMemberId());
+        Question saveQuestion = repository.save(question);
+        question.setScore(0);
 
         return saveQuestion;
     }
 
-    public QuestionEntity updateQuestion (QuestionEntity question) {
-        QuestionEntity findQuestion = findVerifyQuestion(question.getQuestionId());
+    public Question updateQuestion (Question question) {
+        memberService.findMember(question.getMember().getMemberId());
+        Question findQuestion = findVerifyQuestion(question.getQuestionId());
 
         Optional.ofNullable(question.getTitle()).ifPresent(title -> findQuestion.setTitle(title));
         Optional.ofNullable(question.getContent()).ifPresent(content -> findQuestion.setContent(content));
@@ -40,22 +50,35 @@ public class QuestionService {
         return repository.save(findQuestion);
     }
 
-    public QuestionEntity findQuestion (long questionId) {
-        QuestionEntity findQuestion = findVerifyQuestion(questionId);
+    public Question findQuestion (long questionId) {
+
+        Question findQuestion = findVerifyQuestion(questionId);
+
+        //질문 조회수 증가
+        repository.increaseViewCnt(questionId);
+
         return findQuestion;
     }
 
-    public Page<QuestionEntity> findQuestions(int page, int size) {
+    public Page<Question> findQuestions(int page, int size) {
         return repository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
+    }
+
+    @Transactional
+    public Page<Question> searchQuestion (String keyword, Pageable pageable) {
+        Page<Question> questionList = repository.findByTitleContaining(keyword, pageable);
+        return questionList;
     }
 
     public void deleteQuestion (long questionId) {
         repository.deleteById(questionId);
     }
 
-    private QuestionEntity findVerifyQuestion (long questionId) {
-        Optional<QuestionEntity> optionalQuestion = repository.findById(questionId);
-        QuestionEntity findQuestion = optionalQuestion.orElseThrow();
+    private Question findVerifyQuestion (long questionId) {
+        Optional<Question> optionalQuestion = repository.findById(questionId);
+        Question findQuestion = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
         return findQuestion;
     }
+
+
 }

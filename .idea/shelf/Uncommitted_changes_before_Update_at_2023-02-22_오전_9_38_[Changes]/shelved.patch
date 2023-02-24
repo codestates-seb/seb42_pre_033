@@ -1,0 +1,241 @@
+Index: server/src/main/java/_BE_Project/answer/AnswerController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport _BE_Project.member.MemberService;\r\nimport _BE_Project.member.service.MemberService;\r\nimport _BE_Project.question.QuestionService;\r\nimport exception.UnauthorizedException;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.validation.annotation.Validated;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport javax.validation.Valid;\r\nimport javax.validation.constraints.Positive;\r\nimport java.lang.reflect.Member;\r\n\r\n@RestController\r\n@RequestMapping(\"/v1/answer\")\r\n@Validated\r\n@CrossOrigin\r\npublic class AnswerController {\r\n\r\n    private final AnswerService answerService;\r\n    private final AnswerMapper mapper;\r\n\r\n    private final MemberService memberService;\r\n\r\n    private final QuestionService questionService;\r\n\r\n    public AnswerController(AnswerService answerService, AnswerMapper mapper, MemberService memberService, QuestionService questionService){\r\n        this.answerService = answerService;\r\n        this.mapper = mapper;\r\n        this.memberService = memberService;\r\n        this.questionService = questionService;\r\n    }\r\n\r\n\r\n    // 이메일 아이디 의 질문에 대한 답변\r\n    @PostMapping(\"/{id}/add\")\r\n    public ResponseEntity addAnswer(@PathVariable Long id,\r\n                                    @RequestBody AnswerDto.Post requestBody) {\r\n        if (requestBody.getAccessToken().equals(\"not\")) {\r\n            throw new UnauthorizedException(\"로그인이 필요합니다.\");\r\n        }\r\n        Member member = memberService.findByAccessToken(requestBody.getAccessToken());\r\n        AnswerEntity answerEntity = mapper.answerPostDtoAnswer(requestBody);\r\n        answerService.create(id, answerEntity, member);\r\n        return new ResponseEntity(HttpStatus.CREATED);\r\n\r\n    }\r\n\r\n    // 답변을 수정\r\n\r\n    @PostMapping(\"/{id}/edit\")\r\n    public ResponseEntity patchAnswer(@PathVariable(\"id\") @Positive long answerId,\r\n                                      @Valid @RequestBody AnswerDto.Patch patchDto){\r\n\r\n        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){\r\n            throw new UnauthorizedException(\"작성자가 아닙니다.\");\r\n        }\r\n        AnswerEntity updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));\r\n\r\n        return new ResponseEntity<>(HttpStatus.OK);\r\n    }\r\n\r\n    //답변 삭제\r\n    @DeleteMapping(\"/{id}/delete\")\r\n    public ResponseEntity deleteAnswer(@PathVariable(\"id\") @Positive long answerId,\r\n                                       @RequestBody TokenDto tokenDto){\r\n        if (tokenDto.getAccessToken().equals(\"not\")) {\r\n            throw new UnauthorizedException(\"로그인이 필요합니다.\");\r\n        }\r\n        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(tokenDto.getAccessToken()))){\r\n            throw new UnauthorizedException(\"작성자가 아닙니다.\");\r\n        }\r\n        answerService.delete(answerId);\r\n\r\n        return new ResponseEntity<>(HttpStatus.OK);\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerController.java b/server/src/main/java/_BE_Project/answer/AnswerController.java
+--- a/server/src/main/java/_BE_Project/answer/AnswerController.java	
++++ b/server/src/main/java/_BE_Project/answer/AnswerController.java	
+@@ -1,6 +1,6 @@
+ package _BE_Project.answer;
+ 
+-import _BE_Project.member.MemberService;
++import _BE_Project.Score.Score;
+ import _BE_Project.member.service.MemberService;
+ import _BE_Project.question.QuestionService;
+ import exception.UnauthorizedException;
+@@ -42,8 +42,8 @@
+             throw new UnauthorizedException("로그인이 필요합니다.");
+         }
+         Member member = memberService.findByAccessToken(requestBody.getAccessToken());
+-        AnswerEntity answerEntity = mapper.answerPostDtoAnswer(requestBody);
+-        answerService.create(id, answerEntity, member);
++        Answer Answer = mapper.answerPostDtoAnswer(requestBody);
++        answerService.create(id, Answer, member);
+         return new ResponseEntity(HttpStatus.CREATED);
+ 
+     }
+@@ -57,7 +57,7 @@
+         if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){
+             throw new UnauthorizedException("작성자가 아닙니다.");
+         }
+-        AnswerEntity updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
++        Answer updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
+ 
+         return new ResponseEntity<>(HttpStatus.OK);
+     }
+@@ -74,8 +74,23 @@
+         }
+         answerService.delete(answerId);
+ 
++        return new ResponseEntity<>(HttpStatus.OK);
++    }
++
++    //답변 추천
++    @PostMapping("/{answerId}/upVote")
++    public ResponseEntity upVote(@PathVariable("answerId") Long id,
++                                 @RequestBody TokenDto tokenDto) {
++        if (tokenDto.getAccessToken().equals("not")) {
++            throw new UnauthorizedException("로그인이 필요합니다.");
++        }
++        Answer answer = answerService.findById(id);
++        Member member = memberService.findByAccessToken(tokenDto.getAccessToken());
++
++        answerService.upVote(answer, member);
++
+         return new ResponseEntity<>(HttpStatus.OK);
+     }
+ 
+ 
+-}
++}
+\ No newline at end of file
+Index: server/src/main/java/_BE_Project/answer/AnswerMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport org.mapstruct.Mapper;\r\nimport org.mapstruct.ReportingPolicy;\r\n\r\n@Mapper(componentModel = \"spring\",unmappedTargetPolicy = ReportingPolicy.IGNORE)\r\npublic interface AnswerMapper {\r\n    AnswerEntity answerPostDtoAnswer(AnswerDto.Post answerPostDto);\r\n    AnswerEntity answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);\r\n    default AnswerDto.Response answerToAnswerResponseDto(AnswerEntity answerEntity){\r\n        AnswerDto.Response response = new AnswerDto.Response(\r\n                answerEntity.isAccepted(),\r\n                answerEntity.getScore(),\r\n                answerEntity.getCreationDate(),\r\n                answerEntity.getAnswerId(),\r\n                answerEntity.getAnswerContent(),\r\n                answerEntity.getQuestionEntity().getQuestionId(),\r\n                answerEntity.getMemberDto()\r\n        );\r\n        return response;\r\n    };\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerMapper.java b/server/src/main/java/_BE_Project/answer/AnswerMapper.java
+--- a/server/src/main/java/_BE_Project/answer/AnswerMapper.java	
++++ b/server/src/main/java/_BE_Project/answer/AnswerMapper.java	
+@@ -5,17 +5,17 @@
+ 
+ @Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
+ public interface AnswerMapper {
+-    AnswerEntity answerPostDtoAnswer(AnswerDto.Post answerPostDto);
+-    AnswerEntity answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);
+-    default AnswerDto.Response answerToAnswerResponseDto(AnswerEntity answerEntity){
++    Answer answerPostDtoAnswer(AnswerDto.Post answerPostDto);
++    Answer answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);
++    default AnswerDto.Response answerToAnswerResponseDto(Answer Answer){
+         AnswerDto.Response response = new AnswerDto.Response(
+-                answerEntity.isAccepted(),
+-                answerEntity.getScore(),
+-                answerEntity.getCreationDate(),
+-                answerEntity.getAnswerId(),
+-                answerEntity.getAnswerContent(),
+-                answerEntity.getQuestionEntity().getQuestionId(),
+-                answerEntity.getMemberDto()
++                Answer.isAccepted(),
++                Answer.getScore(),
++                Answer.getCreationDate(),
++                Answer.getAnswerId(),
++                Answer.getAnswerContent(),
++                Answer.getQuestion().getQuestionId(),
++                Answer.getMemberDto()
+         );
+         return response;
+     };
+Index: server/src/main/java/_BE_Project/Score/Score.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.Score;\r\n\r\nimport com.codestates.pre032.pre032.answer.Answer;\r\nimport com.codestates.pre032.pre032.question.Question;\r\nimport com.codestates.pre032.pre032.user.User;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\n\r\nimport javax.persistence.*;\r\n\r\n@Getter\r\n@Setter\r\n@Entity\r\n@NoArgsConstructor\r\npublic class Score {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long scoreId;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"question\")\r\n    private Question question;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"answer\")\r\n    private Answer answer;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"user\")\r\n    private User user;\r\n\r\n    @Column\r\n    private int status = 0;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/Score/Score.java b/server/src/main/java/_BE_Project/Score/Score.java
+--- a/server/src/main/java/_BE_Project/Score/Score.java	
++++ b/server/src/main/java/_BE_Project/Score/Score.java	
+@@ -1,13 +1,13 @@
+ package _BE_Project.Score;
+ 
+-import com.codestates.pre032.pre032.answer.Answer;
+-import com.codestates.pre032.pre032.question.Question;
+-import com.codestates.pre032.pre032.user.User;
++import _BE_Project.answer.Answer;
++import _BE_Project.question.Question;
+ import lombok.Getter;
+ import lombok.NoArgsConstructor;
+ import lombok.Setter;
+ 
+ import javax.persistence.*;
++import java.lang.reflect.Member;
+ 
+ @Getter
+ @Setter
+@@ -23,13 +23,13 @@
+     private Question question;
+ 
+     @ManyToOne
+-    @JoinColumn(name = "answer")
+-    private Answer answer;
++    @JoinColumn(name = "Answer")
++    private Answer Answer;
+ 
+     @ManyToOne
+-    @JoinColumn(name = "user")
+-    private User user;
++    @JoinColumn(name = "member")
++    private Member member;
+ 
+     @Column
+     private int status = 0;
+-}
++}
+\ No newline at end of file
+Index: server/src/main/java/_BE_Project/answer/Answer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/Answer.java b/server/src/main/java/_BE_Project/answer/Answer.java
+new file mode 100644
+--- /dev/null	
++++ b/server/src/main/java/_BE_Project/answer/Answer.java	
+@@ -0,0 +1,63 @@
++package _BE_Project.answer;
++
++import _BE_Project.Score.Score;
++import _BE_Project.question.Question;
++import lombok.AllArgsConstructor;
++import lombok.Getter;
++import lombok.NoArgsConstructor;
++import lombok.Setter;
++
++import javax.persistence.*;
++import java.lang.reflect.Member;
++import java.time.LocalDateTime;
++import java.util.List;
++
++@AllArgsConstructor
++@NoArgsConstructor
++@Getter
++@Setter
++@Entity
++public class Answer {
++
++    @Id
++    @GeneratedValue(strategy = GenerationType.IDENTITY)
++    private Long answerId;
++
++    // 답변을 적을수 있는 칸
++    @Column(nullable = false, columnDefinition = "Text")
++    private String answerContent;
++
++    @ManyToOne
++    @JoinColumn(name="question_id")
++    private Question question;
++
++    @ManyToOne
++    @JoinColumn(name = "member_id")
++    private Member member;
++
++    //
++    @Column
++    private boolean isAccepted;
++
++    // 좋아요의 개수
++    @Column
++    private int score;
++
++    // 답변을 달았을 때 시간을 알려주는 코드
++    @Column(nullable = false)
++    private LocalDateTime creationDate = LocalDateTime.now();
++
++    @Column(nullable = false)
++    private LocalDateTime modifiedAt = LocalDateTime.now();
++
++    @OneToMany(mappedBy = "answer" , cascade = CascadeType.REMOVE, orphanRemoval = true)
++    private List<Score> likeUsers;
++
++//    public MemberDto.owner getOwner() {
++//        Member member = this.member;
++//        MemberDto.owner = new MemberDto.owner(member.getMemberId());
++//        return owner;
++//    }
++
++
++}
+Index: server/src/main/java/_BE_Project/question/Question.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.question;\r\n\r\nimport _BE_Project.audit.BaseTime;\r\nimport _BE_Project.member.entity.Member;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\n\r\nimport javax.persistence.*;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n\r\n@AllArgsConstructor\r\n@NoArgsConstructor\r\n@Getter\r\n@Setter\r\n@Entity\r\npublic class Question extends BaseTime {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private long questionId;\r\n\r\n    @Column(nullable = false)\r\n    private String title;\r\n\r\n    @Column(nullable = false)\r\n    private String content;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"MEMBER_ID\")\r\n    private Member member;\r\n\r\n    public void setMember(Member member) {\r\n        this.member = member;\r\n    }\r\n\r\n    /*@OneToMany(mappedBy = \"question\", cascade = CascadeType.PERSIST)\r\n    private List<AnswerEntity> answer = new ArrayList<>();*/\r\n\r\n    /*@OneToMany(mappedBy = \"question\", cascade = CascadeType.PERSIST)\r\n    private List<VoteEntity> votes = new ArrayList<>();*/\r\n\r\n\r\n    @Column(columnDefinition = \"integer default 0\", nullable = false)\r\n    private int viewCnt;\r\n\r\n\r\n    @Enumerated(EnumType.STRING)\r\n    private QuestionStatus questionStatus = QuestionStatus.QUESTION_REGISTER;\r\n\r\n    public enum QuestionStatus {\r\n        QUESTION_REGISTER(1, \"질문 등록\"),\r\n        QUESTION_CONFIRM(2, \"응답 완료\"),\r\n        QUESTION_DELETE(3, \"질문 삭제\");\r\n\r\n        @Getter\r\n        private int stepNumber;\r\n\r\n        @Getter\r\n        private String stepDescription;\r\n\r\n        QuestionStatus(int stepNumber, String stepDescription) {\r\n            this.stepNumber = stepNumber;\r\n            this.stepDescription = stepDescription;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/question/Question.java b/server/src/main/java/_BE_Project/question/Question.java
+--- a/server/src/main/java/_BE_Project/question/Question.java	
++++ b/server/src/main/java/_BE_Project/question/Question.java	
+@@ -38,7 +38,7 @@
+     }
+ 
+     /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+-    private List<AnswerEntity> answer = new ArrayList<>();*/
++    private List<Answer> answer = new ArrayList<>();*/
+ 
+     /*@OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+     private List<VoteEntity> votes = new ArrayList<>();*/

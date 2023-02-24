@@ -1,0 +1,222 @@
+Index: server/src/main/java/_BE_Project/answer/AnswerService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport org.springframework.stereotype.Service;\r\n\r\n@Service\r\npublic class AnswerService {\r\n    private final AnswerRepository answerRepository;\r\n    private final QuestionService questionService;\r\n    private final ScoreService scoreService;\r\n\r\n    public AnswerService(AnswerRepository answerRepository, QuestionService questionService, ScoreService scoreService) {\r\n        this.answerRepository = answerRepository;\r\n        this.questionService = questionService;\r\n        this.scoreService = scoreService;\r\n    }\r\n\r\n    public Answer create(Long memberId,)\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerService.java b/server/src/main/java/_BE_Project/answer/AnswerService.java
+--- a/server/src/main/java/_BE_Project/answer/AnswerService.java	
++++ b/server/src/main/java/_BE_Project/answer/AnswerService.java	
+@@ -1,7 +1,15 @@
+ package _BE_Project.answer;
+ 
++import _BE_Project.Score.Score;
++import _BE_Project.Score.ScoreService;
++import _BE_Project.question.Question;
++import _BE_Project.question.QuestionService;
+ import org.springframework.stereotype.Service;
+ 
++import java.lang.reflect.Member;
++import java.time.LocalDateTime;
++import java.util.Optional;
++
+ @Service
+ public class AnswerService {
+     private final AnswerRepository answerRepository;
+@@ -13,6 +21,74 @@
+         this.questionService = questionService;
+         this.scoreService = scoreService;
+     }
++    public Answer create(Long id, Answer answer, Member member){
++        Question question = questionService.find(id);
++        question.setAnswerCount(question.getAnswerCount()+1);
++        question.setAnswered(true);
++        answer.setQuestion(question);
++        answer.setAccepted(false);
++        answer.setScore(0);
++        answer.setMember(member);
++
++        return answerRepository.save(answer);
++    }
++    public Answer findById(Long id){
++        return this.answerRepository.findById(id).get();
++    }
++
++    public Answer updateAnswer(Long answerId, Answer answer){
++        Answer findAnswer = findVerifiedAnswer(answerId);
++        findAnswer.setAnswerContent(answer.getAnswerContent());
++        findAnswer.setModifiedAt(LocalDateTime.now());
++        return answerRepository.save(findAnswer);
++    }
++    // 추천 기능
++    public void upVote(Answer answer, Member member) {
++        Score score = scoreService.findByMemberAndAnswer(member, answer);
+ 
+-    public Answer create(Long memberId,)
+-}
++        if (score.getStatus()!=1){
++            score.setStatus(score.getStatus()+1);
++            answer.setScore(answer.getScore()+1);
++        }
++        score.setAnswer(answer);
++        score.setMember(member);
++        scoreService.saveScore(score);
++        Question question = answer.getQuestion();
++        questionService.downViewCount(question);
++        answerRepository.save(answer);
++    }
++
++    //답변 채택
++    public Answer get(long answerId) {
++        Answer answer = findVerifiedAnswer(answerId);
++        if(!answer.isAccepted()){
++            answer.setAccepted(true);
++        }
++        else{
++            answer.setAccepted(false);
++        }
++        return answerRepository.save(answer);
++    }
++
++    public boolean hasAnswer(Long answerId, Member member){
++        Answer answer = answerRepository.findById(answerId).get();
++        if (answer.getMember()==member){
++            return true;
++        }
++        return false;
++    }
++
++    //답변 삭제
++    public void delete(Long answerId){
++        Answer answer = findVerifiedAnswer(answerId);
++        Question question = answer.getQuestion();
++        question.setAnswerCount(answer.getQuestion().getAnswerCount()-1);
++        if (question.getAnswerCount()==0){
++            question.setAnswered(false);
++        }
++        answerRepository.delete(answer);
++    }
++
++
++
++}
+\ No newline at end of file
+Index: server/src/main/java/_BE_Project/answer/AnswerRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.answer;\r\n\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\n\r\npublic interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerRepository.java b/server/src/main/java/_BE_Project/answer/AnswerRepository.java
+--- a/server/src/main/java/_BE_Project/answer/AnswerRepository.java	
++++ b/server/src/main/java/_BE_Project/answer/AnswerRepository.java	
+@@ -2,5 +2,5 @@
+ 
+ import org.springframework.data.jpa.repository.JpaRepository;
+ 
+-public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
++public interface AnswerRepository extends JpaRepository<Answer, Long> {
+ }
+Index: server/src/main/java/_BE_Project/answer/AnswerEntity.java
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/answer/AnswerEntity.java b/server/src/main/java/_BE_Project/answer/AnswerEntity.java
+deleted file mode 100644
+--- a/server/src/main/java/_BE_Project/answer/AnswerEntity.java	
++++ /dev/null	
+@@ -1,66 +0,0 @@
+-package _BE_Project.answer;
+-
+-import _BE_Project.Score.Score;
+-import _BE_Project.member.MemberEntity;
+-import _BE_Project.question.QuestionEntity;
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.NoArgsConstructor;
+-import lombok.Setter;
+-
+-import javax.persistence.*;
+-import java.lang.reflect.Member;
+-import java.time.LocalDateTime;
+-import java.util.List;
+-
+-@AllArgsConstructor
+-@NoArgsConstructor
+-@Getter
+-@Setter
+-@Entity
+-public class AnswerEntity {
+-
+-    @Id
+-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+-    private Long answerId;
+-
+-    // 답변을 적을수 있는 칸
+-    @Column(nullable = false, columnDefinition = "Text")
+-    private String answerContent;
+-
+-    @ManyToOne
+-    @JoinColumn(name="question_id")
+-    private QuestionEntity questionEntity;
+-
+-    @ManyToOne
+-    @JoinColumn(name = "member_id")
+-    private Member member;
+-
+-    //
+-    @Column
+-    private boolean isAccepted;
+-
+-    // 좋아요의 개수
+-    @Column
+-    private int score;
+-
+-    // 답변을 달았을 때 시간을 알려주는 코드
+-    @Column(nullable = false)
+-    private LocalDateTime creationDate = LocalDateTime.now();
+-
+-    @Column(nullable = false)
+-    private LocalDateTime modifiedAt = LocalDateTime.now();
+-
+-    @OneToMany(mappedBy = "answer" , cascade = CascadeType.REMOVE, orphanRemoval = true)
+-    private List<Score> likeUsers;
+-
+-    public MemberDto.owner getOwner() {
+-        Member member = this.member;
+-        MemberDto.owner = new MemberDto.owner(member.getMemberId());
+-        return owner;
+-    }
+-
+-
+-    }
+-
+-}
+Index: server/src/main/java/_BE_Project/Score/ScoreRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package _BE_Project.Score;\r\n\r\npublic interface ScoreRepository {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/_BE_Project/Score/ScoreRepository.java b/server/src/main/java/_BE_Project/Score/ScoreRepository.java
+--- a/server/src/main/java/_BE_Project/Score/ScoreRepository.java	
++++ b/server/src/main/java/_BE_Project/Score/ScoreRepository.java	
+@@ -1,4 +1,14 @@
+ package _BE_Project.Score;
+ 
+-public interface ScoreRepository {
+-}
++import _BE_Project.answer.Answer;
++import _BE_Project.question.Question;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++import java.lang.reflect.Member;
++import java.util.Optional;
++
++public interface ScoreRepository extends JpaRepository<Score,Long> {
++    Optional<Score> findByUserAndQuestion(Member member, Question question);
++
++    Optional<Score> findByUserAndAnswer(Member member, Answer answer);
++}
+\ No newline at end of file

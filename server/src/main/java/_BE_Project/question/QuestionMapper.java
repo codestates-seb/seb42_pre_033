@@ -1,19 +1,18 @@
 package _BE_Project.question;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface QuestionMapper {
 
-    QuestionEntity questionToQuestionPostDto (QuestionDto.Post post);
+    Question questionToQuestionPostDto (QuestionDto.Post post);
 
-    QuestionEntity questionToQuestionPatchDto (QuestionDto.Patch patch);
+    Question questionToQuestionPatchDto (QuestionDto.Patch patch);
 
-    QuestionDto.Response questionToQuestionResponseDto (QuestionEntity question);
+    QuestionDto.Response questionToQuestionResponseDto (Question question);
 
-    List<QuestionDto.Response> questionToQuestionResponseDtos (List<QuestionEntity> questions);
-
-    //커밋용 테스트
+    List<QuestionDto.Response> questionToQuestionResponseDtos (List<Question> questions);
 }
