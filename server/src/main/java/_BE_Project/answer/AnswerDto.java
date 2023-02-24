@@ -3,7 +3,7 @@ package _BE_Project.answer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Builder;
+
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
