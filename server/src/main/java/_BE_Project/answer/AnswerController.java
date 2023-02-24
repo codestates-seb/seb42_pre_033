@@ -8,6 +8,7 @@ import _BE_Project.question.QuestionService;
 import _BE_Project.security.dto.TokenDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,10 +40,10 @@ public class AnswerController {
     @PostMapping("/{id}/add")
     public ResponseEntity addAnswer(@PathVariable Long id,
                                     @RequestBody AnswerDto.Post requestBody) {
-//        if (requestBody.getAccessToken().equals("not")) {
-//            throw new UnauthorizedException("로그인이 필요합니다.");
-//        }
-        Member member = memberService.findByAccessToken(requestBody.getAccessToken());
+
+        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Member findMember = memberService.findByEmail(email);
+//        Member member = memberService.findByAccessToken(requestBody.getAccessToken());
         Answer answer = mapper.answerPostDtoAnswer(requestBody);
         answerService.create(id, answer,member);
         return new ResponseEntity(HttpStatus.CREATED);
@@ -55,9 +56,9 @@ public class AnswerController {
     public ResponseEntity patchAnswer(@PathVariable("id") @Positive long answerId,
                                       @Valid @RequestBody AnswerDto.Patch patchDto){
 
-//        if (!answerService.hasAnswer(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){
-//            throw new UnauthorizedException("작성자가 아닙니다.");
-//        }
+        if (!answerService.findByEmail(answerId,memberService.findByAccessToken(patchDto.getAccessToken()))){
+            throw new UnauthorizedException("작성자가 아닙니다.");
+        }
         Answer updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
 
         return new ResponseEntity<>(HttpStatus.OK);

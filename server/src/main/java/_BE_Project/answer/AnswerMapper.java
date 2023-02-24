@@ -9,12 +9,12 @@ public interface AnswerMapper {
     Answer answerPatchDtoAnswer(AnswerDto.Patch answerPatchDto);
     default AnswerDto.Response answerToAnswerResponseDto(Answer answer){
         AnswerDto.Response response = new AnswerDto.Response(
-                answer.isAccepted(),
-                answer.getScore(),
                 answer.getAnswerId(),
-                answer.getAnswerContent(),
+                answer.isAccepted(),
                 answer.getQuestion().getQuestionId(),
-                answer.getOwnerDto() // 에러남
+                answer.getAnswerContent(),
+                answer.getCreationDate(),
+                answer.getScore()
         );
         return response;
     };

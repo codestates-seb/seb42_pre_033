@@ -30,13 +30,10 @@ public class MemberService {
   private final MemberRepository memberRepository;
   private final PasswordEncoder passwordEncoder;
   private final CustomAuthorityUtils authorityUtils;
-<<<<<<< Updated upstream
   private final RefreshTokenRedisRepository redisRepository;
-=======
 
   private final JwtTokenProvider JwtTokenProvider;
 
->>>>>>> Stashed changes
 
 
   public Member saveMember(Member member){
@@ -90,6 +87,9 @@ public class MemberService {
   public void deleteMember (long memberId) {
     Member findMember = memberRepository.findByMemberId(memberId);
     memberRepository.delete(findMember);
+  }
+
+  public Member findByEmail(String email) {
   }
 //  public void verifyExistsEmail(String email){
 //    Optional<Member> optionalMember = memberRepository.findByEmail(email);
