@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class QuestionController {
     @PostMapping
     public ResponseEntity postQuestion(@RequestBody QuestionDto.Post post) {
 
+        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Question question = service.createQuestion(mapper.questionToQuestionPostDto(post));
 
         return new ResponseEntity(mapper.questionToQuestionResponseDto(question),HttpStatus.CREATED);
@@ -79,4 +81,6 @@ public class QuestionController {
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+
 }
