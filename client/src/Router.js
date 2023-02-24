@@ -3,7 +3,7 @@ import Layout from './components/layout/Layout';
 import Login from './components/Login/Login';
 import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
-import AskQuestionPage from './pages/AskQuestionPage';
+import QuestionAskPage from './pages/QuestionAskPage';
 import QuestionDetailPage from './pages/QuestionDetailPage';
 import QuestionEditPage from './pages/QuestionEditPage';
 import UserProfilePage from './pages/UserProfilePage';
@@ -46,7 +46,7 @@ function Router() {
       </Route>
 
       <Route element={<Layout displayFooter />}>
-        <Route path='/question/ask' element={<AskQuestionPage />} />
+        <Route path='/question/ask' element={<QuestionAskPage />} />
       </Route>
     </Routes>
   );
