@@ -1,5 +1,6 @@
 package _BE_Project.answer;
 
+import lombok.AllArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import _BE_Project.answer.AnswerDto;

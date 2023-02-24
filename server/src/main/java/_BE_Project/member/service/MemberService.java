@@ -28,7 +28,6 @@ public class MemberService {
   private final PasswordEncoder passwordEncoder;
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
-  private final RedisTemplate<String, String> redisTemplate;
   
   public Member saveMember(Member member){
     verifyExistsEmail(member.getEmail());
@@ -67,7 +66,7 @@ public class MemberService {
   public void deleteMember () {
     Member findMember = findByEmail();
     memberRepository.delete(findMember);
-    redisTemplate.delete(findMember.getEmail());
+    redisRepository.deleteBy(findMember.getEmail());
   }
   
   @Transactional
