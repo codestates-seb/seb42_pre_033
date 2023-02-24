@@ -30,7 +30,7 @@ public class AnswerService {
         answer.setQuestion(question);
         answer.setAccepted(false);
         answer.setScore(0);
-//        answer.setMember(member); // 왜 오류뜨는지모르겠음
+        answer.setMember(member); // 왜 오류뜨는지모르겠음
 
         return answerRepository.save(answer);
     }
