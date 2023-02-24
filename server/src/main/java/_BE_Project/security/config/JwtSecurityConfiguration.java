@@ -2,6 +2,7 @@ package _BE_Project.security.config;
 
 import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
+import _BE_Project.member.service.MemberService;
 import _BE_Project.security.handler.MemberAuthenticationFailureHandler;
 import _BE_Project.security.filter.JwtAuthenticationFilter;
 import _BE_Project.security.jwt.JwtTokenProvider;
@@ -17,7 +18,7 @@ public class JwtSecurityConfiguration extends SecurityConfigurerAdapter<DefaultS
   private final JwtTokenProvider jwtTokenProvider;
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
-  private final MemberRepository memberRepository;
+  private final MemberService memberService;
   
   @Override
   public void configure(HttpSecurity http) throws Exception {
@@ -29,7 +30,7 @@ public class JwtSecurityConfiguration extends SecurityConfigurerAdapter<DefaultS
     
   
     JwtVerificationFilter jwtVerificationFilter =
-      new JwtVerificationFilter(jwtTokenProvider, authorityUtils, redisRepository, memberRepository);
+      new JwtVerificationFilter(jwtTokenProvider, authorityUtils, redisRepository, memberService);
     
     http.addFilter(jwtAuthenticationFilter);
     http.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);

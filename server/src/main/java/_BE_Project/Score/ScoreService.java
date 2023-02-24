@@ -4,10 +4,7 @@ import _BE_Project.answer.Answer;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;
 
-<<<<<<< Updated upstream
-=======
 import _BE_Project.member.entity.Member;
->>>>>>> Stashed changes
 import java.util.Optional;
 
 public class ScoreService {
@@ -19,7 +16,7 @@ public class ScoreService {
     }
     public Score findByUserAndAnswer(Member member, Answer answer) {
         Optional<Score> score =
-                this.scoreRepository.findByUserAndAnswer(member, answer);
+                this.scoreRepository.findByUserAndAnswer(member.getMemberId(), answer.getAnswerId());
         if (score.isPresent()) {
             return score.get();
         } else {
@@ -28,7 +25,7 @@ public class ScoreService {
     }
 
     public Score findByUserAndQuestion (Member member, Question question) {
-        Optional<Score> score = this.scoreRepository.findByUserAndQuestion(member, question);
+        Optional<Score> score = this.scoreRepository.findByUserAndQuestion(member.getMemberId(), question.getQuestionId());
         if (score.isPresent()) {
             return score.get();
         } else {

@@ -2,6 +2,7 @@ package _BE_Project.security.config;
 
 import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
+import _BE_Project.member.service.MemberService;
 import _BE_Project.security.jwt.JwtTokenProvider;
 import _BE_Project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,9 @@ public class SecurityConfiguration {
   private final JwtTokenProvider jwtTokenProvider;
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
-  private final MemberRepository memberRepository;
-  
+  private final MemberService memberService;
+
+  @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
       .headers().frameOptions().sameOrigin()
@@ -42,7 +44,7 @@ public class SecurityConfiguration {
       .and()
       .csrf().disable()
       .cors(Customizer.withDefaults())
-      .apply(new JwtSecurityConfiguration(jwtTokenProvider, authorityUtils, redisRepository, memberRepository))
+      .apply(new JwtSecurityConfiguration(jwtTokenProvider, authorityUtils, redisRepository, memberService))
       .and()
       .authorizeHttpRequests(authorize -> { authorize
         .antMatchers(HttpMethod.POST,"/members/login","/members").permitAll()

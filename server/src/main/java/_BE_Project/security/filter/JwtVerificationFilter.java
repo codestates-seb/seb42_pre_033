@@ -32,7 +32,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
   private final JwtTokenProvider jwtTokenProvider;
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
-  private final MemberRepository memberRepository;
+  private final MemberService memberService;
   private final String HEADER_PREFIX = "Bearer ";
   
   @Override
@@ -77,7 +77,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         String findRefreshToken = redisRepository.findBy(refreshTokenClaims.getSubject());
   
         if (refreshToken.equals(findRefreshToken)) {
-          Member findMember = memberRepository.findByEmail(refreshTokenClaims.getSubject());
+          Member findMember = memberService.findByEmail(refreshTokenClaims.getSubject());
           String newAccessToken = jwtTokenProvider.generateAccessToken(findMember);
           response.setHeader("Authorization", "Bearer " + newAccessToken);
           return jwtTokenProvider.parseClaims(newAccessToken);

@@ -50,7 +50,7 @@ public class AnswerController {
 
     // 답변을 수정
 
-    @PostMapping("/{id}/edit")
+    @PatchMapping("/{id}/edit")
     public ResponseEntity patchAnswer(@PathVariable("id") @Positive long answerId,
                                       @Valid @RequestBody AnswerDto.Patch patchDto){
 
