@@ -1,36 +1,27 @@
-# seb42_pre_033
+# 💡 Stackoveflow Clone Project
 
-## Team 종규와 아이들.
+## 💪 종규와 아이들
+</hr>
 
-### 팀 정보
+### 🧑‍💻 Backend
+🤴 김종규, 김병무, 박진선
 
-1. 팀장 : 김종규
-2. 부팀장 : 정정수
-3. FE 팀원 : 왕지호, 정정수, 김준경
-4. BE 팀원 : 박진선, 김종규, 김병무
-5. 스탠드업 : 09 : 30
-6. 코어타임 : 13:00 ~ 17:00
+### 🧑‍💻 Frontend
+👑 정정수, 왕지호, 김준경
 
-### 팀 규칙
+## 🔗 배포 페이지
+</hr>
 
-1. 회의
 
-- 매일 오전 9:30 (ZEP 또는 디스코드)
-- 매일 오후 4:30 오늘의 보고
+## 🖥 Skills
+</hr>
+### *FrontEnd*
+<img src="https://img.shields.io/badge/html-#E34F26?style=for-the-badge&logo=html&logoColor=white">
+<img src="https://img.shields.io/badge/CSS-##1572B6?style=for-the-badge&logo=CSS&logoColor=white">
 
-2. 일정
 
-- 불참 시 디스코드 불참채널에 사전 공유
-- 무단 불참시 곤장 100대
 
-3. 호칭
 
-- 상호 존중 (~~ 님)
 
-4. 태도
 
-- 오늘의 기분이 태도가 되지 않도록 하기!
 
-5. 기타
-
-- 지각시 소정의 패널티 부과
