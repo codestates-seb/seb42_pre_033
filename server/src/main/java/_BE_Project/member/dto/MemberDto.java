@@ -17,25 +17,28 @@ import java.util.List;
 
 public class MemberDto {
 
-    @AllArgsConstructor
     @Getter
     public static class Post {
-        @Email
+        @NotBlank(message = "email 은 공백일 수 없습니다.")
+        @Email(message = "유효하지 않은 이메일 형식입니다.")
         private String email;
-        @Range(min = 4, max = 20)
+        @NotBlank(message = "password 는 공백일 수 없습니다.")
+        @Range(min = 4, max = 20, message = "password 길이는 최소 4자 이상 최대 20자 이하로 입력해 주세요.")
         private String password;
-        @NotBlank
+        @NotBlank(message = "nickname 은 공백일 수 없습니다.")
+        @Range(min = 2, max = 10, message = "nickname 길이는 최소 2자 이상 최대 10자 이하로 입력해 주세요.")
         private String nickname;
     }
 
     @Getter
-    @Setter
     public static class Patch {
-        private long memberId;
+        @NotBlank(message = "password 는 공백일 수 없습니다.")
+        @Range(min = 4, max = 20, message = "password 길이는 최소 4자 이상 최대 20자 이하로 입력해 주세요.")
         private String password;
+        @NotBlank(message = "nickname 은 공백일 수 없습니다.")
+        @Range(min = 2, max = 10, message = "nickname 길이는 최소 2자 이상 최대 10자 이하로 입력해 주세요.")
         private String nickname;
-
-
+        
     }
 
     

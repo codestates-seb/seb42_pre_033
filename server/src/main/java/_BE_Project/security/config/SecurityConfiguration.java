@@ -31,7 +31,7 @@ public class SecurityConfiguration {
   private final JwtTokenProvider jwtTokenProvider;
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
-  private final MemberService memberService;
+  private final MemberRepository memberRepository;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -44,7 +44,7 @@ public class SecurityConfiguration {
       .and()
       .csrf().disable()
       .cors(Customizer.withDefaults())
-      .apply(new JwtSecurityConfiguration(jwtTokenProvider, authorityUtils, redisRepository, memberService))
+      .apply(new JwtSecurityConfiguration(jwtTokenProvider, authorityUtils, redisRepository, memberRepository))
       .and()
       .authorizeHttpRequests(authorize -> { authorize
         .antMatchers(HttpMethod.POST,"/members/login","/members").permitAll()
