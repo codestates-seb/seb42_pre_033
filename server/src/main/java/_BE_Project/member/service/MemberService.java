@@ -32,17 +32,17 @@ public class MemberService {
     return memberRepository.save(member);
   }
 
-  // 회원정보 수정 로직 임시구현 (내용이 적어서 어떤것을 바꿔야할지..)
   @Transactional
   public void updateMember(Member member) {
-    Member findMember = findByEmail(member.getEmail());
+    
+    Member findMember = findByEmail();
     findMember.setNickname(member.getNickname());
-    findMember.setPassword(member.getPassword());
+    findMember.setPassword(passwordEncoder.encode(member.getPassword()));
   }
   @Transactional
   public void logout(HttpServletRequest request){
     String accessToken = request.getHeader("Authorization").substring(7);
-    String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    String email = getCurrentMemberEmail();
     // blacklist 에 등록 이후 해당 토큰으로 요청시 거절함
     redisRepository.setBlackList(accessToken);
     // refresh 토큰 제거
@@ -54,21 +54,7 @@ public class MemberService {
     Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     return findMember;
   }
-
-//  @Transactional(readOnly = true)
-//  public Page<Member> findMembers (int page, int size) {
-//    return memberRepository.findAll(PageRequest.of(page, size, Sort.by("memberId").descending()));
-//  }
-
-  //액세스 토큰으로 사용자 찾기
-//  public Member findByAccessToken(String AccessToken){
-//    String jws = AccessToken.replace("bearer ", "");
-//    String base64EncodedSecretKey = _BE_Project.security.jwt.JwtTokenProvider.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-//    Map<String, Object> claims = _BE_Project.security.jwt.JwtTokenProvider.parseClaims(jws, base64EncodedSecretKey).getBody();
-//    String email = (String) claims.get("email");
-//    Member member = findByEmail(email);
-//    return member;
-//  }
+  
   @Transactional
   public void deleteMember () {
     Member findMember = findByEmail();
@@ -77,7 +63,7 @@ public class MemberService {
   }
   
   public Member findByEmail(){
-    String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    String email = getCurrentMemberEmail();
     Optional<Member> optionalMember = memberRepository.findByEmail(email);
     return optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
   }
@@ -95,7 +81,7 @@ public class MemberService {
     }
   }
   
-//  public String getCurrentMemberEmail(){
-//    return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//  }
+  public String getCurrentMemberEmail(){
+    return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  }
 }

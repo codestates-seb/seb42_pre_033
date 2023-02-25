@@ -49,7 +49,7 @@ public interface MemberMapper {
       responseDto.setAnswerId(answer.getAnswerId());
       responseDto.setScore(answer.getScore());
       responseDto.setAnswerContent(answer.getAnswerContent());
-      responseDto.setCreationDate(answer.getCreationDate());
+      responseDto.setCreateDate(answer.getCreationDate());
       responseDto.setAccepted(answer.isAccepted());
       responseDto.setQuestionId(answer.getQuestion().getQuestionId());
       responseDto.setQuestionTitle(answer.getQuestion().getTitle());

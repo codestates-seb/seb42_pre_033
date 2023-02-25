@@ -5,6 +5,7 @@ import _BE_Project.member.repository.RefreshTokenRedisRepository;
 import _BE_Project.member.service.MemberService;
 import _BE_Project.security.handler.MemberAuthenticationFailureHandler;
 import _BE_Project.security.filter.JwtAuthenticationFilter;
+import _BE_Project.security.handler.MemberAuthenticationSuccessHandler;
 import _BE_Project.security.jwt.JwtTokenProvider;
 import _BE_Project.security.filter.JwtVerificationFilter;
 import _BE_Project.security.utils.CustomAuthorityUtils;
@@ -21,13 +22,13 @@ public class JwtSecurityConfiguration extends SecurityConfigurerAdapter<DefaultS
   private final MemberRepository memberRepository;
   
   @Override
-  public void configure(HttpSecurity http) throws Exception {
+  public void configure(HttpSecurity http) {
     AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
     JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtTokenProvider, redisRepository);
     jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
     jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
     jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
-    
+    jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
   
     JwtVerificationFilter jwtVerificationFilter =
       new JwtVerificationFilter(jwtTokenProvider, authorityUtils, redisRepository, memberRepository);

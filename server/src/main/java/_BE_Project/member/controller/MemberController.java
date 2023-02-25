@@ -2,6 +2,7 @@ package _BE_Project.member.controller;
 
 import _BE_Project.dto.MultiResponseDto;
 import _BE_Project.member.dto.MemberDto;
+import _BE_Project.member.dto.ResponseDto;
 import _BE_Project.member.entity.Member;
 import _BE_Project.member.mapper.MemberMapper;
 import _BE_Project.member.service.MemberService;
@@ -30,9 +31,10 @@ public class MemberController {
   public ResponseEntity<?> createMember(@Valid @RequestBody MemberDto.Post postDto){
     
     Member member = mapper.memberPostDtoToMember(postDto);
-    Member savedMember = memberService.saveMember(member);
+    memberService.saveMember(member);
+    ResponseDto responseDto = createResponseDto("정상적으로 회원가입 되었습니다.", HttpStatus.CREATED);
     
-    return new ResponseEntity<>(HttpStatus.CREATED);
+    return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
   }
   
   @GetMapping("/mypage")
@@ -42,41 +44,27 @@ public class MemberController {
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
   
-  
-//  @GetMapping("/{id}")
-//  public ResponseEntity<?> getMember(@PathVariable ("id") @Positive long memberId){
-//    Member findMember = memberService.findMember(memberId);
-//
-//    return new ResponseEntity<>(mapper.memberToMemberResponseDto(findMember), HttpStatus.OK);
-//  }
-//
-//  // 전체 회원을 불러올 수 있는 로직 추가 (사용여부는 확인요망)
-//  @GetMapping
-//  public ResponseEntity getMembers (@Positive @RequestParam int page,
-//                                    @Positive @RequestParam int size) {
-//    Page<Member> pageMembers = memberService.findMembers(page -1, size);
-//    List<Member> members = pageMembers.getContent();
-//
-//    return new ResponseEntity<>(new MultiResponseDto(mapper.membersToMemberResponseDtos(members), pageMembers), HttpStatus.OK);
-//  }
-
-
   @PatchMapping
-  public ResponseEntity<?> updateMember(@RequestBody MemberDto.Patch patch) {
+  public ResponseEntity<?> updateMember(@Valid @RequestBody MemberDto.Patch patch) {
     memberService.updateMember(mapper.memberPatchDtoToMember(patch));
-
-    return new ResponseEntity<>(HttpStatus.OK);
+    ResponseDto responseDto = createResponseDto("회원 정보가 정상적으로 업데이트 되었습니다.", HttpStatus.OK);
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
 
   @DeleteMapping
   public ResponseEntity<?> deleteMember(){
     memberService.deleteMember();
-    
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    ResponseDto responseDto = createResponseDto("정상적으로 회원탈퇴 되었습니다.", HttpStatus.OK);
+    return new ResponseEntity<>(responseDto, HttpStatus.NO_CONTENT);
   }
   @GetMapping("/logout")
   public ResponseEntity<?> logout(HttpServletRequest request){
     memberService.logout(request);
-    return new ResponseEntity<>("successfully logged out.",HttpStatus.OK);
+    ResponseDto responseDto = createResponseDto("정상적으로 로그아웃 되었습니다.", HttpStatus.OK);
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
+  }
+  
+  private ResponseDto createResponseDto(String message, HttpStatus httpStatus){
+    return ResponseDto.builder().message(message).status(httpStatus.value()).build();
   }
 }

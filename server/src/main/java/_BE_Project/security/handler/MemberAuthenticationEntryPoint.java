@@ -1,6 +1,7 @@
 package _BE_Project.security.handler;
 
 import _BE_Project.exception.BusinessLogicException;
+import _BE_Project.security.exception.LogoutException;
 import _BE_Project.security.utils.ErrorResponder;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -27,8 +28,8 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
       ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "Signature 검증에 실패한 토큰 입니다.");
     } else if (exception.getClass().getName().equals(ExpiredJwtException.class.getName())) {
       ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "토큰 기한이 만료 되었습니다. 다시 로그인 하십시오.");
-    } else if (exception.getClass().getName().equals(BusinessLogicException.class.getName())) {
-      ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, ((BusinessLogicException) exception).getExceptionCode().getMessage());
+    } else if (exception.getClass().getName().equals(LogoutException.class.getName())) {
+      ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, exception.getMessage());
     }
   }
 }
