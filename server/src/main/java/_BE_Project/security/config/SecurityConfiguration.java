@@ -32,6 +32,7 @@ public class SecurityConfiguration {
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
   private final MemberRepository memberRepository;
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http

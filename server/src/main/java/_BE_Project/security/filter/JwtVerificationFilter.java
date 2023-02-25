@@ -79,7 +79,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
   
         if (refreshToken.equals(findRefreshToken)) {
           Member findMember = memberRepository.findByEmail(refreshTokenClaims.getSubject()).orElse(null);
-//          Member findMember = memberService.findByEmail(refreshTokenClaims.getSubject());
           String newAccessToken = jwtTokenProvider.generateAccessToken(findMember);
           response.setHeader("Authorization", "Bearer " + newAccessToken);
           return jwtTokenProvider.parseClaims(newAccessToken);
