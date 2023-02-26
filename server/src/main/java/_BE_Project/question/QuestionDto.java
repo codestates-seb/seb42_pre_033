@@ -12,6 +12,7 @@ public class QuestionDto {
     @AllArgsConstructor
     @Getter
     public static class Post {
+        private long memberId;
         private long questionId;
         private String title;
         private String content;
@@ -32,8 +33,9 @@ public class QuestionDto {
         private String title;
         private String content;
         private LocalDateTime createDate;
+        //좋아요
         private int score;
-        //조회수 관련 필드 추가
+        //조회수
         private int viewCnt;
     }
 }

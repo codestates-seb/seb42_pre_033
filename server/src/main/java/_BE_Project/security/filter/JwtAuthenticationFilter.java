@@ -44,9 +44,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String refreshToken = jwtTokenProvider.generateRefreshToken(member);
     
     redisRepository.save(member.getEmail(), refreshToken);
-    
     response.setHeader("Authorization", "Bearer " + accessToken);
     response.setHeader("Refresh", refreshToken);
+    getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     chain.doFilter(request, response);
   }
   

@@ -4,9 +4,10 @@ import _BE_Project.answer.Answer;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;
 
-import _BE_Project.member.entity.Member;
-import java.util.Optional;
+import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+@Service
 public class ScoreService {
 
     private final ScoreRepository scoreRepository;

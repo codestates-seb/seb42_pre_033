@@ -66,33 +66,33 @@ public class AnswerService {
         }
         answerRepository.delete(answer);
     }
-    // 추천 기능
-    public void upVote(Answer answer, Member member) {
-        Score score = scoreService.findByUserAndAnswer(member, answer);
-
-        if (score.getStatus()!=1){
-            score.setStatus(score.getStatus()+1);
-            answer.setScore(answer.getScore()+1);
-        }
-        score.setAnswer(answer);
-        score.setMember(member);
-        scoreService.saveScore(score);
-        answerRepository.save(answer);
-    }
-
-    // 비추천 기능
-    public void downVote(Answer answer, Member member) {
-        Score score = scoreService.findByUserAndAnswer(member, answer);
-
-        if (score.getStatus()!=-1){
-            score.setStatus(score.getStatus()-1);
-            answer.setScore(answer.getScore()-1);
-        }
-        score.setAnswer(answer);
-        score.setMember(member);
-        scoreService.saveScore(score);
-        answerRepository.save(answer);
-    }
+//    // 추천 기능
+//    public void upVote(Answer answer, Member member) {
+//        Score score = scoreService.findByUserAndAnswer(member, answer);
+//
+//        if (score.getStatus()!=1){
+//            score.setStatus(score.getStatus()+1);
+//            answer.setScore(answer.getScore()+1);
+//        }
+//        score.setAnswer(answer);
+//        score.setMember(member);
+//        scoreService.saveScore(score);
+//        answerRepository.save(answer);
+//    }
+//
+//    // 비추천 기능
+//    public void downVote(Answer answer, Member member) {
+//        Score score = scoreService.findByUserAndAnswer(member, answer);
+//
+//        if (score.getStatus()!=-1){
+//            score.setStatus(score.getStatus()-1);
+//            answer.setScore(answer.getScore()-1);
+//        }
+//        score.setAnswer(answer);
+//        score.setMember(member);
+//        scoreService.saveScore(score);
+//        answerRepository.save(answer);
+//    }
 
 
 

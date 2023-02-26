@@ -42,7 +42,7 @@ function Router() {
         />
         <Route path='/users' element={<UserProfilePage />} />
         <Route path='/users/edit' element={<UserEditPage />} />
-        <Route path='/users/Delete' element={<UserDeletePage />} />
+        <Route path='/users/delete' element={<UserDeletePage />} />
       </Route>
 
       <Route element={<Layout displayFooter />}>

@@ -80,7 +80,6 @@ const Cancel = styled.button`
 `;
 
 function UserEditContent({ users }) {
-  console.log(users);
   return (
     <EditContent>
       <section>

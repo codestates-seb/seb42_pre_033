@@ -25,15 +25,11 @@ public class Member extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Email
-    @Column(nullable = false)
     private String email;
 
-    @Column
     private String nickname;
-
-    @Range(min = 4, max = 30)
-    @Column(nullable = false, name = "member_password")
+    
+    @Column(name = "member_password")
     private String password;
 
     // 기본 상태값 지정
