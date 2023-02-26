@@ -20,21 +20,21 @@ import java.util.Optional;
 @Service
 public class QuestionService {
 
-    private final QuestionRepository repository;
+    private final QuestionRepository questionRepository;
     private final MemberService memberService;
 
     private final ScoreService scoreService;
 
-    public QuestionService(QuestionRepository repository,
+    public QuestionService(QuestionRepository questionRepository,
                            MemberService memberService, ScoreService scoreService) {
-        this.repository = repository;
+        this.questionRepository = questionRepository;
         this.memberService = memberService;
         this.scoreService = scoreService;
     }
 
     public Question createQuestion (Question question) {
         memberService.findMember(question.getMember().getMemberId());
-        Question saveQuestion = repository.save(question);
+        Question saveQuestion = questionRepository.save(question);
         question.setScore(0);
 
         return saveQuestion;
@@ -47,7 +47,7 @@ public class QuestionService {
         Optional.ofNullable(question.getTitle()).ifPresent(title -> findQuestion.setTitle(title));
         Optional.ofNullable(question.getContent()).ifPresent(content -> findQuestion.setContent(content));
 
-        return repository.save(findQuestion);
+        return questionRepository.save(findQuestion);
     }
 
     public Question findQuestion (long questionId) {
@@ -55,27 +55,27 @@ public class QuestionService {
         Question findQuestion = findVerifyQuestion(questionId);
 
         //질문 조회수 증가
-        repository.increaseViewCnt(questionId);
+        questionRepository.increaseViewCnt(questionId);
 
         return findQuestion;
     }
 
     public Page<Question> findQuestions(int page, int size) {
-        return repository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
+        return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
     @Transactional
-    public Page<Question> searchQuestion (String keyword, Pageable pageable) {
-        Page<Question> questionList = repository.findByTitleContaining(keyword, pageable);
-        return questionList;
+    public Page<Question> searchQuestion (String keyword, int page, int size) {
+        Page<Question> questions = questionRepository.findByTitleContaining(keyword, PageRequest.of(page, size, Sort.by("questionId").descending()));
+        return questions;
     }
 
     public void deleteQuestion (long questionId) {
-        repository.deleteById(questionId);
+        questionRepository.deleteById(questionId);
     }
 
     private Question findVerifyQuestion (long questionId) {
-        Optional<Question> optionalQuestion = repository.findById(questionId);
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
         Question findQuestion = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
         return findQuestion;
     }
