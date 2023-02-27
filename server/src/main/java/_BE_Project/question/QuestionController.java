@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/question")
 public class QuestionController {
-
     private final QuestionService questionService;
     private final QuestionMapper mapper;
 
