@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Editor from '../Editor/Editor';
+import CommentForm from '../Comment/CommentForm';
 import QuestionDeatilAnswerHeader from './QuestionDeatilAnswerHeader';
 import QuestionDetailBody from './QuestionDetailBody';
 import QuestionDetailLeft from './QuestionDetailLeft';
-import Button from '../UI/Button';
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,38 +17,28 @@ const Container = styled.div`
   gap: 16px;
 `;
 
-const PostButton = styled(Button)`
-  margin: 40px 0 32px 0;
-  width: 140px;
-  height: 36px;
-  line-height: 15px;
-`;
-
-function QuestionDetail({ onVoteUp, onVoteDown }) {
+function QuestionDetail({
+  question,
+  answers,
+  onVoteUp,
+  onVoteDown,
+  onCommentSubmit,
+}) {
   const [sortedOption, setSortedOption] = useState('modifieddesc');
-  console.log(sortedOption);
 
   const handleChange = (option) => {
     setSortedOption(option);
   };
-
-  const handleClick = () => {};
 
   return (
     <Wrapper>
       <Container>
         <QuestionDetailLeft
           vote='3'
-          handleUp={onVoteUp}
-          handleDown={onVoteDown}
+          onVoteUp={onVoteUp}
+          onVoteDown={onVoteDown}
         />
-        <QuestionDetailBody
-          tags={[
-            { tag: 'javscript', url: '/' },
-            { tag: 'java', url: '/' },
-          ]}
-          content='&lt;p&gt;정정수&lt;/p&gt;&lt;pre&gt;&lt;code class="language-plaintext"&gt;function &lt;/code&gt;&lt;/pre&gt;'
-        />
+        <QuestionDetailBody tags={question?.tags} content={question?.content} />
       </Container>
       <QuestionDeatilAnswerHeader
         AnswerConunt='1'
@@ -57,38 +46,17 @@ function QuestionDetail({ onVoteUp, onVoteDown }) {
         value={sortedOption}
         onChange={handleChange}
       />
-      <Container>
-        <QuestionDetailLeft
-          vote='3'
-          handleUp={onVoteUp}
-          handleDown={onVoteDown}
-        />
-        <QuestionDetailBody
-          tags={[
-            { tag: 'javscript', url: '/' },
-            { tag: 'java', url: '/' },
-          ]}
-          content='&lt;p&gt;정정수&lt;/p&gt;&lt;pre&gt;&lt;code class="language-plaintext"&gt;function &lt;/code&gt;&lt;/pre&gt;'
-          displayEditButton
-        />
-      </Container>
-      <Container>
-        <QuestionDetailLeft
-          vote='3'
-          handleUp={onVoteUp}
-          handleDown={onVoteDown}
-        />
-        <QuestionDetailBody
-          tags={[
-            { tag: 'javscript', url: '/' },
-            { tag: 'java', url: '/' },
-          ]}
-          content='&lt;p&gt;정정수&lt;/p&gt;&lt;pre&gt;&lt;code class="language-plaintext"&gt;function &lt;/code&gt;&lt;/pre&gt;'
-          displayEditButton
-        />
-      </Container>
-      <Editor onChange={() => {}} />
-      <PostButton onClick={handleClick}>Post Youre Answer</PostButton>
+      {answers.map(({ tags, content }, index) => (
+        <Container key={index}>
+          <QuestionDetailLeft
+            vote='3'
+            handleUp={onVoteUp}
+            handleDown={onVoteDown}
+          />
+          <QuestionDetailBody tags={tags} content={content} displayEditButton />
+        </Container>
+      ))}
+      <CommentForm onSubmit={onCommentSubmit} />
     </Wrapper>
   );
 }

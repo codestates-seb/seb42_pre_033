@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/layout/Layout';
-import Login from './components/Login/Login';
 import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
 import QuestionAskPage from './pages/QuestionAskPage';
@@ -10,12 +9,13 @@ import UserProfilePage from './pages/UserProfilePage';
 import UserEditPage from './pages/UserEditPage';
 import UserDeletePage from './pages/UserDeletePage';
 import ErrorPage from './pages/ErrorPage';
+import LoginPage from './pages/LoginPage';
 
 function Router() {
   return (
     <Routes>
       <Route element={<Layout fullWidth />}>
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />
         <Route path='*' element={<ErrorPage />} />
       </Route>

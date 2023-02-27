@@ -58,7 +58,7 @@ function QuestionEditFrom({ title, body, tags = [], onSubmit, onCancel }) {
         onChange={(e) => handleChange(e.value)}
       />
       <ButtonContainer>
-        <Button>Save Edit</Button>
+        <Button type='submit'>Save Edit</Button>
         <CancelButton onClick={handleCancelClick} variant='tertiary'>
           Cancel
         </CancelButton>

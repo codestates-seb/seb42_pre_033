@@ -39,6 +39,8 @@ public class AnswerDto {
         private LocalDateTime createDate;
         private int score;
         private boolean isAccepted;
+
+        diwidiwid
         
     }
 }
