@@ -30,17 +30,17 @@ const Vote = styled.span`
   font-size: 21px;
 `;
 
-function QuestionDetailLeft({ vote, handleDown, handleUp }) {
+function QuestionDetailLeft({ vote, onVoteDown, onVoteUp }) {
   return (
     <Container>
-      <ItemButton onClick={handleUp}>
+      <ItemButton onClick={onVoteUp}>
         <ItemIcon aria-hidden='true' width='36' height='36' viewBox='0 0 36 36'>
           <path fill='currentColor' d='M2 25h32L18 9 2 25Z'></path>
         </ItemIcon>
       </ItemButton>
       <Vote>{vote}</Vote>
 
-      <ItemButton onClick={handleDown}>
+      <ItemButton onClick={onVoteDown}>
         <ItemIcon aria-hidden='true' width='36' height='36' viewBox='0 0 36 36'>
           <path fill='currentColor' d='M2 11h32L18 27 2 11Z'></path>
         </ItemIcon>
