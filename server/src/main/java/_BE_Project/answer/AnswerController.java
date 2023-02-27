@@ -1,11 +1,8 @@
 package _BE_Project.answer;
 
-import _BE_Project.exception.UnauthorizedException;
 import _BE_Project.member.entity.Member;
 import _BE_Project.member.service.MemberService;
-import _BE_Project.question.Question;
 import _BE_Project.question.QuestionService;
-import _BE_Project.security.dto.TokenDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -65,8 +62,7 @@ public class AnswerController {
 
     //답변 삭제
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity deleteAnswer(@PathVariable("id") @Positive long answerId,
-                                       @RequestBody  TokenDto tokenDto){
+    public ResponseEntity deleteAnswer(@PathVariable("id") @Positive long answerId){
 
         Member findmember = memberService.findByEmail();
         answerService.delete(answerId);
@@ -76,8 +72,7 @@ public class AnswerController {
 
     // 질문자가 답변 채택 취소
     @PostMapping("/{id}/accept/undo")
-    public ResponseEntity getAcceptUndo(@PathVariable("id") @Positive long answerId,
-                                        @RequestBody TokenDto tokenDto){
+    public ResponseEntity getAcceptUndo(@PathVariable("id") @Positive long answerId){
 //        if (tokenDto.getAccessToken().equals("not")) {
 //            throw new UnauthorizedException("로그인이 필요합니다.");
 //        }
@@ -92,8 +87,7 @@ public class AnswerController {
     } //녹녹
     // 추천기능
     @PostMapping("{answerId}/upVote")
-    public ResponseEntity upVote(@PathVariable("answerId") Long id,
-                                 @RequestBody TokenDto tokenDto) {
+    public ResponseEntity upVote(@PathVariable("answerId") Long id) {
         Answer answer = answerService.findById(id);
 
         Member findmember = memberService.findByEmail();

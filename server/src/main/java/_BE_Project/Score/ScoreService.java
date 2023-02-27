@@ -15,9 +15,9 @@ public class ScoreService {
     public ScoreService(ScoreRepository scoreRepository) {
         this.scoreRepository = scoreRepository;
     }
-    public Score findByUserAndAnswer(Member member, Answer answer) {
+    public Score findByMemberAndAnswer(Member member, Answer answer) {
         Optional<Score> score =
-                this.scoreRepository.findByUserAndAnswer(member.getMemberId(), answer.getAnswerId());
+                this.scoreRepository.findByMemberAndAnswer(member, answer);
         if (score.isPresent()) {
             return score.get();
         } else {
@@ -25,8 +25,8 @@ public class ScoreService {
         }
     }
 
-    public Score findByUserAndQuestion (Member member, Question question) {
-        Optional<Score> score = this.scoreRepository.findByUserAndQuestion(member.getMemberId(), question.getQuestionId());
+    public Score findByMemberAndQuestion (Member member, Question question) {
+        Optional<Score> score = this.scoreRepository.findByMemberAndQuestion(member, question);
         if (score.isPresent()) {
             return score.get();
         } else {
