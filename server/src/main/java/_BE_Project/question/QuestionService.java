@@ -74,11 +74,10 @@ public class QuestionService {
         questionRepository.deleteById(questionId);
     }
 
-    private Question findVerifyQuestion (long questionId) {
+    
+    public Question findVerifyQuestion (long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
         Question findQuestion = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
         return findQuestion;
     }
-
-
 }
