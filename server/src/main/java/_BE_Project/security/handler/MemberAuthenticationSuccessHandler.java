@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MemberAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-    
+
     Gson gson = new Gson();
     ResponseDto responseDto = ResponseDto.builder().message("정상적으로 로그인 되었습니다.").status(HttpStatus.OK.value()).build();
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);

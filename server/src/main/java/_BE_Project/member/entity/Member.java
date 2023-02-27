@@ -26,7 +26,7 @@ public class Member extends BaseTime {
     private String email;
 
     private String nickname;
-    
+
     @Column(name = "member_password")
     private String password;
 
@@ -62,14 +62,14 @@ public class Member extends BaseTime {
             answer.setMember(this);
         }
     }
-    
+
     @AllArgsConstructor
     @Getter
     public enum MemberStatus{
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),
         MEMBER_QUIT("탈퇴 상태");
-        
+
         private String status;
     }
 }
