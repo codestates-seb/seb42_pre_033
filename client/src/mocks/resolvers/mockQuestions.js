@@ -32,7 +32,8 @@ export const getQuestions = async (req, res, ctx) => {
 
 export const postQuestions = async (req, res, ctx) => {
   // Check if the user is authenticated in this session
-  const isAuthenticated = req.headers.getItem('Authorization');
+  console.log(req.headers);
+  const isAuthenticated = req.headers.get('authorization');
   const { title, content } = await req.json();
 
   if (!isAuthenticated) {
@@ -71,7 +72,8 @@ export const postQuestions = async (req, res, ctx) => {
 
 export const patchQuestions = async (req, res, ctx) => {
   // Check if the user is authenticated in this session
-  const isAuthenticated = req.headers.getItem('Authorization');
+  console.log(req.headers);
+  const isAuthenticated = req.headers.get('authorization');
   const { questionId } = req.params;
 
   const { title, content } = await req.json();
