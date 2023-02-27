@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f48baf4b-f81e-4889-b747-9dd4eb6975f1" name="Changes" comment="wwㄹㅇㅇㄹ">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/_BE_Project/answer/AnswerMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/_BE_Project/answer/AnswerMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/_BE_Project/member/mapper/MemberMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/_BE_Project/member/mapper/MemberMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/_BE_Project/question/QuestionMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/_BE_Project/question/QuestionMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/_BE_Project/Score/ScoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/_BE_Project/Score/ScoreRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/_BE_Project/Score/ScoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/_BE_Project/Score/ScoreService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/_BE_Project/answer/AnswerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/_BE_Project/answer/AnswerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/_BE_Project/answer/AnswerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/_BE_Project/answer/AnswerMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/_BE_Project/security/dto/TokenDto.java" beforeDir="false" />
-    </list>
+    <list default="true" id="f48baf4b-f81e-4889-b747-9dd4eb6975f1" name="Changes" comment="수정본ff" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -226,7 +215,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677459360493</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="수정본ff">
+      <created>1677481313006</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1677481313006</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -247,7 +243,8 @@
     <MESSAGE value="ㅎㅇ" />
     <MESSAGE value="ww" />
     <MESSAGE value="wwㄹㅇㅇㄹ" />
-    <option name="LAST_COMMIT_MESSAGE" value="wwㄹㅇㅇㄹ" />
+    <MESSAGE value="수정본ff" />
+    <option name="LAST_COMMIT_MESSAGE" value="수정본ff" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
