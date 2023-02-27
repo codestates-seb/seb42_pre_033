@@ -39,6 +39,7 @@ public class MemberController {
   
   @GetMapping("/mypage")
   ResponseEntity<?> getMyPage() {
+    System.out.println("mypage 호출됨 ㅅㅂ");
     Member findMember = memberService.findByEmail();
     MemberDto.Response responseDto = mapper.memberToMemberResponseDto(findMember);
     return new ResponseEntity<>(responseDto, HttpStatus.OK);

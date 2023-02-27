@@ -45,11 +45,12 @@ public class JwtTokenProvider {
     claims.put("roles", member.getRoles());
     claims.put("email", member.getEmail());
   
+  
     return Jwts.builder()
+      .setClaims(claims)
       .setSubject(member.getEmail())
       .setIssuedAt(Calendar.getInstance().getTime())
       .setExpiration(calendar.getTime())
-      .setClaims(claims)
       .signWith(key, SignatureAlgorithm.HS256)
       .compact();
   }

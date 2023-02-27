@@ -1,4 +1,4 @@
-package _BE_Project.answer;
+package _BE_Project.answer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

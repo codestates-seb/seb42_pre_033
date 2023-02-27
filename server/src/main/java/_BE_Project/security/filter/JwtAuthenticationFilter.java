@@ -6,8 +6,10 @@ import _BE_Project.security.dto.LoginDto;
 import _BE_Project.security.jwt.JwtTokenProvider;
 import _BE_Project.security.service.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +20,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.io.IOException;
 import java.util.Date;
 
@@ -44,10 +47,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String refreshToken = jwtTokenProvider.generateRefreshToken(member);
     
     redisRepository.save(member.getEmail(), refreshToken);
+    
     response.setHeader("Authorization", "Bearer " + accessToken);
     response.setHeader("Refresh", refreshToken);
+    
     getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
-    chain.doFilter(request, response);
   }
   
   

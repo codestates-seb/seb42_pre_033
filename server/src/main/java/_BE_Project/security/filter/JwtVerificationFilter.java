@@ -44,6 +44,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     try {
       Claims accessTokenClaims = verifyJws(request, response);
       if(accessTokenClaims != null) {
+        System.out.println("setAuthenticationToContext 호출 전");
         setAuthenticationToContext(accessTokenClaims);
       }
     } catch (SignatureException se) {
@@ -89,6 +90,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
       return null;
     }
   }
+  
+  
+  
+  
   
   public void setAuthenticationToContext(Claims claims){
     String email = (String) claims.get("email");

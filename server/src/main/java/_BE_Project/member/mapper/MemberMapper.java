@@ -1,7 +1,7 @@
 package _BE_Project.member.mapper;
 
-import _BE_Project.answer.Answer;
-import _BE_Project.answer.AnswerDto;
+import _BE_Project.answer.entity.Answer;
+import _BE_Project.answer.dto.AnswerDto;
 import _BE_Project.member.dto.MemberDto;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;
@@ -49,8 +49,8 @@ public interface MemberMapper {
       responseDto.setAnswerId(answer.getAnswerId());
       responseDto.setScore(answer.getScore());
       responseDto.setAnswerContent(answer.getAnswerContent());
-      responseDto.setCreateDate(answer.getCreationDate());
-      responseDto.setAccepted(answer.isAccepted());
+      responseDto.setCreateDate(answer.getCreatedAt());
+      responseDto.setAccepted(answer.getIsAccepted());
       responseDto.setQuestionId(answer.getQuestion().getQuestionId());
       responseDto.setQuestionTitle(answer.getQuestion().getTitle());
       return responseDto;

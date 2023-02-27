@@ -1,8 +1,11 @@
-package _BE_Project.answer;
+package _BE_Project.answer.service;
 
-import _BE_Project.Score.Score;
 import _BE_Project.Score.ScoreService;
+import _BE_Project.answer.entity.Answer;
+import _BE_Project.answer.repository.AnswerRepository;
+import _BE_Project.exception.BusinessLogicException;
 import _BE_Project.exception.DataNotFoundException;
+import _BE_Project.exception.ExceptionCode;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;
 import _BE_Project.question.QuestionService;
@@ -28,7 +31,7 @@ public class AnswerService {
         question.setViewCnt(question.getViewCnt()+1);
 //        question.setAnswered(true);
         answer.setQuestion(question);
-        answer.setAccepted(false);
+        answer.setIsAccepted(false);
         answer.setScore(0);
         answer.setMember(member); // 왜 오류뜨는지모르겠음
 
@@ -36,13 +39,13 @@ public class AnswerService {
     }
 
     public Answer findById(Long id){
-        return this.answerRepository.findById(id).get();
+        return answerRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
     }
 
     public Answer updateAnswer(Long answerId, Answer answer){
         Answer findAnswer = findVerifiedAnswer(answerId);
         findAnswer.setAnswerContent(answer.getAnswerContent());
-        findAnswer.setModifiedAt(LocalDateTime.now());
+//        findAnswer.setModifiedAt(LocalDateTime.now());
         return answerRepository.save(findAnswer);
     }
     public Answer findVerifiedAnswer(Long answerId) {

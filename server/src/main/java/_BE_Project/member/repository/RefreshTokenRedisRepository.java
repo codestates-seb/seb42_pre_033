@@ -1,6 +1,7 @@
 package _BE_Project.member.repository;
 
 import _BE_Project.security.jwt.JwtTokenProvider;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -33,10 +34,12 @@ public class RefreshTokenRedisRepository {
   }
   
   public void setBlackList(String accessToken){
+    Claims claims = jwtTokenProvider.parseClaims(accessToken);
+    Date expiration = claims.getExpiration();
     redisTemplate.opsForValue().set(
       accessToken,
       "logout",
-      jwtTokenProvider.parseClaims(accessToken).getExpiration().getTime() - new Date().getTime(),
+      expiration.getTime() - new Date().getTime(),
       TimeUnit.MILLISECONDS
     );
   }

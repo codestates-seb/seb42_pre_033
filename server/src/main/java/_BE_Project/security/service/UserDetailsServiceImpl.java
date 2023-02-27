@@ -11,10 +11,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
 @RequiredArgsConstructor
+@Component
 public class UserDetailsServiceImpl implements UserDetailsService {
   private final MemberService memberService;
   private final CustomAuthorityUtils authorityUtils;

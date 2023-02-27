@@ -3,6 +3,8 @@ package _BE_Project.security.config;
 import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.repository.RefreshTokenRedisRepository;
 import _BE_Project.member.service.MemberService;
+import _BE_Project.security.handler.MemberAccessDeniedHandler;
+import _BE_Project.security.handler.MemberAuthenticationEntryPoint;
 import _BE_Project.security.jwt.JwtTokenProvider;
 import _BE_Project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
@@ -46,10 +48,13 @@ public class SecurityConfiguration {
       .cors(Customizer.withDefaults())
       .apply(new JwtSecurityConfiguration(jwtTokenProvider, authorityUtils, redisRepository, memberRepository))
       .and()
+      .exceptionHandling()
+      .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+      .accessDeniedHandler(new MemberAccessDeniedHandler())
+      .and()
       .authorizeHttpRequests(authorize -> { authorize
         .antMatchers(HttpMethod.POST,"/members/login","/members").permitAll()
         .antMatchers(HttpMethod.POST,"/members").hasRole("USER")
-        .antMatchers(HttpMethod.GET,"/members/**").permitAll()
         .antMatchers(HttpMethod.GET,"/members/mypage").hasRole("USER")
         .antMatchers(HttpMethod.PATCH,"/members").hasRole("USER")
         .antMatchers(HttpMethod.DELETE,"/members").hasRole("USER")
