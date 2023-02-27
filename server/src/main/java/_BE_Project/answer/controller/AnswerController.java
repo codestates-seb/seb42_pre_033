@@ -4,105 +4,39 @@ import _BE_Project.answer.dto.AnswerDto;
 import _BE_Project.answer.mapper.AnswerMapper;
 import _BE_Project.answer.service.AnswerService;
 import _BE_Project.answer.entity.Answer;
-import _BE_Project.member.entity.Member;
-import _BE_Project.member.service.MemberService;
-import _BE_Project.question.QuestionService;
+import _BE_Project.dto.ResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping("/v1/answer")
-@Validated
-@CrossOrigin
+@RequestMapping("/answers")
+@RequiredArgsConstructor
 public class AnswerController {
-
-    private final AnswerService answerService;
-    private final AnswerMapper mapper;
-
-    private final MemberService memberService;
-
-    private final QuestionService questionService;
-
-    public AnswerController(AnswerService answerService, AnswerMapper mapper, MemberService memberService, QuestionService questionService){
-        this.answerService = answerService;
-        this.mapper = mapper;
-        this.memberService = memberService;
-        this.questionService = questionService;
-    }
-//
-//
-//    // 이메일 아이디 의 질문에 대한 답변 (토큰 없이 어떻게 구현을 해야할까..)
-//    @PostMapping("/{id}/add")
-//    public ResponseEntity addAnswer(@PathVariable Long id,
-//                                    @RequestBody AnswerDto.Post requestBody) {
-//
-//        String email = getCurrentMemberEmail();
-//        Member findMember = memberService.findByEmail(email);
-//        Answer answer = mapper.answerPostDtoAnswer(requestBody);
-//        answerService.create(id, answer, findMember);
-//        return new ResponseEntity(HttpStatus.CREATED);
-//
-//    }
-//
-//    // 답변을 수정
-//
-//    @PatchMapping("/{id}/edit")
-//    public ResponseEntity patchAnswer(@PathVariable("id") @Positive long answerId,
-//                                      @Valid @RequestBody AnswerDto.Patch patchDto){
-//
-//        Member findmember = memberService.findByEmail();
-//        Answer updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-//
-
-
-    //답변 삭제
-//    @DeleteMapping("/{id}/delete")
-//    public ResponseEntity deleteAnswer(@PathVariable("id") @Positive long answerId,
-//                                       @RequestBody TokenDto tokenDto){
-//
-//        Member findmember = memberService.findByEmail();
-//        answerService.delete(answerId);
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-//
-//    // 질문자가 답변 채택 취소
-//    @PostMapping("/{id}/accept/undo")
-//    public ResponseEntity getAcceptUndo(@PathVariable("id") @Positive long answerId,
-//                                        @RequestBody TokenDto tokenDto){
-////        if (tokenDto.getAccessToken().equals("not")) {
-////            throw new UnauthorizedException("로그인이 필요합니다.");
-////        }
-////        Answer answer = answerService.findById(answerId);
-////        Question question = answer.getQuestion();
-////        if (!questionService.hasQuestion(question.getQuestionId(),memberService.findByAccessToken(tokenDto.getAccessToken()))){
-////            throw new UnauthorizedException("작성자가 아닙니다.");
-////        }
-//        Member findmember = memberService.findByEmail();
-//
-//        return new ResponseEntity(HttpStatus.OK);
-//    } //녹녹
-//    // 추천기능
-//    @PostMapping("{answerId}/upVote")
-//    public ResponseEntity upVote(@PathVariable("answerId") Long id,
-//                                 @RequestBody TokenDto tokenDto) {
-//        Answer answer = answerService.findById(id);
-//
-//        Member findmember = memberService.findByEmail();
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//
-//    }
-//    public String getCurrentMemberEmail(){
-//        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//    }
+  private final AnswerService answerService;
+  private final AnswerMapper mapper;
+  @PostMapping("/{questionId}")
+  public ResponseEntity<?> createAnswer(@PathVariable @Positive Long questionId,
+                                        @RequestBody AnswerDto.Post postDto){
+    Answer answer = mapper.answerPostDtoToAnswer(postDto);
+    answerService.saveAnswer(answer, questionId);
+    
+    return new ResponseEntity<>(
+      ResponseDto.success(null, "답변이 정상적으로 생성 되었습니다.", HttpStatus.CREATED),
+      HttpStatus.CREATED);
+  }
+  
+  @PatchMapping("/{answerId}")
+  public ResponseEntity<?> updateAnswer(@PathVariable @Positive Long answerId,
+                                        @RequestBody AnswerDto.Patch patchDto){
+    Answer answer = mapper.answerPatchDtoToAnswer(patchDto);
+    answerService.updateAnswer(answerId, answer);
+    
+    return new ResponseEntity<>(
+      ResponseDto.success(null, "답변이 정상적으로 업데이트 되었습니다.", HttpStatus.OK),
+      HttpStatus.OK);
+  }
 }

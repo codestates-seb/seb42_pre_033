@@ -38,7 +38,6 @@ public class MemberDto {
         private String nickname;
         
     }
-
     
     @Getter
     @Setter
@@ -50,16 +49,5 @@ public class MemberDto {
         private List<QuestionDto.Response> questionResponseDtos;
         private List<AnswerDto.Response> answerResponseDtos;
         private LocalDateTime createDate;
-    }
-
-    @Getter
-    public static class owner{
-        private Long memberId;
-        private String nickname;
-
-        public owner(Long memberId, String nickname) {
-            this.memberId = memberId;
-            this.nickname = nickname;
-        }
     }
 }

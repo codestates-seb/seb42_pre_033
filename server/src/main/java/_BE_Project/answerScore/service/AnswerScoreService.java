@@ -10,32 +10,33 @@ import _BE_Project.member.entity.Member;
 import _BE_Project.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class AnswerScoreService {
-  private final AnswerScoreRepository repository;
+  private final AnswerScoreRepository answerScoreRepository;
   private final MemberService memberService;
   private final AnswerService answerService;
   public void increaseScore(Long answerId){
     Member member = memberService.findByEmail();
-    Answer answer = answerService.findById(answerId);
+    Answer answer = answerService.findAnswer(answerId);
     AnswerScore answerScore = AnswerScore.builder().answer(answer).member(member).build();
 
-    if(repository.findByMemberAndAnswer(member, answer).isPresent()) {
+    if(answerScoreRepository.findByMemberAndAnswer(member, answer).isPresent()) {
       throw new BusinessLogicException(ExceptionCode.ANSWER_SCORE_EXISTS);
     }
-    repository.save(answerScore);
+    answerScoreRepository.save(answerScore);
   }
-
+  @Transactional
   public void decreaseScore(Long answerId){
     Member member = memberService.findByEmail();
-    Answer answer = answerService.findById(answerId);
+    Answer answer = answerService.findAnswer(answerId);
     
-    repository.findByMemberAndAnswer(member, answer)
+    answerScoreRepository.findByMemberAndAnswer(member, answer)
       .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_SCORE_NOT_FOUND));
     
-    repository.deleteByMemberAndAnswer(member, answer);
+    answerScoreRepository.deleteByMemberAndAnswer(member, answer);
   }
   
 }

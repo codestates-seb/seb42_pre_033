@@ -39,7 +39,7 @@ public class Member extends BaseTime {
     private List<String> roles = new ArrayList<>();
 
     // Question 영역과 미리 연관관계 매핑 해둠
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
     public void setQuestion(Question question) {
@@ -53,7 +53,7 @@ public class Member extends BaseTime {
     }
 
     // Answer 영역과 미리 연관관계 매핑 해둠
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
     public void setAnswer(Answer answer) {

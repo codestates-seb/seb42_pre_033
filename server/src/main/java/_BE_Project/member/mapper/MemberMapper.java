@@ -36,7 +36,7 @@ public interface MemberMapper {
       responseDto.setQuestionId(question.getQuestionId());
       responseDto.setTitle(question.getTitle());
       responseDto.setContent(question.getContent());
-      responseDto.setScore(question.getScore());
+      responseDto.setScore(question.getLikes().size());
       responseDto.setViewCnt(question.getViewCnt());
       responseDto.setCreateDate(question.getCreatedAt());
       return responseDto;
@@ -48,10 +48,9 @@ public interface MemberMapper {
     return answers.stream().map( answer -> {
       AnswerDto.Response responseDto = new AnswerDto.Response();
       responseDto.setAnswerId(answer.getAnswerId());
-      responseDto.setScore(answer.getScore());
+      responseDto.setScore(answer.getLikes().size());
       responseDto.setAnswerContent(answer.getAnswerContent());
       responseDto.setCreateDate(answer.getCreatedAt());
-      responseDto.setAccepted(answer.getIsAccepted());
       responseDto.setQuestionId(answer.getQuestion().getQuestionId());
       responseDto.setQuestionTitle(answer.getQuestion().getTitle());
       return responseDto;
