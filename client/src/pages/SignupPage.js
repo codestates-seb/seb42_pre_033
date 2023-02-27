@@ -1,8 +1,10 @@
+import axios from 'axios';
 import styled from 'styled-components';
-import Oauth from '../components/Login/Oauth';
+import Oauth from '../components/layout/Oauth';
 import SignupBottom from '../components/Signup/SignupBottom';
 import SignupForm from '../components/Signup/SignupForm';
 import SignupHeader from '../components/Signup/SignupHeader';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Container = styled.section`
   display: flex;
@@ -23,7 +25,37 @@ const SignupFormContainer = styled.article`
 `;
 
 function SignupPage() {
-  const onSubmit = () => {};
+  const { login } = useAuthContext();
+
+  const onSubmit = ({ email, password, nickname }) => {
+    axios({
+      method: 'post',
+      url: '/members',
+      data: { email, password, nickname },
+    })
+      .then((response) => {
+        if (response.status === 409) {
+          // error coming back from server
+          console.log(response.message);
+          return;
+        }
+
+        if (response.status === 400) {
+          console.log('입력값 오류');
+          return;
+        }
+
+        if (response.status !== 201) {
+          console.log('서버 오류');
+          return;
+        }
+
+        login(response.headers.authorization, response.headers.refresh);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   return (
     <Container>

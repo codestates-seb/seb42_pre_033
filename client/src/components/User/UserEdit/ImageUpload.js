@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const ProfilePicture = styled.div`
   width: 164px;
   height: 164px;
-  background-color: pink;
   position: relative;
   border-radius: 5px;
   cursor: pointer;
@@ -18,7 +17,6 @@ const ProfileImg = styled.img`
 `;
 
 const ChangeText = styled.div`
-  background-color: pink;
   width: 100%;
   height: 33px;
   display: flex;
