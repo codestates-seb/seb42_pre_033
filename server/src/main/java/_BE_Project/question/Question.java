@@ -1,7 +1,7 @@
 package _BE_Project.question;
 
 import _BE_Project.Score.Score;
-import _BE_Project.answer.Answer;
+import _BE_Project.answer.entity.Answer;
 import _BE_Project.audit.BaseTime;
 import _BE_Project.member.entity.Member;
 import lombok.AllArgsConstructor;

@@ -1,17 +1,14 @@
 package _BE_Project.member.dto;
 
-import _BE_Project.answer.AnswerDto;
+import _BE_Project.answer.dto.AnswerDto;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.QuestionDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package _BE_Project.member.mapper;
 
-import _BE_Project.answer.Answer;
-import _BE_Project.answer.AnswerDto;
+import _BE_Project.answer.entity.Answer;
+import _BE_Project.answer.dto.AnswerDto;
 import _BE_Project.member.dto.MemberDto;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;

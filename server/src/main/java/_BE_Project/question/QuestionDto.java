@@ -1,11 +1,9 @@
 package _BE_Project.question;
 
-import _BE_Project.answer.Answer;
-import _BE_Project.answer.AnswerDto;
+import _BE_Project.answer.dto.AnswerDtoV2;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +14,6 @@ public class QuestionDto {
     @Getter
     public static class Post {
         private long memberId;
-        private long questionId;
         private String title;
         private String content;
     }
@@ -24,9 +21,18 @@ public class QuestionDto {
     @Getter
     @Setter
     public static class Patch {
+        private long memberId;
         private long questionId;
         private String title;
         private String content;
+    }
+
+    @Getter
+    @Setter
+    public static class Delete {
+        private long memberId;
+        private long questionId;
+
     }
 
     @Getter
@@ -42,6 +48,6 @@ public class QuestionDto {
         //조회수
         private int viewCnt;
         //질문에 해당하는 답변
-        private List<AnswerDto.Response> answers;
+        private List<AnswerDtoV2.Response> answers;
     }
 }

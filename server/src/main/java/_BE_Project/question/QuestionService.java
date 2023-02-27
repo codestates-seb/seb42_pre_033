@@ -4,16 +4,13 @@ import _BE_Project.Score.ScoreService;
 import _BE_Project.exception.BusinessLogicException;
 import _BE_Project.exception.ExceptionCode;
 import _BE_Project.member.entity.Member;
-import _BE_Project.member.repository.MemberRepository;
 import _BE_Project.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -41,8 +38,12 @@ public class QuestionService {
     }
 
     public Question updateQuestion (Question question) {
-        memberService.findMember(question.getMember().getMemberId());
         Question findQuestion = findVerifyQuestion(question.getQuestionId());
+        Member member = memberService.findMember(question.getMember().getMemberId());
+
+        if (member != findQuestion.getMember()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_EQUAL);
+        }
 
         Optional.ofNullable(question.getTitle()).ifPresent(title -> findQuestion.setTitle(title));
         Optional.ofNullable(question.getContent()).ifPresent(content -> findQuestion.setContent(content));
@@ -70,11 +71,24 @@ public class QuestionService {
         return questions;
     }
 
-    public void deleteQuestion (long questionId) {
-        questionRepository.deleteById(questionId);
+    public Question deleteQuestion (Question question) {
+        Question findQuestion = findVerifyQuestion(question.getQuestionId());
+        Member member = memberService.findMember(question.getMember().getMemberId());
+
+        if (member != findQuestion.getMember()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_EQUAL);
+        }
+
+        if (question.getAnswer() != null) {
+            question.getAnswer().clear();
+        }
+
+        questionRepository.delete(findQuestion);
+
+        return findQuestion;
     }
 
-    
+
     public Question findVerifyQuestion (long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
         Question findQuestion = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));

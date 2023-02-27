@@ -1,16 +1,14 @@
 package _BE_Project.member.entity;
 
-import _BE_Project.answer.Answer;
+import _BE_Project.answer.entity.Answer;
 import _BE_Project.audit.BaseTime;
 import _BE_Project.question.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 

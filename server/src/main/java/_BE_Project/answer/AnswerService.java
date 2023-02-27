@@ -1,7 +1,7 @@
 package _BE_Project.answer;
 
-import _BE_Project.Score.Score;
 import _BE_Project.Score.ScoreService;
+import _BE_Project.answer.entity.Answer;
 import _BE_Project.exception.DataNotFoundException;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;

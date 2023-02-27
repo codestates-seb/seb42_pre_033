@@ -1,21 +1,17 @@
 package _BE_Project.question;
 
-import _BE_Project.dto.MultiResponseDto;
+
+import _BE_Project.member.dto.ResponseDto;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/question")
+@RequestMapping("/question")
 public class QuestionController {
 
     private final QuestionService questionService;
@@ -90,12 +86,19 @@ public class QuestionController {
 //    }
 
     @DeleteMapping("/{question-id}")
-    public ResponseEntity deleteQuestion(@PathVariable ("question-id") long questionId) {
+    public ResponseEntity deleteQuestion(@PathVariable ("question-id") long questionId,
+                                         @RequestBody QuestionDto.Delete delete) {
 
-        questionService.deleteQuestion(questionId);
+        delete.setQuestionId(questionId);
+        Question question = mapper.questionToQuestionDeleteDto(delete);
+        questionService.deleteQuestion(question);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        ResponseDto responseDto = deleteQuestionDto("글이 삭제되었습니다..", HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity(responseDto, HttpStatus.NO_CONTENT);
     }
 
-
+    private ResponseDto deleteQuestionDto(String message, HttpStatus httpStatus){
+        return ResponseDto.builder().message(message).status(httpStatus.value()).build();
+    }
 }
