@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MainHeader from '../components/layout/Main/MainHeader';
 import QuestionDetail from '../components/QuestionDetail/QuestionDetail';
@@ -60,18 +61,11 @@ const ANSWERs_DUMY = [
   },
 ];
 
-// questionId: number;
-// title: string;
-// content: string;
-// score: number;
-// viewCnt: string;
-// profileImg: string;
-// nickname: string;
-// asked: string;
-// createDate: string;
 function QuestionDetailPage() {
+  let { questionId } = useParams();
+
   const [question, loading, error] = useAxios({
-    url: '/questions/1',
+    url: `/questions/${questionId}`,
     method: 'get',
   });
 
