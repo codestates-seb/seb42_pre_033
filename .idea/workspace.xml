@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f48baf4b-f81e-4889-b747-9dd4eb6975f1" name="Changes" comment="ㅇㅇ">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/_BE_Project/security/dto/TokenDto.java" afterDir="false" />
+    <list default="true" id="f48baf4b-f81e-4889-b747-9dd4eb6975f1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/_BE_Project/answer/AnswerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/_BE_Project/answer/AnswerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/_BE_Project/answer/AnswerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/_BE_Project/answer/AnswerDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +69,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="be/feature/answer_KimJongGyu" />
-                    <option name="lastUsedInstant" value="1677417949" />
+                    <option name="lastUsedInstant" value="1677418870" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="main" />
@@ -149,6 +146,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.C:/Users/seb42_pre_033/server/build.gradle" />
+        <item itemvalue="Application.Application" />
         <item itemvalue="Application.Application" />
         <item itemvalue="Gradle.C:/Users/seb42_pre_033/server/build.gradle" />
       </list>
@@ -198,14 +197,7 @@
       <option name="project" value="LOCAL" />
       <updated>1677397084873</updated>
     </task>
-    <task id="LOCAL-00006" summary="ㅇㅇ">
-      <created>1677417938060</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1677417938060</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -225,7 +217,6 @@
     <MESSAGE value="dfdfdf" />
     <MESSAGE value="ㅎㅇ" />
     <MESSAGE value="ww" />
-    <MESSAGE value="ㅇㅇ" />
-    <option name="LAST_COMMIT_MESSAGE" value="ㅇㅇ" />
+    <option name="LAST_COMMIT_MESSAGE" value="ww" />
   </component>
 </project>
