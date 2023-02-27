@@ -17,9 +17,9 @@ function UserDeletePage() {
   const BASE_URL = 'http://localhost:3000/';
   const navigate = useNavigate();
 
-  const deleteUser = ({ id }) => {
+  const deleteUser = () => {
     axios
-      .delete(`${BASE_URL}/users/${id}`)
+      .delete(`${BASE_URL}/members`)
       .then((response) => {
         console.log(JSON.stringify(response.data));
         alert('회원 탈퇴가 완료되었습니다.');
