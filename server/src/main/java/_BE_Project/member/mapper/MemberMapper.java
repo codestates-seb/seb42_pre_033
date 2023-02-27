@@ -7,11 +7,12 @@ import _BE_Project.member.entity.Member;
 import _BE_Project.question.Question;
 import _BE_Project.question.QuestionDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MemberMapper {
   Member memberPostDtoToMember(MemberDto.Post postDto);
 

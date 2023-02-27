@@ -36,12 +36,15 @@ public class MemberService {
   public void updateMember(Member member) {
     
     Member findMember = findByEmail();
-    findMember.setNickname(member.getNickname());
+    
     findMember.setPassword(passwordEncoder.encode(member.getPassword()));
+    
+    findMember.setNickname(member.getNickname());
+    
   }
   @Transactional
   public void logout(HttpServletRequest request){
-    String accessToken = request.getHeader("Authorization").substring(7);
+    String accessToken = getAccessToken(request);
     String email = getCurrentMemberEmail();
     // blacklist 에 등록 이후 해당 토큰으로 요청시 거절함
     redisRepository.setBlackList(accessToken);
@@ -56,10 +59,15 @@ public class MemberService {
   }
   
   @Transactional
-  public void deleteMember () {
+  public void deleteMember (HttpServletRequest request) {
+    String accessToken = getAccessToken(request);
+    
     Member findMember = findByEmail();
+    
     memberRepository.delete(findMember);
+    
     redisRepository.deleteBy(findMember.getEmail());
+    redisRepository.setBlackList(accessToken);
   }
   
   public Member findByEmail(){
@@ -83,5 +91,9 @@ public class MemberService {
   
   public String getCurrentMemberEmail(){
     return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  }
+  
+  private String getAccessToken(HttpServletRequest request){
+    return request.getHeader("Authorization").substring(7);
   }
 }

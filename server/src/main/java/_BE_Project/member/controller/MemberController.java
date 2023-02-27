@@ -39,7 +39,6 @@ public class MemberController {
   
   @GetMapping("/mypage")
   ResponseEntity<?> getMyPage() {
-    System.out.println("mypage 호출됨 ㅅㅂ");
     Member findMember = memberService.findByEmail();
     MemberDto.Response responseDto = mapper.memberToMemberResponseDto(findMember);
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -53,10 +52,11 @@ public class MemberController {
   }
 
   @DeleteMapping
-  public ResponseEntity<?> deleteMember(){
-    memberService.deleteMember();
+  public ResponseEntity<?> deleteMember(HttpServletRequest request){
+    String accessToken = request.getHeader("Authorization").substring(7);
+    memberService.deleteMember(request);
     ResponseDto responseDto = createResponseDto("정상적으로 회원탈퇴 되었습니다.", HttpStatus.OK);
-    return new ResponseEntity<>(responseDto, HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
   @GetMapping("/logout")
   public ResponseEntity<?> logout(HttpServletRequest request){

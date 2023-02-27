@@ -57,8 +57,7 @@ public class AnswerService {
         }
 
     }
-
-
+    
     // 삭제 기능
     public void delete(Long answerId){
         Answer answer = findVerifiedAnswer(answerId);

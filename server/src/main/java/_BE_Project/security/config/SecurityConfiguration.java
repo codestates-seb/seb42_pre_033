@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSe
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -53,16 +54,14 @@ public class SecurityConfiguration {
       .accessDeniedHandler(new MemberAccessDeniedHandler())
       .and()
       .authorizeHttpRequests(authorize -> { authorize
-        .antMatchers(HttpMethod.POST,"/members/login","/members").permitAll()
-        .antMatchers(HttpMethod.POST,"/members").hasRole("USER")
         .antMatchers(HttpMethod.GET,"/members/mypage").hasRole("USER")
-        .antMatchers(HttpMethod.PATCH,"/members").hasRole("USER")
+        .antMatchers(HttpMethod.GET,"/members/logout").hasRole("USER")
         .antMatchers(HttpMethod.DELETE,"/members").hasRole("USER")
+        .antMatchers(HttpMethod.PATCH,"/members").hasRole("USER")
         .antMatchers(HttpMethod.POST,"/questions").hasRole("USER")
         .antMatchers(HttpMethod.PATCH,"/questions").hasRole("USER")
         .antMatchers(HttpMethod.POST,"/answers").hasRole("USER")
         .antMatchers(HttpMethod.PATCH,"/answers").hasRole("USER")
-        .antMatchers(HttpMethod.PATCH,"/questions").hasRole("USER")
         .anyRequest().permitAll();
       });
       
