@@ -35,7 +35,11 @@ const Content = styled.div`
 
 function QuestionDetailBody({ content, tags = [], displayEditButton }) {
   function createMarkup() {
-    return { __html: DOMPurify.sanitize(content) };
+    return {
+      __html: DOMPurify.sanitize(
+        content.replaceAll('&lt;', '<').replaceAll('&gt;', '>'),
+      ),
+    };
   }
 
   return (
