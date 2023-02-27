@@ -2,6 +2,7 @@ package _BE_Project.question;
 
 import _BE_Project.exception.BusinessLogicException;
 import _BE_Project.exception.ExceptionCode;
+import _BE_Project.member.entity.Member;
 import _BE_Project.member.service.MemberService;
 import _BE_Project.questionScore.service.QuestionScoreService;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +26,19 @@ public class QuestionService {
         question.setMember(memberService.findByEmail());
         return questionRepository.save(question);
     }
-    
+    @Transactional
     public Question updateQuestion (Question question) {
-        memberService.findMember(question.getMember().getMemberId());
+    
+        Member member = memberService.findByEmail();
         Question findQuestion = findVerifyQuestion(question.getQuestionId());
         
-        Optional.ofNullable(question.getTitle()).ifPresent(title -> findQuestion.setTitle(title));
-        Optional.ofNullable(question.getContent()).ifPresent(content -> findQuestion.setContent(content));
+        if(findQuestion.getMember().getMemberId() != member.getMemberId()){
+            throw new BusinessLogicException(ExceptionCode.QUESTION_UPDATE_NO_PERMISSION);
+        }
         
-        return questionRepository.save(findQuestion);
+        findQuestion.setTitle(question.getTitle());
+        findQuestion.setContent(question.getContent());
+        return findQuestion;
     }
     
     public Question findQuestion (long questionId) {
@@ -57,6 +62,14 @@ public class QuestionService {
     }
     
     public void deleteQuestion (long questionId) {
+    
+        Member member = memberService.findByEmail();
+        Question findQuestion = findVerifyQuestion(questionId);
+    
+        if(findQuestion.getMember().getMemberId() != member.getMemberId()){
+            throw new BusinessLogicException(ExceptionCode.QUESTION_DELETE_NO_PERMISSION);
+        }
+        
         questionRepository.deleteById(questionId);
     }
     

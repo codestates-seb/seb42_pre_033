@@ -37,6 +37,16 @@ public class AnswerService {
     return findAnswer;
   }
   
+  @Transactional
+  public void deleteAnswer(Long answerId){
+    Answer findAnswer = findAnswer(answerId);
+    Member member = memberService.findByEmail();
+    if(findAnswer.getMember().getMemberId() != member.getMemberId()){
+      throw new BusinessLogicException(ExceptionCode.ANSWER_DELETE_NO_PERMISSION);
+    }
+    answerRepository.deleteById(answerId);
+  }
+  
   public void verifyQuestion(Long questionId, Answer answer){
     answer.setQuestion(questionService.findVerifyQuestion(questionId));
   }

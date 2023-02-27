@@ -1,6 +1,7 @@
 package _BE_Project.question;
 
 import _BE_Project.dto.MultiResponseDto;
+import _BE_Project.dto.ResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,8 +31,11 @@ public class QuestionController {
     public ResponseEntity postQuestion(@RequestBody QuestionDto.Post post) {
         
         Question savedQuestion = questionService.createQuestion(mapper.questionToQuestionPostDto(post));
+//        mapper.questionToQuestionResponseDto(savedQuestion)
         
-        return new ResponseEntity(mapper.questionToQuestionResponseDto(savedQuestion),HttpStatus.CREATED);
+        return new ResponseEntity(
+          ResponseDto.success(null, "질문이 정상적으로 생성 되었습니다.", HttpStatus.CREATED),
+          HttpStatus.CREATED);
     }
     
     @PatchMapping("/{question-id}")
@@ -40,8 +44,12 @@ public class QuestionController {
         
         patch.setQuestionId(questionId);
         Question question = questionService.updateQuestion(mapper.questionToQuestionPatchDto(patch));
-        
-        return new ResponseEntity(mapper.questionToQuestionResponseDto(question) ,HttpStatus.OK);
+    
+//        mapper.questionToQuestionResponseDto(question)
+    
+        return new ResponseEntity(
+          ResponseDto.success(null, "질문이 정상적으로 수정 되었습니다.", HttpStatus.OK),
+          HttpStatus.OK);
         
     }
     
@@ -93,7 +101,9 @@ public class QuestionController {
         
         questionService.deleteQuestion(questionId);
         
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(
+          ResponseDto.success(null, "질문이 정상적으로 삭제 되었습니다.", HttpStatus.NO_CONTENT),
+          HttpStatus.NO_CONTENT);
     }
 
 

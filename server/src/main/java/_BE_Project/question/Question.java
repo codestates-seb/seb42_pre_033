@@ -42,10 +42,10 @@ public class Question extends BaseTime {
         this.member = member;
     }
     
-    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answer = new ArrayList<>();
     
-    @OneToMany (mappedBy = "question", cascade = CascadeType.PERSIST)
+    @OneToMany (mappedBy = "question", cascade = CascadeType.ALL)
     private List<QuestionScore> likes = new ArrayList<>();
     
     

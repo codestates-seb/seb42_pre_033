@@ -39,4 +39,13 @@ public class AnswerController {
       ResponseDto.success(null, "답변이 정상적으로 업데이트 되었습니다.", HttpStatus.OK),
       HttpStatus.OK);
   }
+  
+  @DeleteMapping("/{answerId}")
+  public ResponseEntity<?> deleteAnswer(@PathVariable @Positive Long answerId){
+    answerService.deleteAnswer(answerId);
+    
+    return new ResponseEntity<>(
+      ResponseDto.success(null, "답변이 정상적으로 삭제 되었습니다.", HttpStatus.OK),
+      HttpStatus.OK);
+  }
 }
