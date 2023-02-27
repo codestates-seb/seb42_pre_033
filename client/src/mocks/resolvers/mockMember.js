@@ -9,11 +9,8 @@ export const postLogin = async (req, res, ctx) => {
 
   return res(
     // Respond with a 200 status code
-    ctx.headers.set(
-      'Authorization',
-      'Bearer aiwu4e8237918279awoieZKLwje129039182',
-    ),
-    ctx.headers.set('Refesh', 'aiwu4e8237918279awoieZKLwje129039182'),
+    ctx.set('Authorization', 'Bearer aiwu4e8237918279awoieZKLwje129039182'),
+    ctx.set('Refresh', 'aiwu4e8237918279awoieZKLwje129039182'),
     ctx.status(200),
     ctx.json({
       message: '정상적으로 로그인 되었습니다.',
@@ -58,6 +55,7 @@ export const postSignup = async (req, res, ctx) => {
   }
   if (email.length === 0 || password.length < 4 || nickname.length === 0) {
     // If not authenticated, respond with a 403 error
+
     return res(
       ctx.status(400),
       ctx.json({
@@ -65,9 +63,11 @@ export const postSignup = async (req, res, ctx) => {
       }),
     );
   }
-
+  console.log(email, password, nickname);
   // If authenticated, return a mocked user details
   return res(
+    ctx.set('Authorization', 'Bearer aiwu4e8237918279awoieZKLwje129039182'),
+    ctx.set('Refresh', 'aiwu4e8237918279awoieZKLwje129039182'),
     ctx.status(201),
     ctx.json({
       message: '정상적으로 회원가입 되었습니다.',
