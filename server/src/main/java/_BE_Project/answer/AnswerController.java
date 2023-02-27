@@ -66,7 +66,7 @@ public class AnswerController {
     //답변 삭제
     @DeleteMapping("/{id}/delete")
     public ResponseEntity deleteAnswer(@PathVariable("id") @Positive long answerId,
-                                       @RequestBody TokenDto tokenDto){
+                                       @RequestBody  TokenDto tokenDto){
 
         Member findmember = memberService.findByEmail();
         answerService.delete(answerId);
