@@ -41,9 +41,10 @@ public class AnswerController {
     public ResponseEntity addAnswer(@PathVariable Long id,
                                     @RequestBody AnswerDto.Post requestBody) {
 
-        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = getCurrentMemberEmail();
         Member findMember = memberService.findByEmail(email);
         Answer answer = mapper.answerPostDtoAnswer(requestBody);
+        answerService.create(id, answer, findMember);
         return new ResponseEntity(HttpStatus.CREATED);
 
     }
@@ -53,7 +54,7 @@ public class AnswerController {
     @PatchMapping("/{id}/edit")
     public ResponseEntity patchAnswer(@PathVariable("id") @Positive long answerId,
                                       @Valid @RequestBody AnswerDto.Patch patchDto){
-
+        
         Member findmember = memberService.findByEmail();
         Answer updatedAnswer = answerService.updateAnswer(answerId,mapper.answerPatchDtoAnswer(patchDto));
 
@@ -65,7 +66,7 @@ public class AnswerController {
     //답변 삭제
     @DeleteMapping("/{id}/delete")
     public ResponseEntity deleteAnswer(@PathVariable("id") @Positive long answerId,
-                                       @RequestBody TokenDto tokenDto){
+                                       @RequestBody  TokenDto tokenDto){
 
         Member findmember = memberService.findByEmail();
         answerService.delete(answerId);
@@ -89,10 +90,6 @@ public class AnswerController {
 
         return new ResponseEntity(HttpStatus.OK);
     } //녹녹
-    public String getCurrentMemberEmail(){
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
     // 추천기능
     @PostMapping("{answerId}/upVote")
     public ResponseEntity upVote(@PathVariable("answerId") Long id,
@@ -104,7 +101,7 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
-
-
-
+    public String getCurrentMemberEmail(){
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 }

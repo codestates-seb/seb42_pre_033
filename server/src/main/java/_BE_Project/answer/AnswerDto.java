@@ -36,7 +36,7 @@ public class AnswerDto {
         private String answerContent;
         private Long questionId;
         private String questionTitle;
-        private LocalDateTime creationDate;
+        private LocalDateTime createDate;
         private int score;
         private boolean isAccepted;
 
