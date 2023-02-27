@@ -8,8 +8,6 @@ function useAxios({ method = 'get', url, headers, body, auth, params }) {
   const [loading, setloading] = useState(true);
 
   useEffect(() => {
-    const abortCont = new AbortController();
-
     axios({
       headers: headers,
       method: method,
@@ -49,9 +47,6 @@ function useAxios({ method = 'get', url, headers, body, auth, params }) {
         console.log(error.config);
         setloading(false);
       });
-
-    // abort the fetch. 완료되기 전에 DOM 요청 중단
-    return () => abortCont.abort();
   }, [url]);
 
   return [data, loading, status, error];

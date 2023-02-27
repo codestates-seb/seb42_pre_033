@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Oauth from '../components/Login/Oauth';
+import Oauth from '../components/layout/Oauth';
 import SignupBottom from '../components/Signup/SignupBottom';
 import SignupForm from '../components/Signup/SignupForm';
 import SignupHeader from '../components/Signup/SignupHeader';
