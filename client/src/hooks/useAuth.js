@@ -1,21 +1,21 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
-  const { state } = useLocation();
 
-  const login = (accessToken, refreshToken) => {
+  const login = (accessToken, refreshToken, redirectUrl = '/') => {
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
 
     setIsAuthenticated(true);
-    navigate(state);
+    navigate(redirectUrl);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     setIsAuthenticated(false);
     navigate('/');
   };
