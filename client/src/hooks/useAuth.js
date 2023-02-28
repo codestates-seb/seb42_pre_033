@@ -26,11 +26,25 @@ export const useAuth = () => {
   };
 
   const logout = () => {
+    console.log('logout');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     setIsAuthenticated(false);
     navigate('/');
   };
 
-  return { isAuthenticated, login, logout, accessToken, refreshToken };
+  const checkedLogin = () => {
+    if (!!refreshToken && !!accessToken) {
+      setIsAuthenticated(true);
+    }
+  };
+
+  return {
+    isAuthenticated,
+    login,
+    logout,
+    accessToken,
+    refreshToken,
+    checkedLogin,
+  };
 };
