@@ -1,5 +1,8 @@
+import axios from 'axios';
+import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import Button from '../UI/Button';
 
 const StyleHeader = styled.header`
@@ -105,6 +108,37 @@ const ButtonWrapper = styled.li`
 `;
 
 function Header() {
+  const { isAuthenticated, accessToken, refreshToken, logout } =
+    useAuthContext();
+
+  const handleLogout = () => {
+    logout();
+
+    axios({
+      method: 'get',
+      url: '/api/members/logout',
+      headers: {
+        authorization: accessToken,
+        refresh: refreshToken,
+      },
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          // error coming back from server
+          console.log(response.message);
+          return;
+        }
+
+        if (response.status !== 200) {
+          console.log('통신 오류');
+          return;
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <StyleHeader>
       <Nav>
@@ -143,12 +177,20 @@ function Header() {
               </SearchSvg>
             </Search>
             <ButtonWrapper>
-              <Link to='/login'>
-                <Button variant='secondary'>Log in</Button>
-              </Link>
-              <Link to='/signup'>
-                <Button variant='primary'>Sign Up</Button>
-              </Link>
+              {isAuthenticated ? (
+                <Button onClick={handleLogout} variant='primary'>
+                  Log out
+                </Button>
+              ) : (
+                <Fragment>
+                  <Link to='/login'>
+                    <Button variant='secondary'>Log in</Button>
+                  </Link>
+                  <Link to='/signup'>
+                    <Button variant='primary'>Sign Up</Button>
+                  </Link>
+                </Fragment>
+              )}
             </ButtonWrapper>
           </NavList>
         </NavWrapper>
