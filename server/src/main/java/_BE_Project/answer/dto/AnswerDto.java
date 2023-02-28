@@ -26,7 +26,8 @@ public class AnswerDto {
     @Getter
     @Setter
     public static class Response{
-
+        private Long memberId;
+        private String memberNickname;
         private Long answerId;
         private String answerContent;
         private Long questionId;

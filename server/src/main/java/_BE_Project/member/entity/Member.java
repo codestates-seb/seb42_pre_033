@@ -36,6 +36,7 @@ public class Member extends BaseTime {
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
     @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "member_permission", joinColumns = )
     private List<String> roles = new ArrayList<>();
 
     // Question 영역과 미리 연관관계 매핑 해둠

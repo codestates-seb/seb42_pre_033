@@ -28,6 +28,7 @@ public interface QuestionMapper {
     default QuestionDto.Response questionToQuestionResponseDto (Question question) {
         QuestionDto.Response response = new QuestionDto.Response();
         response.setMemberId(question.getMember().getMemberId());
+        response.setMemberNickname(question.getMember().getNickname());
         response.setQuestionId(question.getQuestionId());
         response.setTitle(question.getTitle());
         response.setContent(question.getContent());
@@ -41,6 +42,8 @@ public interface QuestionMapper {
     default List<AnswerDto.Response> answersToAnswerResponseDtos(List<Answer> answers){
         return answers.stream().map( answer -> {
             AnswerDto.Response responseDto = new AnswerDto.Response();
+            responseDto.setMemberId(answer.getMember().getMemberId());
+            responseDto.setMemberNickname(answer.getMember().getNickname());
             responseDto.setAnswerId(answer.getAnswerId());
             responseDto.setScore(answer.getLikes().size());
             responseDto.setAnswerContent(answer.getAnswerContent());

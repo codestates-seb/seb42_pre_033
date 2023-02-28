@@ -36,6 +36,7 @@ public class QuestionDto {
     @Setter
     public static class Response {
         private long memberId;
+        private String memberNickname;
         private long questionId;
         private String title;
         private String content;
