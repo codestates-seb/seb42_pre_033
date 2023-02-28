@@ -10,6 +10,7 @@ import UserEditPage from './pages/UserEditPage';
 import UserDeletePage from './pages/UserDeletePage';
 import ErrorPage from './pages/ErrorPage';
 import LoginPage from './pages/LoginPage';
+import Protected from './components/Protected/Protected';
 
 function Router() {
   return (
@@ -36,17 +37,21 @@ function Router() {
 
       <Route element={<Layout displayLeftAside displayFooter />}>
         <Route path='/question/:questionId' element={<QuestionDetailPage />} />
-        <Route
-          path='/question/:questionId/edit'
-          element={<QuestionEditPage />}
-        />
-        <Route path='/users' element={<UserProfilePage />} />
-        <Route path='/users/edit' element={<UserEditPage />} />
-        <Route path='/users/delete' element={<UserDeletePage />} />
+        <Route element={<Protected />}>
+          <Route
+            path='/question/:questionId/edit'
+            element={<QuestionEditPage />}
+          />
+          <Route path='/users' element={<UserProfilePage />} />
+          <Route path='/users/edit' element={<UserEditPage />} />
+          <Route path='/users/Delete' element={<UserDeletePage />} />
+        </Route>
       </Route>
 
       <Route element={<Layout displayFooter />}>
-        <Route path='/question/ask' element={<QuestionAskPage />} />
+        <Route element={<Protected />}>
+          <Route path='/question/ask' element={<QuestionAskPage />} />
+        </Route>
       </Route>
     </Routes>
   );
