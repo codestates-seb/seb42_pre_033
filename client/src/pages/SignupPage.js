@@ -1,10 +1,10 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Oauth from '../components/layout/Oauth';
 import SignupBottom from '../components/Signup/SignupBottom';
 import SignupForm from '../components/Signup/SignupForm';
 import SignupHeader from '../components/Signup/SignupHeader';
-import { useAuthContext } from '../hooks/useAuthContext';
 
 const Container = styled.section`
   display: flex;
@@ -25,12 +25,12 @@ const SignupFormContainer = styled.article`
 `;
 
 function SignupPage() {
-  const { login } = useAuthContext();
+  const navigate = useNavigate();
 
   const onSubmit = ({ email, password, nickname }) => {
     axios({
       method: 'post',
-      url: '/members',
+      url: '/api/members/signup',
       data: { email, password, nickname },
     })
       .then((response) => {
@@ -50,7 +50,7 @@ function SignupPage() {
           return;
         }
 
-        login(response.headers.authorization, response.headers.refresh);
+        navigate('/login');
       })
       .catch((error) => {
         console.log(error.message);
