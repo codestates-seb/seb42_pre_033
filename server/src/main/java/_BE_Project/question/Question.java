@@ -31,9 +31,6 @@ public class Question extends BaseTime {
     @Column(nullable = false)
     private String content;
     
-    @Column
-    private boolean isAnswered; // 질문 등록자가 맞는지 안맞는지
-    
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;

@@ -31,7 +31,6 @@ public class QuestionController {
     public ResponseEntity postQuestion(@RequestBody QuestionDto.Post post) {
         
         Question savedQuestion = questionService.createQuestion(mapper.questionToQuestionPostDto(post));
-//        mapper.questionToQuestionResponseDto(savedQuestion)
         
         return new ResponseEntity(
           ResponseDto.success(null, "질문이 정상적으로 생성 되었습니다.", HttpStatus.CREATED),
@@ -45,7 +44,6 @@ public class QuestionController {
         patch.setQuestionId(questionId);
         Question question = questionService.updateQuestion(mapper.questionToQuestionPatchDto(patch));
     
-//        mapper.questionToQuestionResponseDto(question)
     
         return new ResponseEntity(
           ResponseDto.success(null, "질문이 정상적으로 수정 되었습니다.", HttpStatus.OK),

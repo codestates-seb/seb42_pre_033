@@ -3,11 +3,13 @@ package _BE_Project.question;
 import _BE_Project.answer.dto.AnswerDto;
 import _BE_Project.answer.entity.Answer;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface QuestionMapper {
     
     default Question questionToQuestionPostDto (QuestionDto.Post post) {

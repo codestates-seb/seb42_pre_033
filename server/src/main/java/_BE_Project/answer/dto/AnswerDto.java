@@ -18,6 +18,7 @@ public class AnswerDto {
     @Getter
     @Setter
     public static class Patch {
+        @NotBlank(message = "answerContent 는 공백일 수 없습니다.")
         private String answerContent;
 
     }

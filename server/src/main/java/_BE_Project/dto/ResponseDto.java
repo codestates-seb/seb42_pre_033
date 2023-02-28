@@ -13,7 +13,7 @@ import org.springframework.lang.Nullable;
 public class ResponseDto<T> {
 
   private T data;
-  int status;
+  private int status;
   private String message;
   private ExceptionCode exceptionCode;
   
