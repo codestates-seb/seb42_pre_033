@@ -33,7 +33,15 @@ const Content = styled.div`
   }
 `;
 
-function QuestionDetailBody({ content, tags = [], displayEditButton }) {
+function QuestionDetailBody({
+  content,
+  tags = [],
+  displayEditButton,
+  nickname,
+}) {
+  if (!content) {
+    return '';
+  }
   function createMarkup() {
     return {
       __html: DOMPurify.sanitize(
@@ -47,7 +55,7 @@ function QuestionDetailBody({ content, tags = [], displayEditButton }) {
       <Content dangerouslySetInnerHTML={createMarkup()} />
       {tags.length > 0 && <Tags tags={tags} />}
       <QuestionDetailBottom
-        name='정정수'
+        name={nickname}
         avator=''
         displayEditButton={displayEditButton}
       />
