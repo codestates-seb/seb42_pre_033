@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem('access_token'),
   );
@@ -20,7 +19,6 @@ export const useAuth = () => {
 
     setAccessToken(newAccessToken);
     setRefreshToken(newRefreshToken);
-    setIsAuthenticated(true);
 
     navigate(redirectUrl || fromUrl || '/', { replace: true });
   };
@@ -29,22 +27,13 @@ export const useAuth = () => {
     console.log('logout');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    setIsAuthenticated(false);
     navigate('/');
   };
 
-  const checkedLogin = () => {
-    if (!!refreshToken && !!accessToken) {
-      setIsAuthenticated(true);
-    }
-  };
-
   return {
-    isAuthenticated,
     login,
     logout,
     accessToken,
     refreshToken,
-    checkedLogin,
   };
 };
