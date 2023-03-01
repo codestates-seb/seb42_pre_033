@@ -55,7 +55,7 @@ const Logo = styled.li`
 `;
 
 const LogoImg = styled.img`
-  width: 150px;
+  width: 154px;
   height: 47px;
   object-position: top;
   object-fit: cover;
@@ -110,8 +110,7 @@ const ButtonWrapper = styled.li`
 `;
 
 function Header() {
-  const { isAuthenticated, accessToken, refreshToken, logout } =
-    useAuthContext();
+  const { accessToken, refreshToken, logout } = useAuthContext();
 
   const handleLogout = () => {
     logout();
@@ -182,7 +181,7 @@ function Header() {
               </SearchSvg>
             </Search>
             <ButtonWrapper>
-              {isAuthenticated ? (
+              {accessToken ? (
                 <Button onClick={handleLogout} variant='primary'>
                   Log out
                 </Button>
