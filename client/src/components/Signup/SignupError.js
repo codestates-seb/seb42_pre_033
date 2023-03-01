@@ -9,10 +9,12 @@ const Error = styled.p`
   color: var(--red);
 `;
 
-function SignupError({ message }) {
+function SignupError({ messages }) {
   return (
     <ErrorContainer>
-      <Error>{message}</Error>
+      {messages.map((message) => (
+        <Error key={message}>{message}</Error>
+      ))}
     </ErrorContainer>
   );
 }
