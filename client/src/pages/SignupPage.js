@@ -5,6 +5,9 @@ import Oauth from '../components/layout/Oauth';
 import SignupBottom from '../components/Signup/SignupBottom';
 import SignupForm from '../components/Signup/SignupForm';
 import SignupHeader from '../components/Signup/SignupHeader';
+import { useAuthContext } from '../hooks/useAuthContext';
+import SignupPolicy from '../components/Signup/SignupPolicy';
+import Card from '../components/UI/Card';
 
 const Container = styled.section`
   display: flex;
@@ -16,12 +19,19 @@ const Container = styled.section`
   background-color: var(--black-050);
 `;
 
-const SignupFormContainer = styled.article`
+const SignupContainer = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 24px;
+`;
+
+const SignupFormContainer = styled(Card)`
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 `;
 
 function SignupPage() {
@@ -60,11 +70,14 @@ function SignupPage() {
   return (
     <Container>
       <SignupHeader />
-      <SignupFormContainer>
+      <SignupContainer>
         <Oauth />
-        <SignupForm onSubmit={onSubmit} />
+        <SignupFormContainer>
+          <SignupForm onSubmit={onSubmit} />
+          <SignupPolicy />
+        </SignupFormContainer>
         <SignupBottom />
-      </SignupFormContainer>
+      </SignupContainer>
     </Container>
   );
 }
