@@ -37,30 +37,25 @@ const SignupFormContainer = styled(Card)`
 
 function SignupPage() {
   const navigate = useNavigate();
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState([]);
 
-  const onSubmit = ({ email, password, nickname, reset }) => {
-    const { data, status } = postSignup({ email, password, nickname });
+  const onSubmit = async ({ email, password, nickname, reset }) => {
+    const { data, status } = await postSignup({ email, password, nickname });
 
     if (status === 409) {
-      setError(data.message);
+      setErrors([data.message]);
       return;
     }
 
-    if (status === 400 && 'rejectedValue' in data.fieldErrors) {
-      setError(data.fieldErrors.rejectedValue);
-      return;
-    }
-
-    if (status === 400 && 'reason' in data.fieldErrors) {
-      setError(data.fieldErrors.reason);
+    if (status === 400 && data?.fieldErrors?.length > 0) {
+      setErrors(data?.fieldErrors?.map(({ reason }) => reason));
       return;
     }
 
     if (status !== 201) {
-      setError(
+      setErrors([
         '회원가입 진행중 서버 오류가 발생하였습니다. 잠시 후 다시 요청해주세요',
-      );
+      ]);
       return;
     }
 
@@ -75,7 +70,7 @@ function SignupPage() {
         <Oauth />
         <SignupFormContainer>
           <SignupForm onSubmit={onSubmit} />
-          <SignupError message={error} />
+          <SignupError messages={errors} />
           <SignupPolicy />
         </SignupFormContainer>
         <SignupBottom />
