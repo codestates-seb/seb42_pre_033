@@ -10,7 +10,7 @@ const StyleHeader = styled.header`
   top: 0;
   width: 100%;
   min-width: 800px;
-  height: 50px;
+  height: calc(50px + 3px + 1px);
   z-index: 10;
 `;
 
@@ -49,9 +49,8 @@ const NavWrapper = styled.div`
 
 const Logo = styled.li`
   width: 154px;
-  height: 47px;
+  height: 100%;
   overflow: hidden;
-  margin-left: 10px;
   cursor: pointer;
 `;
 
@@ -148,26 +147,29 @@ function Header() {
         <NavBackground></NavBackground>
         <NavWrapper>
           <NavList>
-            <Link to='/'>
-              <Logo>
+            <Logo>
+              <Link to='/'>
                 <h1>
                   <LogoImg
                     src='/image/sprites.svg'
                     alt='Stack Overflow'
                   ></LogoImg>
                 </h1>
-              </Logo>
-            </Link>
+              </Link>
+            </Logo>
+
             {/* 404 페이지 임의연결 */}
-            <Link to='/*'>
-              <NavText>About</NavText>
-            </Link>
-            <Link to='/*'>
-              <NavText>Products</NavText>
-            </Link>
-            <Link to='/*'>
-              <NavText>For Teams</NavText>
-            </Link>
+
+            <NavText>
+              <Link to='/*'>About</Link>
+            </NavText>
+            <NavText>
+              <Link to='/*'>Products</Link>
+            </NavText>
+            <NavText>
+              <Link to='/*'>For Teams</Link>
+            </NavText>
+
             <Search>
               <SearchInput type='text' placeholder='Search...' />
               <SearchSvg
