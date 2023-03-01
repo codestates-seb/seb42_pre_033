@@ -56,7 +56,10 @@ const Logo = styled.li`
 `;
 
 const LogoImg = styled.img`
-  width: 95%;
+  width: 150px;
+  height: 47px;
+  object-position: top;
+  object-fit: cover;
 `;
 
 const NavText = styled.li`
