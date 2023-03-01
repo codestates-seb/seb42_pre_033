@@ -26,8 +26,7 @@ function SignupForm({ onSubmit }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    onSubmit({ nickname, email, password });
-    reset();
+    onSubmit({ nickname, email, password, reset });
   };
 
   return (
