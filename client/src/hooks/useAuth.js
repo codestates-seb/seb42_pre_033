@@ -27,6 +27,8 @@ export const useAuth = () => {
     console.log('logout');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    setAccessToken('');
+    setRefreshToken('');
     navigate('/');
   };
 
