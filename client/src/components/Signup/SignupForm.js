@@ -35,6 +35,7 @@ function SignupForm({ onSubmit }) {
       <Input
         value={nickname}
         name='nickname'
+        id='nickname'
         label='Display name'
         type='text'
         onChange={onChange}
@@ -42,6 +43,7 @@ function SignupForm({ onSubmit }) {
       <Input
         value={email}
         name='email'
+        id='email'
         label='Email'
         type='email'
         onChange={onChange}
@@ -50,6 +52,7 @@ function SignupForm({ onSubmit }) {
         value={password}
         name='password'
         label='Password'
+        id='password'
         type='password'
         onChange={onChange}
       />

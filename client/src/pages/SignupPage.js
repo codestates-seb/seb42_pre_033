@@ -5,7 +5,6 @@ import Oauth from '../components/layout/Oauth';
 import SignupBottom from '../components/Signup/SignupBottom';
 import SignupForm from '../components/Signup/SignupForm';
 import SignupHeader from '../components/Signup/SignupHeader';
-import { useAuthContext } from '../hooks/useAuthContext';
 import SignupPolicy from '../components/Signup/SignupPolicy';
 import Card from '../components/UI/Card';
 
