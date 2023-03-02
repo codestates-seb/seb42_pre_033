@@ -16,6 +16,12 @@ const Article = styled.article`
   gap: 24px;
 `;
 
+const EditFormController = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
 const GUIDE_DUMY = [
   'Correct minor typos or mistakes',
   'Clarify meaning without changing it',
@@ -45,8 +51,13 @@ function QuestionEditPage() {
       accessToken,
     });
 
+    if (status === 404) {
+      setEditErrors([data.message]);
+      return;
+    }
+
     if (status !== 200) {
-      setEditErrors(['등록 실패']);
+      setEditErrors(['서버 오류로 등록 실패']);
       console.log(status, data);
       return;
     }
@@ -59,19 +70,23 @@ function QuestionEditPage() {
 
   return (
     <Article>
-      {loading ? (
-        <div>로딩중</div>
-      ) : (
-        <QuestionEditFrom
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-          initTitle={title}
-          initContent={content.replaceAll('&lt;', '<').replaceAll('&gt;', '>')}
-          tags={[]}
-        />
-      )}
-      {error?.message && <Error messages={[error.message]} />}
-      {editErrors.length > 0 && <Error messages={editErrors} />}
+      <EditFormController>
+        {loading ? (
+          <div>로딩중</div>
+        ) : (
+          <QuestionEditFrom
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            initTitle={title}
+            initContent={content
+              .replaceAll('&lt;', '<')
+              .replaceAll('&gt;', '>')}
+            tags={[]}
+          />
+        )}
+        {error?.message && <Error messages={[error.message]} />}
+        {editErrors.length > 0 && <Error messages={editErrors} />}
+      </EditFormController>
       <QuestionEditGuide guides={GUIDE_DUMY} />
     </Article>
   );
