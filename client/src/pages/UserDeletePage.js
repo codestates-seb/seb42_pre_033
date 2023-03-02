@@ -25,7 +25,7 @@ function UserDeletePage() {
       method: 'get',
       url: `https://b8fd-125-177-118-22.jp.ngrok.io/members/mypage`,
       headers: {
-        'ngrok-skip-browser-warning': '12',
+        headers: { 'ngrok-skip-browser-warning': '12' },
         authorization: accessToken,
         refresh: refreshToken,
       },
