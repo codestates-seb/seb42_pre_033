@@ -23,9 +23,9 @@ function UserDeletePage() {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `/api/members/mypage`,
+      url: `https://b8fd-125-177-118-22.jp.ngrok.io/members/mypage`,
       headers: {
-        'ngrok-skip-browser-warning': '12',
+        headers: { 'ngrok-skip-browser-warning': '12' },
         authorization: accessToken,
         refresh: refreshToken,
       },
@@ -41,7 +41,7 @@ function UserDeletePage() {
   const deleteUser = () => {
     axios({
       method: 'delete',
-      url: `/api/members`,
+      url: `https://b8fd-125-177-118-22.jp.ngrok.io/members`,
       headers: {
         authorization: accessToken,
         refresh: refreshToken,

@@ -37,9 +37,9 @@ function QuestionEditPage() {
   const [editErrors, setEditErrors] = useState([]);
 
   const [{ title, content }, loading, error] = useAxios({
-    url: `/api/questions/${questionId}`,
+    url: `https://b8fd-125-177-118-22.jp.ngrok.io/questions/${questionId}`,
     method: 'get',
-    headers: 'ngrok-skip-browser-warning: "12"',
+    headers: { 'ngrok-skip-browser-warning': '12' },
   });
 
   const handleSubmit = async ({ title, content }) => {

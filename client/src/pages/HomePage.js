@@ -15,7 +15,7 @@ function HomePage() {
   const { questionlist } = QUESTIONS;
   const [questions, setQuestions] = useState([]);
 
-  const BASE_URL = '/api';
+  const BASE_URL = 'https://b8fd-125-177-118-22.jp.ngrok.io';
 
   useEffect(() => {
     axios

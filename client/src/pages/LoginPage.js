@@ -31,6 +31,7 @@ function LoginPage() {
 
   const onSubmit = async ({ email, password, reset }) => {
     const { headers, data, status } = await postLogin({ email, password });
+    console.log(headers);
 
     if (status === 409) {
       setErrors([data.message]);
