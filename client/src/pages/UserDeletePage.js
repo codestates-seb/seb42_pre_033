@@ -41,7 +41,7 @@ function UserDeletePage() {
   const deleteUser = () => {
     axios({
       method: 'delete',
-      url: `/api/members`,
+      url: `https://b8fd-125-177-118-22.jp.ngrok.io/members`,
       headers: {
         authorization: accessToken,
         refresh: refreshToken,

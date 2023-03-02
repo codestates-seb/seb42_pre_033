@@ -117,7 +117,7 @@ function Header() {
 
     axios({
       method: 'get',
-      url: '/api/members/logout',
+      url: 'https://b8fd-125-177-118-22.jp.ngrok.io/members/logout',
       headers: {
         authorization: accessToken,
         refresh: refreshToken,
