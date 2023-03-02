@@ -42,7 +42,9 @@ public interface QuestionMapper {
     default List<AnswerDto.Response> answersToAnswerResponseDtos(List<Answer> answers){
         return answers.stream().map( answer -> {
             AnswerDto.Response responseDto = new AnswerDto.Response();
+            responseDto.setMemberId(answer.getMember().getMemberId());
             responseDto.setAnswerId(answer.getAnswerId());
+            responseDto.setNickname(answer.getMember().getNickname());
             responseDto.setScore(answer.getLikes().size());
             responseDto.setAnswerContent(answer.getAnswerContent());
             responseDto.setCreateDate(answer.getCreatedAt());
