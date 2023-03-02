@@ -59,7 +59,7 @@ function QuestionDetailBody({
       {tags.length > 0 && <Tags tags={tags} />}
       <QuestionDetailBottom
         name={nickname}
-        avator=''
+        avator='https://source.unsplash.com/random/32x32?sig=incrementingIdentifier'
         displayEditButton={displayEditButton}
       />
     </Container>
