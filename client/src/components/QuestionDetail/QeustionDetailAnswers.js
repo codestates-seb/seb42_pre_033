@@ -17,14 +17,14 @@ function QeustionDetailAnswer({ answers, onVoteUp, onVoteDown }) {
         value={sortedOption}
         onChange={handleChange}
       />
-      {answers.map(({ answerId, answerContent, score, memberNickname }) => (
+      {answers.map(({ answerId, answerContent, score, nickname }) => (
         <QuestionDetail
           key={answerId}
           question={{
             tags: [],
             content: answerContent,
             score: score,
-            nickname: memberNickname,
+            nickname: nickname,
           }}
           onVoteUp={onVoteUp}
           onVoteDown={onVoteDown}
