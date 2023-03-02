@@ -116,6 +116,7 @@ function QuestionDetailPage() {
                     content: content,
                     score: score,
                     nickname: nickname,
+                    id: questionId,
                   }}
                   onVoteUp={onVoteUp}
                   onVoteDown={onVoteDown}

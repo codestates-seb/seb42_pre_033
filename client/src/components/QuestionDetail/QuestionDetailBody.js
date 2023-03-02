@@ -41,6 +41,7 @@ function QuestionDetailBody({
   tags = [],
   displayEditButton,
   nickname,
+  id,
 }) {
   if (!content) {
     return '';
@@ -61,6 +62,7 @@ function QuestionDetailBody({
         name={nickname}
         avator='https://source.unsplash.com/random/32x32?sig=incrementingIdentifier'
         displayEditButton={displayEditButton}
+        id={id}
       />
     </Container>
   );

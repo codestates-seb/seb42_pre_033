@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -14,7 +15,7 @@ const ButtonList = styled.div`
   gap: 6px;
 `;
 
-const BottomButton = styled.a`
+const BottomButton = styled(Link)`
   height: unset;
   background-color: inherit;
   color: var(--black-500);
@@ -68,12 +69,13 @@ const UserInfoBage = styled.span`
 
 const UserInfoBageNumber = styled.span``;
 
-function QuestionDetailBottom({ name, avator, displayEditButton }) {
+function QuestionDetailBottom({ id, name, avator, displayEditButton }) {
   return (
     <Container>
       <ButtonList>
-        <BottomButton tag='a'>Share</BottomButton>
-        <BottomButton tag='a'>Follow</BottomButton>
+        <BottomButton to='#'>Share</BottomButton>
+        <BottomButton to='#'>Follow</BottomButton>
+        <BottomButton to={`/question/${id}/edit`}>Edit</BottomButton>
         {displayEditButton && <BottomButton>edit</BottomButton>}
       </ButtonList>
       <UserInfo>

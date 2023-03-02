@@ -15,7 +15,6 @@ const Borderline = styled.div`
 `;
 
 function QuestionDetail({ question, onVoteUp, onVoteDown }) {
-  console.log(question);
   return (
     <Fragment>
       <Container>
@@ -28,6 +27,7 @@ function QuestionDetail({ question, onVoteUp, onVoteDown }) {
           nickname={question.nickname}
           tags={[]}
           content={question.content}
+          id={question.id}
         />
       </Container>
       <Borderline></Borderline>
