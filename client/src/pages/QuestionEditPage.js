@@ -1,10 +1,12 @@
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import QuestionEditFrom from '../components/QuestionEdit/QuestionEditFrom';
 import QuestionEditGuide from '../components/QuestionEdit/QuestionEditGuide';
 import useAxios from '../hooks/useAxios';
 import { useAuthContext } from '../hooks/useAuthContext';
+import Error from '../components/Error/Error';
+import { useState } from 'react';
+import { patchQuestion } from '../utils/api';
 
 const Article = styled.article`
   display: flex;
@@ -26,32 +28,29 @@ function QuestionEditPage() {
   let { questionId } = useParams();
   const navigation = useNavigate();
   const { accessToken, refreshToken } = useAuthContext();
+  const [editErrors, setEditErrors] = useState([]);
 
   const [{ title, content }, loading, error] = useAxios({
-    url: `/questions/${questionId}`,
+    url: `/api/questions/${questionId}`,
     method: 'get',
+    headers: 'ngrok-skip-browser-warning: "12"',
   });
 
-  const handleSubmit = ({ title, content }) => {
-    axios({
-      method: 'patch',
-      url: `/questions/${questionId}`,
-      data: { title, content },
-      headers: {
-        authorization: accessToken,
-        refresh: refreshToken,
-      },
-    })
-      .then((response) => {
-        if (response.status !== 200) {
-          console.log('등록 실패');
-          return;
-        }
-        navigation(`/question/${questionId}`);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const handleSubmit = async ({ title, content }) => {
+    const { status, data } = await patchQuestion({
+      title,
+      content,
+      questionId,
+      refreshToken,
+      accessToken,
+    });
+
+    if (status !== 200) {
+      setEditErrors(['등록 실패']);
+      console.log(status, data);
+      return;
+    }
+    navigation(`/question/${questionId}`);
   };
 
   const handleCancel = () => {
@@ -60,7 +59,6 @@ function QuestionEditPage() {
 
   return (
     <Article>
-      {error && error.message}
       {loading ? (
         <div>로딩중</div>
       ) : (
@@ -68,10 +66,12 @@ function QuestionEditPage() {
           onSubmit={handleSubmit}
           onCancel={handleCancel}
           initTitle={title}
-          initContent={content}
+          initContent={content.replaceAll('&lt;', '<').replaceAll('&gt;', '>')}
           tags={[]}
         />
       )}
+      {error?.message && <Error messages={[error.message]} />}
+      {editErrors.length > 0 && <Error messages={editErrors} />}
       <QuestionEditGuide guides={GUIDE_DUMY} />
     </Article>
   );
