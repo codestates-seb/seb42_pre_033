@@ -47,6 +47,7 @@ function QuestionAskPage() {
 
     setErrors([]);
     navigate(`/question/${data.data}`);
+    console.log(status, data);
   };
 
   return (
@@ -54,7 +55,7 @@ function QuestionAskPage() {
       <Container>
         <QuestionAskHeadr />
         <AskQuetionNotice />
-        <Error messages={errors} />
+        {errors.length > 0 && <Error messages={errors} />}
         <QuestionAskForm onSubmit={handleSumbit} />
       </Container>
     </Wrapper>
