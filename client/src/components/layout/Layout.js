@@ -18,7 +18,7 @@ const Container = styled.div`
   margin: 0 auto;
   gap: 3px;
   max-width: ${(props) => (props.fullWidth ? 'max-content' : '1264px')};
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 54px);
   justify-content: center;
 `;
 

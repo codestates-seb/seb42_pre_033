@@ -1,5 +1,8 @@
+import axios from 'axios';
+import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import Button from '../UI/Button';
 
 const StyleHeader = styled.header`
@@ -7,7 +10,7 @@ const StyleHeader = styled.header`
   top: 0;
   width: 100%;
   min-width: 800px;
-  height: 50px;
+  height: calc(50px + 3px + 1px);
   z-index: 10;
 `;
 
@@ -46,14 +49,16 @@ const NavWrapper = styled.div`
 
 const Logo = styled.li`
   width: 154px;
-  height: 47px;
+  height: 100%;
   overflow: hidden;
-  margin-left: 10px;
   cursor: pointer;
 `;
 
 const LogoImg = styled.img`
-  width: 95%;
+  width: 154px;
+  height: 47px;
+  object-position: top;
+  object-fit: cover;
 `;
 
 const NavText = styled.li`
@@ -105,32 +110,65 @@ const ButtonWrapper = styled.li`
 `;
 
 function Header() {
+  const { accessToken, refreshToken, logout } = useAuthContext();
+
+  const handleLogout = () => {
+    logout();
+
+    axios({
+      method: 'get',
+      url: '/api/members/logout',
+      headers: {
+        authorization: accessToken,
+        refresh: refreshToken,
+      },
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          // error coming back from server
+          console.log(response.message);
+          return;
+        }
+
+        if (response.status !== 200) {
+          console.log('통신 오류');
+          return;
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <StyleHeader>
       <Nav>
         <NavBackground></NavBackground>
         <NavWrapper>
           <NavList>
-            <Link to='/'>
-              <Logo>
+            <Logo>
+              <Link to='/'>
                 <h1>
                   <LogoImg
                     src='/image/sprites.svg'
                     alt='Stack Overflow'
                   ></LogoImg>
                 </h1>
-              </Logo>
-            </Link>
+              </Link>
+            </Logo>
+
             {/* 404 페이지 임의연결 */}
-            <Link to='/*'>
-              <NavText>About</NavText>
-            </Link>
-            <Link to='/*'>
-              <NavText>Products</NavText>
-            </Link>
-            <Link to='/*'>
-              <NavText>For Teams</NavText>
-            </Link>
+
+            <NavText>
+              <Link to='/*'>About</Link>
+            </NavText>
+            <NavText>
+              <Link to='/*'>Products</Link>
+            </NavText>
+            <NavText>
+              <Link to='/*'>For Teams</Link>
+            </NavText>
+
             <Search>
               <SearchInput type='text' placeholder='Search...' />
               <SearchSvg
@@ -143,12 +181,20 @@ function Header() {
               </SearchSvg>
             </Search>
             <ButtonWrapper>
-              <Link to='/login'>
-                <Button variant='secondary'>Log in</Button>
-              </Link>
-              <Link to='/signup'>
-                <Button variant='primary'>Sign Up</Button>
-              </Link>
+              {accessToken ? (
+                <Button onClick={handleLogout} variant='primary'>
+                  Log out
+                </Button>
+              ) : (
+                <Fragment>
+                  <Link to='/login'>
+                    <Button variant='secondary'>Log in</Button>
+                  </Link>
+                  <Link to='/signup'>
+                    <Button variant='primary'>Sign Up</Button>
+                  </Link>
+                </Fragment>
+              )}
             </ButtonWrapper>
           </NavList>
         </NavWrapper>

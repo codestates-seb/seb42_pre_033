@@ -1,9 +1,13 @@
+import { redirect, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MainHeader from '../components/layout/Main/MainHeader';
 import QuestionDetail from '../components/QuestionDetail/QuestionDetail';
 import QuestionDetailInfo from '../components/QuestionDetail/QuestionDetailInfo';
+import CommentForm from '../components/Comment/CommentForm';
 import useAxios from '../hooks/useAxios';
 import AsideRight from './AsideRight';
+import { useAuthContext } from '../hooks/useAuthContext';
+import axios from 'axios';
 
 const Article = styled.article`
   display: flex;
@@ -19,61 +23,30 @@ const Container = styled.div`
   gap: 16px;
 `;
 
-const QUESTION_DUMY = {
-  info: {
-    date: '2019-01-09T15:25:59',
-    updateDate: '2019-01-09T15:25:59',
-    viewed: '46126',
-  },
-  tags: [
-    { tag: 'javscript', url: '/' },
-    { tag: 'java', url: '/' },
-  ],
-  content:
-    '&lt;p&gt;정정수&lt;/p&gt;&lt;pre&gt;&lt;code class="language-plaintext"&gt;function &lt;/code&gt;&lt;/pre&gt;',
-};
+const QuestionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
 
-const ANSWERs_DUMY = [
-  {
-    tags: [
-      { tag: 'javscript', url: '/' },
-      { tag: 'java', url: '/' },
-    ],
-    content:
-      '&lt;p&gt;정정수&lt;/p&gt;&lt;pre&gt;&lt;code class="language-plaintext"&gt;function &lt;/code&gt;&lt;/pre&gt;',
-  },
-  {
-    tags: [
-      { tag: 'javscript', url: '/' },
-      { tag: 'java', url: '/' },
-    ],
-    content:
-      '&lt;p&gt;정정수&lt;/p&gt;&lt;pre&gt;&lt;code class="language-plaintext"&gt;function &lt;/code&gt;&lt;/pre&gt;',
-  },
-  {
-    tags: [
-      { tag: 'javscript', url: '/' },
-      { tag: 'java', url: '/' },
-    ],
-    content:
-      '&lt;p&gt;정정수&lt;/p&gt;&lt;pre&gt;&lt;code class="language-plaintext"&gt;function &lt;/code&gt;&lt;/pre&gt;',
-  },
-];
-
-// questionId: number;
-// title: string;
-// content: string;
-// score: number;
-// viewCnt: string;
-// profileImg: string;
-// nickname: string;
-// asked: string;
-// createDate: string;
 function QuestionDetailPage() {
-  const [question, loading, error] = useAxios({
-    url: '/questions/1',
+  let { questionId } = useParams();
+  const navigate = useNavigate();
+  const { accessToken, refreshToken } = useAuthContext();
+
+  const [
+    { title, content, createDate, score, viewCnt, answers, memberNickname },
+    loading,
+    error,
+  ] = useAxios({
+    url: `/api/questions/${questionId}`,
     method: 'get',
+    headers: 'ngrok-skip-browser-warning: "12"',
   });
+
+  if (error && error.length > 0) {
+    navigate('/*');
+  }
 
   const onVoteUp = (id) => {
     console.log(id);
@@ -83,29 +56,64 @@ function QuestionDetailPage() {
     console.log(id);
   };
 
+  const handleSubmit = (content) => {
+    axios({
+      method: 'post',
+      url: `/api/answers/${questionId}`,
+      data: {
+        answerContent: content,
+      },
+      headers: {
+        authorization: accessToken,
+        refresh: refreshToken,
+      },
+    })
+      .then((response) => {
+        if (response.status === 400) {
+          console.log('입력값 오류');
+          return;
+        }
+
+        if (response.status !== 201) {
+          redirect('/*');
+          return;
+        }
+      })
+      .catch((error) => {
+        console.log('asdasd');
+        console.log(error.message);
+        redirect('/*');
+      });
+  };
+
   return (
     <Article>
-      <MainHeader displayDataController={false} />
+      <MainHeader title={title} displayDataController={false} />
       {error && error.message}
       {loading ? (
         <div>로딩중</div>
       ) : (
         <>
           <QuestionDetailInfo
-            date={question.createDate}
-            updateDate={question.createDate}
-            viewed={question.viewCnt}
+            date={createDate}
+            updateDate={createDate}
+            viewed={viewCnt}
           />
           <Container>
-            <QuestionDetail
-              question={{
-                tags: QUESTION_DUMY.tags,
-                content: question.content,
-              }}
-              answers={ANSWERs_DUMY}
-              onVoteUp={onVoteUp}
-              onVoteDown={onVoteDown}
-            />
+            <QuestionContainer>
+              <QuestionDetail
+                question={{
+                  tags: [],
+                  content: content,
+                  score: score,
+                  nickname: memberNickname,
+                }}
+                answers={answers.filter(({ answerContent }) => answerContent)}
+                onVoteUp={onVoteUp}
+                onVoteDown={onVoteDown}
+              />
+              <CommentForm onSubmit={handleSubmit} />
+            </QuestionContainer>
             <AsideRight />
           </Container>
         </>

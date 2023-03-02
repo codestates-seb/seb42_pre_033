@@ -1,23 +1,20 @@
 package _BE_Project.question;
 
-import _BE_Project.Score.Score;
-import _BE_Project.answer.Answer;
-import _BE_Project.answer.AnswerDto;
-import _BE_Project.member.entity.Member;
+import _BE_Project.answer.dto.AnswerDto;
+import _BE_Project.answer.entity.Answer;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface QuestionMapper {
 
     default Question questionToQuestionPostDto (QuestionDto.Post post) {
         Question question = new Question();
-        Member member = new Member();
-        Score score = new Score();
-        member.setMemberId(post.getMemberId());
+//        Score score = new Score();
 
         question.setTitle(post.getTitle());
         question.setContent(post.getContent());
@@ -32,10 +29,11 @@ public interface QuestionMapper {
         QuestionDto.Response response = new QuestionDto.Response();
         response.setMemberId(question.getMember().getMemberId());
         response.setQuestionId(question.getQuestionId());
+        response.setNickname(question.getMember().getNickname());
         response.setTitle(question.getTitle());
         response.setContent(question.getContent());
         response.setViewCnt(question.getViewCnt());
-        response.setScore(question.getScore());
+        response.setScore(question.getLikes().size());
         response.setCreateDate(question.getCreatedAt());
         response.setAnswers(answersToAnswerResponseDtos(question.getAnswer()));
         return response;
@@ -45,10 +43,9 @@ public interface QuestionMapper {
         return answers.stream().map( answer -> {
             AnswerDto.Response responseDto = new AnswerDto.Response();
             responseDto.setAnswerId(answer.getAnswerId());
-            responseDto.setScore(answer.getScore());
+            responseDto.setScore(answer.getLikes().size());
             responseDto.setAnswerContent(answer.getAnswerContent());
-            responseDto.setCreateDate(answer.getCreationDate());
-            responseDto.setAccepted(answer.isAccepted());
+            responseDto.setCreateDate(answer.getCreatedAt());
             responseDto.setQuestionId(answer.getQuestion().getQuestionId());
             responseDto.setQuestionTitle(answer.getQuestion().getTitle());
             return responseDto;

@@ -17,7 +17,7 @@ public interface AnswerMapper {
         response.setAnswerContent(answer.getAnswerContent());
         response.setQuestionId(answer.getQuestion().getQuestionId());
         response.setQuestionTitle(answer.getQuestion().getTitle());
-        response.setCreateDate(answer.getCreationDate());
+        response.setCreationDate(answer.getCreationDate());
         response.setScore(answer.getScore());
         response.setAccepted(answer.isAccepted());
 

@@ -22,6 +22,7 @@ function CommentForm({ onSubmit }) {
 
   const handleSubmit = () => {
     onSubmit(value);
+    setValue('');
   };
 
   return (

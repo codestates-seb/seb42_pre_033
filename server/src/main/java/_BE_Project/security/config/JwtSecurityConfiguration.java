@@ -20,7 +20,7 @@ public class JwtSecurityConfiguration extends SecurityConfigurerAdapter<DefaultS
   private final CustomAuthorityUtils authorityUtils;
   private final RefreshTokenRedisRepository redisRepository;
   private final MemberRepository memberRepository;
-  
+
   @Override
   public void configure(HttpSecurity http) {
     AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
@@ -29,10 +29,10 @@ public class JwtSecurityConfiguration extends SecurityConfigurerAdapter<DefaultS
     jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
     jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
     jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
-  
+
     JwtVerificationFilter jwtVerificationFilter =
-      new JwtVerificationFilter(jwtTokenProvider, authorityUtils, redisRepository, memberRepository);
-    
+            new JwtVerificationFilter(jwtTokenProvider, authorityUtils, redisRepository, memberRepository);
+
     http.addFilter(jwtAuthenticationFilter);
     http.addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
   }

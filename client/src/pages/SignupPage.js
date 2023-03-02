@@ -1,10 +1,14 @@
-import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Oauth from '../components/layout/Oauth';
 import SignupBottom from '../components/Signup/SignupBottom';
+import SignupError from '../components/Signup/SignupError';
 import SignupForm from '../components/Signup/SignupForm';
 import SignupHeader from '../components/Signup/SignupHeader';
-import { useAuthContext } from '../hooks/useAuthContext';
+import SignupPolicy from '../components/Signup/SignupPolicy';
+import Card from '../components/UI/Card';
+import { postSignup } from '../utils/api';
 
 const Container = styled.section`
   display: flex;
@@ -16,7 +20,7 @@ const Container = styled.section`
   background-color: var(--black-050);
 `;
 
-const SignupFormContainer = styled.article`
+const SignupContainer = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,47 +28,53 @@ const SignupFormContainer = styled.article`
   gap: 24px;
 `;
 
+const SignupFormContainer = styled(Card)`
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+`;
+
 function SignupPage() {
-  const { login } = useAuthContext();
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
 
-  const onSubmit = ({ email, password, nickname }) => {
-    axios({
-      method: 'post',
-      url: '/members',
-      data: { email, password, nickname },
-    })
-      .then((response) => {
-        if (response.status === 409) {
-          // error coming back from server
-          console.log(response.message);
-          return;
-        }
+  const onSubmit = async ({ email, password, nickname, reset }) => {
+    const { data, status } = await postSignup({ email, password, nickname });
 
-        if (response.status === 400) {
-          console.log('입력값 오류');
-          return;
-        }
+    if (status === 409) {
+      setErrors([data.message]);
+      return;
+    }
 
-        if (response.status !== 201) {
-          console.log('서버 오류');
-          return;
-        }
+    if (status === 400 && data?.fieldErrors?.length > 0) {
+      setErrors(data?.fieldErrors?.map(({ reason }) => reason));
+      return;
+    }
 
-        login(response.headers.authorization, response.headers.refresh);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    if (status !== 201) {
+      setErrors([
+        '회원가입 진행중 서버 오류가 발생하였습니다. 잠시 후 다시 요청해주세요',
+      ]);
+      return;
+    }
+
+    navigate('/login');
+    reset();
   };
 
   return (
     <Container>
       <SignupHeader />
-      <SignupFormContainer>
+      <SignupContainer>
         <Oauth />
-        <SignupForm onSubmit={onSubmit} />
+        <SignupFormContainer>
+          <SignupForm onSubmit={onSubmit} />
+          <SignupError messages={errors} />
+          <SignupPolicy />
+        </SignupFormContainer>
         <SignupBottom />
-      </SignupFormContainer>
+      </SignupContainer>
     </Container>
   );
 }

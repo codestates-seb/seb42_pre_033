@@ -45,19 +45,17 @@ const DraftButton = styled(Button)`
 `;
 
 function QuestionAskForm({ onSubmit }) {
-  const [title, onChange, reset] = useInput('');
-  const [body, setBody] = useState('');
+  const [title, onChange] = useInput('');
+  const [content, setContent] = useState('');
 
-  const handleChangeBody = (newBody) => {
-    setBody(newBody);
+  const handleChangeContent = (newContent) => {
+    setContent(newContent);
   };
 
   const handleSumbit = (event) => {
     event.preventDefault();
 
-    onSubmit({ title, body });
-    setBody('');
-    reset();
+    onSubmit({ title, content });
   };
 
   return (
@@ -79,14 +77,14 @@ function QuestionAskForm({ onSubmit }) {
           20 characters.
         </SubLabel>
         <Editor
-          value={body}
-          name='body'
+          value={content}
+          name='Content'
           height='calc(100% - 20px)'
-          onChange={handleChangeBody}
+          onChange={handleChangeContent}
         />
       </EditorCard>
       <ButtonContainer onClick={onSubmit}>
-        <PostButton>Post youre question</PostButton>
+        <PostButton type='submit'>Post youre question</PostButton>
         <DraftButton variant='text'>Discard draft</DraftButton>
       </ButtonContainer>
     </Form>

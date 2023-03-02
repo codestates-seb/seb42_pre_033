@@ -1,6 +1,10 @@
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import QuestionEditFrom from '../components/QuestionEdit/QuestionEditFrom';
 import QuestionEditGuide from '../components/QuestionEdit/QuestionEditGuide';
+import useAxios from '../hooks/useAxios';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Article = styled.article`
   display: flex;
@@ -19,15 +23,55 @@ const GUIDE_DUMY = [
 ];
 
 function QuestionEditPage() {
-  const { title, body, tags } = {
-    title: '가나다라마바사아자마카마니아아아아아아아아',
-    body: '가나다라마바사아자마카마니아아아아아아아아',
-    tags: [],
+  let { questionId } = useParams();
+  const navigation = useNavigate();
+  const { accessToken, refreshToken } = useAuthContext();
+
+  const [{ title, content }, loading, error] = useAxios({
+    url: `/questions/${questionId}`,
+    method: 'get',
+  });
+
+  const handleSubmit = ({ title, content }) => {
+    axios({
+      method: 'patch',
+      url: `/questions/${questionId}`,
+      data: { title, content },
+      headers: {
+        authorization: accessToken,
+        refresh: refreshToken,
+      },
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log('등록 실패');
+          return;
+        }
+        navigation(`/question/${questionId}`);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const handleCancel = () => {
+    navigation(`/question/${questionId}`);
   };
 
   return (
     <Article>
-      <QuestionEditFrom title={title} body={body} tags={tags} />
+      {error && error.message}
+      {loading ? (
+        <div>로딩중</div>
+      ) : (
+        <QuestionEditFrom
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          initTitle={title}
+          initContent={content}
+          tags={[]}
+        />
+      )}
       <QuestionEditGuide guides={GUIDE_DUMY} />
     </Article>
   );

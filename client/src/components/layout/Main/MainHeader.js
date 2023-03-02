@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../UI/Button';
 
@@ -78,12 +79,20 @@ const FilterIcon = styled.svg`
 `;
 
 function MainHeader({ title = 'All Questions', displayDataController = true }) {
+  const navigator = useNavigate();
+
+  const onClick = () => {
+    navigator('/question/ask');
+  };
+
   return (
     <Section>
       <MainHeaderWrapper>
         <MainTitle>
           <Title>{title}</Title>
-          <Button variant='question'>Ask Question</Button>
+          <Button onClick={onClick} variant='question'>
+            Ask Question
+          </Button>
         </MainTitle>
         {displayDataController && (
           <DataController>

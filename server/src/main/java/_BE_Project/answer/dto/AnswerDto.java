@@ -15,6 +15,7 @@ public class AnswerDto {
         @NotBlank
         private String answerContent;
 
+        private String accessToken;
 
     }
 
@@ -39,6 +40,7 @@ public class AnswerDto {
         private int score;
         private boolean isAccepted;
 
-
+        diwidiwid
+        
     }
 }
