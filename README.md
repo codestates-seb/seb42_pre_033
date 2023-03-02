@@ -16,7 +16,7 @@
 
 ## 🔗 배포 링크
 </hr> 
-
+http://jonggyu-overflow.s3-website.ap-northeast-2.amazonaws.com/
 <br/></br>
 
 ## 🛠 Tech Stacks
