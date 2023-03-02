@@ -114,9 +114,36 @@ export async function postLogin({ email, password }) {
     method: 'post',
     url: `${BASE_URL}/members/login`,
     data: { email, password },
+    headers: { withCredentials: true },
   })
     .then(({ headers, data, status }) => {
       return { headers, data, status };
+    })
+    .catch(({ response }) => {
+      console.log(response);
+      return { data: response.data, status: response.status };
+    });
+}
+
+export async function patchUser({
+  nickname,
+  password,
+  accessToken,
+  refreshToken,
+}) {
+  console.log(nickname, password, accessToken, refreshToken);
+  return await axios({
+    method: 'patch',
+    url: `${BASE_URL}/members`,
+    data: { nickname, password },
+    headers: {
+      authorization: accessToken,
+      refresh: refreshToken,
+    },
+  })
+    .then(({ data, status }) => {
+      console.log(data, status);
+      return { data, status };
     })
     .catch(({ response }) => {
       console.log(response);

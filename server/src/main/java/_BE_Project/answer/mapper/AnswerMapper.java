@@ -29,6 +29,7 @@ public interface AnswerMapper {
         response.setAnswerId(answer.getAnswerId());
         response.setAnswerContent(answer.getAnswerContent());
         response.setQuestionId(answer.getQuestion().getQuestionId());
+        response.setQuestionTitle(answer.getQuestion().getTitle());
         response.setScore(answer.getLikes().size());
         response.setCreateDate(answer.getCreatedAt());
         return response;
