@@ -17,6 +17,8 @@ function useAxios({ method = 'get', url, headers, body, auth, params }) {
       params: params,
     })
       .then((response) => {
+        console.log(response);
+
         if (response.statusText !== 'OK') {
           // error coming back from server
           throw Error('could not fetch the data for that resource');
@@ -28,6 +30,7 @@ function useAxios({ method = 'get', url, headers, body, auth, params }) {
         setloading(false);
       })
       .catch((error) => {
+        console.log(error);
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
