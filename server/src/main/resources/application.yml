@@ -31,7 +31,6 @@ server:
     encoding:
       force-response: true
 
-
 jwt.key: park1234123412341234123412341234
 jwt:
   access-token-expiration-millisecond: 3600000
