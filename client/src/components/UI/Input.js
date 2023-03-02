@@ -21,12 +21,12 @@ const StyledInput = styled.input`
   font-size: 13px;
 `;
 
-function Input({ label, subLabel, type = 'text', ...props }) {
+function Input({ label, subLabel, id, type = 'text', ...props }) {
   return (
     <Container>
-      <Label>{label}</Label>
+      <Label htmlFor={id}>{label}</Label>
       {subLabel?.length > 0 && <SubLabel>{subLabel}</SubLabel>}
-      <StyledInput type={type} {...props} />
+      <StyledInput id={id} type={type} {...props} />
     </Container>
   );
 }

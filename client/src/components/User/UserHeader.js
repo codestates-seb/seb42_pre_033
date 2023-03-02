@@ -31,7 +31,7 @@ const UserInfo = styled.div`
   margin-left: 8px;
 `;
 
-function UserHeader({ users }) {
+function UserHeader({ users, nickname }) {
   return (
     <section>
       <UserEditProfile>
@@ -39,7 +39,7 @@ function UserHeader({ users }) {
           <UserImg src='/image/profile.png' alt='유저 프로필 사진' />
         </UserPicture>
         <UserInfo>
-          <UserInfos users={users} />
+          <UserInfos users={users} nickname={nickname} />
         </UserInfo>
       </UserEditProfile>
       <UserTab />

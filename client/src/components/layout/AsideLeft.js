@@ -145,7 +145,7 @@ function AsideLeft() {
               <LinkStyle>
                 <NavLink
                   className={({ isActive }) => (isActive ? 'selected' : '')}
-                  to='/questions'
+                  to='/question'
                 >
                   <NavList>
                     <FaGlobeAmericas className='globe' />

@@ -1,14 +1,13 @@
-import { BrowserRouter } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
-
 import Router from './Router';
+import { Fragment } from 'react';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Fragment>
       <Router />
       <GlobalStyles />
-    </BrowserRouter>
+    </Fragment>
   );
 }
 

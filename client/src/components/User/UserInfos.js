@@ -40,13 +40,13 @@ const Location = styled.li`
   font-size: 13px;
   color: var(--black-500);
 `;
-function UserInfos({ users }) {
+function UserInfos({ users, nickname }) {
   return (
     <section>
       {users.map(
-        ({ name, id, title, member, seen, visited, consecutive, location }) => (
+        ({ id, title, member, seen, visited, consecutive, location }) => (
           <div key={id}>
-            <Name>{name}</Name>
+            <Name>{nickname}</Name>
             <Title>{title}</Title>
             <RowWrapper>
               <Member>

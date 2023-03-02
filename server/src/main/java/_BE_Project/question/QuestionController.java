@@ -1,37 +1,34 @@
 package _BE_Project.question;
 
-import _BE_Project.dto.MultiResponseDto;
+import _BE_Project.dto.ResponseDto;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/question")
+@RequestMapping("/questions")
 public class QuestionController {
 
-    private final QuestionService service;
+    private final QuestionService questionService;
     private final QuestionMapper mapper;
 
-    public QuestionController(QuestionService service, QuestionMapper mapper) {
-        this.service = service;
+    public QuestionController(QuestionService questionService, QuestionMapper mapper) {
+        this.questionService = questionService;
         this.mapper = mapper;
     }
 
     @PostMapping
     public ResponseEntity postQuestion(@RequestBody QuestionDto.Post post) {
 
-        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Question question = service.createQuestion(mapper.questionToQuestionPostDto(post));
+        Question savedQuestion = questionService.createQuestion(mapper.questionToQuestionPostDto(post));
 
-        return new ResponseEntity(mapper.questionToQuestionResponseDto(question),HttpStatus.CREATED);
+        return new ResponseEntity(
+                ResponseDto.success(mapper.questionToQuestionResponseDto(savedQuestion).getQuestionId(), "질문이 정상적으로 생성 되었습니다.", HttpStatus.CREATED),
+                HttpStatus.CREATED);
     }
 
     @PatchMapping("/{question-id}")
@@ -39,47 +36,66 @@ public class QuestionController {
                                         @RequestBody QuestionDto.Patch patch) {
 
         patch.setQuestionId(questionId);
-        Question question = service.updateQuestion(mapper.questionToQuestionPatchDto(patch));
+        Question question = questionService.updateQuestion(mapper.questionToQuestionPatchDto(patch));
 
-        return new ResponseEntity(mapper.questionToQuestionResponseDto(question) ,HttpStatus.OK);
+
+        return new ResponseEntity(
+                ResponseDto.success(null, "질문이 정상적으로 수정 되었습니다.", HttpStatus.OK),
+                HttpStatus.OK);
 
     }
 
     @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable ("question-id") long questionId) {
 
-        Question question = service.findQuestion(questionId);
+        Question question = questionService.findQuestion(questionId);
 
         return new ResponseEntity(mapper.questionToQuestionResponseDto(question),HttpStatus.OK);
     }
 
+    // 질문 검색로직 (MultiResponseDto 미적용 / param 형태로 값 받음)
     @GetMapping("/search")
-    public String search(String keyword, Model model, @PageableDefault(sort = "questionId", direction = Sort.Direction.DESC)
-                         Pageable pageable) {
-        Page<Question> searchQuestion = service.searchQuestion(keyword, pageable);
+    public ResponseEntity searchQuestion (@RequestParam("q") String keyword,
+                                          @RequestParam int page, @RequestParam int size) {
+        Page<Question> searchQuestions = questionService.searchQuestion(keyword, page-1, size);
+        List<Question> questions = searchQuestions.getContent();
 
-        model.addAttribute("searchQuestion", searchQuestion);
+        return new ResponseEntity(mapper.questionToQuestionResponseDtos(questions), HttpStatus.OK);
 
-        return "posts-search";
     }
 
+    // 전체 질문 조회 로직 (MultiResponseDto 미적용)
     @GetMapping
-    public ResponseEntity getQuestions (@RequestParam int page,
-                                        @RequestParam int size) {
+    public ResponseEntity getQuestions (@Positive @RequestParam int page,
+                                        @Positive @RequestParam int size) {
 
-        Page<Question> pageQuestions = service.findQuestions(page -1, size);
+        Page<Question> pageQuestions = questionService.findQuestions(page -1, size);
         List<Question> questions = pageQuestions.getContent();
 
-        return new ResponseEntity<>(new MultiResponseDto<>
-                (mapper.questionToQuestionResponseDtos(questions), pageQuestions), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.questionToQuestionResponseDtos(questions), HttpStatus.OK);
     }
+
+
+
+//    @GetMapping
+//    public ResponseEntity getQuestions (@RequestParam int page,
+//                                        @RequestParam int size) {
+//
+//        Page<Question> pageQuestions = service.findQuestions(page -1, size);
+//        List<Question> questions = pageQuestions.getContent();
+//
+//        return new ResponseEntity<>(new MultiResponseDto<>
+//                (mapper.questionToQuestionResponseDtos(questions), pageQuestions), HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{question-id}")
     public ResponseEntity deleteQuestion(@PathVariable ("question-id") long questionId) {
 
-        service.deleteQuestion(questionId);
+        questionService.deleteQuestion(questionId);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(
+                ResponseDto.success(null, "질문이 정상적으로 삭제 되었습니다.", HttpStatus.NO_CONTENT),
+                HttpStatus.NO_CONTENT);
     }
 
 

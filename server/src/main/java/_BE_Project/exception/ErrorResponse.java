@@ -1,5 +1,6 @@
 package _BE_Project.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
 
     private int status;
@@ -23,17 +25,18 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    private ErrorResponse(List<FieldError> fieldErrors, List<ConstraintViolationError> violationErrors) {
+    public ErrorResponse(int status, List<FieldError> fieldErrors, List<ConstraintViolationError> violationErrors) {
+        this.status = status;
         this.fieldErrors = fieldErrors;
         this.violationErrors = violationErrors;
     }
 
     public static ErrorResponse of (BindingResult bindingResult) {
-        return new ErrorResponse(FieldError.of(bindingResult), null);
+        return new ErrorResponse(400,FieldError.of(bindingResult), null);
     }
 
     public static ErrorResponse of (Set<ConstraintViolation<?>> violations) {
-        return new ErrorResponse(null, ConstraintViolationError.of(violations));
+        return new ErrorResponse(400,null, ConstraintViolationError.of(violations));
     }
 
     public static ErrorResponse of (ExceptionCode exceptionCode) {
@@ -49,6 +52,7 @@ public class ErrorResponse {
     }
 
     @Getter
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
     public static class FieldError {
         private String field;
         private Object rejectedValue;
@@ -73,6 +77,7 @@ public class ErrorResponse {
     }
 
     @Getter
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
     public static class ConstraintViolationError {
         private String propertyPath;
         private Object rejectedValue;

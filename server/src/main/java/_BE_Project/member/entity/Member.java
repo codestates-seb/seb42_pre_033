@@ -1,16 +1,14 @@
 package _BE_Project.member.entity;
 
-import _BE_Project.answer.Answer;
+import _BE_Project.answer.entity.Answer;
 import _BE_Project.audit.BaseTime;
 import _BE_Project.question.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +23,11 @@ public class Member extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Email
-    @Column(nullable = false)
     private String email;
 
-    @Column
     private String nickname;
 
-    @Range(min = 4, max = 30)
-    @Column(nullable = false, name = "member_password")
+    @Column(name = "member_password")
     private String password;
 
     // 기본 상태값 지정
@@ -45,7 +39,7 @@ public class Member extends BaseTime {
     private List<String> roles = new ArrayList<>();
 
     // Question 영역과 미리 연관관계 매핑 해둠
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
     public void setQuestion(Question question) {
@@ -59,7 +53,7 @@ public class Member extends BaseTime {
     }
 
     // Answer 영역과 미리 연관관계 매핑 해둠
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
     public void setAnswer(Answer answer) {
@@ -68,14 +62,14 @@ public class Member extends BaseTime {
             answer.setMember(this);
         }
     }
-    
+
     @AllArgsConstructor
     @Getter
     public enum MemberStatus{
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),
         MEMBER_QUIT("탈퇴 상태");
-        
+
         private String status;
     }
 }

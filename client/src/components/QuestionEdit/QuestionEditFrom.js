@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import useInput from '../../hooks/useInput';
 import Editor from '../Editor/Editor';
 import Button from '../UI/Button';
 import Input from '../UI/Input';
@@ -26,39 +28,41 @@ const EditContainer = styled.div`
   gap: 8px;
 `;
 
-function QuestionEditFrom({ title, body, tags = [], onSubmit, onCancel }) {
-  const handleSubmit = () => {
-    onSubmit();
-  };
+function QuestionEditFrom({
+  initTitle,
+  initContent,
+  tags = [],
+  onSubmit,
+  onCancel,
+}) {
+  const [title, onChange] = useInput(initTitle);
+  const [content, setContent] = useState(initContent);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    onSubmit({ title, content });
+  };
   const handleCancelClick = () => {
     onCancel();
-  };
-
-  const handleChange = (value) => {
-    console.log(value);
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <QuestionEditNotice />
-      <Input
-        label='Title'
-        value={title}
-        onChange={(e) => handleChange(e.value)}
-      />
+      <Input name='title' label='Title' value={title} onChange={onChange} />
       <EditContainer>
-        <Label>Body</Label>
-        <Editor value={body} onChange={(value) => handleChange(value)} />
+        <Label>content</Label>
+        <Editor name='content' value={content} onChange={setContent} />
       </EditContainer>
-      {tags.lenght > 0 && <Input label='Tags' value={body} />}
+      {tags.length > 0 && <Input label='Tags' value={content} />}
       <Input
         label='Edit Summary'
         value={tags}
-        onChange={(e) => handleChange(e.value)}
+        onChange={(e) => console.log(e.value)}
       />
       <ButtonContainer>
-        <Button>Save Edit</Button>
+        <Button type='submit'>Save Edit</Button>
         <CancelButton onClick={handleCancelClick} variant='tertiary'>
           Cancel
         </CancelButton>

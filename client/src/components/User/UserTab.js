@@ -9,9 +9,8 @@ const Tab = styled.ul`
   display: flex;
   flex-wrap: nowrap;
 `;
-/* const TabList = styled.div``; */
+
 const LinkStyle = styled.li`
-  display: inline-block;
   width: 60px;
   height: 29px;
   line-height: 29px;
@@ -37,7 +36,12 @@ const LinkStyle = styled.li`
   }
 `;
 
-const Test = styled.div``;
+const Test = styled.div`
+  display: inline-block;
+  width: 60px;
+  height: 29px;
+  border-radius: 1000px;
+`;
 
 function UserTab() {
   return (
@@ -56,7 +60,7 @@ function UserTab() {
           className={({ isActive }) => (isActive ? 'selected' : '')}
           to='/users/edit'
         >
-          Edit
+          <Test>Edit</Test>
         </NavLink>
       </LinkStyle>
       <LinkStyle>
@@ -64,7 +68,7 @@ function UserTab() {
           className={({ isActive }) => (isActive ? 'selected' : '')}
           to='/users/delete'
         >
-          Delete
+          <Test>Delete</Test>
         </NavLink>
       </LinkStyle>
     </Tab>
