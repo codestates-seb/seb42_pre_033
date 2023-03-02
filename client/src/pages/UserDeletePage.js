@@ -4,6 +4,8 @@ import UserHeader from '../components/User/UserHeader';
 import UserDeleteContent from '../components/User/UserDelete/UserDeleteContent';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const UserDeleteMain = styled.section`
   width: 1100px;
@@ -13,16 +15,42 @@ const UserDeleteMain = styled.section`
 
 function UserDeletePage() {
   const { users } = USERS;
-
-  const BASE_URL = 'http://localhost:3000/';
+  const { accessToken, refreshToken, logout } = useAuthContext();
   const navigate = useNavigate();
 
-  const deleteUser = () => {
-    axios
-      .delete(`${BASE_URL}/members`)
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: `/api/members/mypage`,
+      headers: {
+        'ngrok-skip-browser-warning': '12',
+        authorization: accessToken,
+        refresh: refreshToken,
+      },
+    })
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        setUserData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const deleteUser = () => {
+    axios({
+      method: 'delete',
+      url: `/api/members`,
+      headers: {
+        authorization: accessToken,
+        refresh: refreshToken,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
         alert('회원 탈퇴가 완료되었습니다.');
+        logout();
         navigate('/');
       })
       .catch((error) => {
@@ -32,10 +60,19 @@ function UserDeletePage() {
   };
 
   return (
-    <UserDeleteMain>
-      <UserHeader users={users} />
-      <UserDeleteContent deleteUser={deleteUser} />
-    </UserDeleteMain>
+    <div>
+      {userData.length === 0 ? (
+        <div>로딩중</div>
+      ) : (
+        <UserDeleteMain>
+          <UserHeader
+            users={users}
+            nickname={userData.data.memberInfo.nickname}
+          />
+          <UserDeleteContent deleteUser={deleteUser} />
+        </UserDeleteMain>
+      )}
+    </div>
   );
 }
 

@@ -32,7 +32,7 @@ function Router() {
         }
       >
         <Route path='/' element={<HomePage />} />
-        <Route path='/questions' element={<HomePage />} />
+        <Route path='/question' element={<HomePage />} />
       </Route>
 
       <Route element={<Layout displayLeftAside displayFooter />}>

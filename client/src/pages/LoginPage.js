@@ -3,6 +3,9 @@ import LoginHeader from '../components/Login/LoginHeader';
 import Oauth from '../components/layout/Oauth';
 import LoginForm from '../components/Login/LoginForm';
 import LoginBottom from '../components/Login/LoginBottom';
+import { postLogin } from '../utils/api';
+import { useState } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const LoginComponent = styled.section`
   width: 100vw;
@@ -22,13 +25,39 @@ const LoginWrapper = styled.div`
 `;
 
 function LoginPage() {
-  const onSubmit = () => {};
+  const [errors, setErrors] = useState([]);
+
+  const { login } = useAuthContext();
+
+  const onSubmit = async ({ email, password, reset }) => {
+    const { headers, data, status } = await postLogin({ email, password });
+
+    if (status === 409) {
+      setErrors([data.message]);
+      return;
+    }
+
+    if (status === 400 && data?.fieldErrors?.length > 0) {
+      setErrors(data?.fieldErrors?.map(({ reason }) => reason));
+      return;
+    }
+
+    if (status !== 200) {
+      setErrors([
+        '로그인 중 서버 오류가 발생하였습니다. 잠시 후 다시 요청해주세요',
+      ]);
+      return;
+    }
+    login(headers.authorization, headers.refresh);
+    reset();
+  };
+
   return (
     <LoginComponent>
       <LoginWrapper>
         <LoginHeader />
         <Oauth />
-        <LoginForm onSubmit={onSubmit} />
+        <LoginForm onSubmit={onSubmit} messages={errors} />
         <LoginBottom />
       </LoginWrapper>
     </LoginComponent>
