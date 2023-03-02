@@ -114,7 +114,7 @@ export async function postLogin({ email, password }) {
     method: 'post',
     url: `${BASE_URL}/members/login`,
     data: { email, password },
-    withCredentials: true,
+    headers: { withCredentials: true },
   })
     .then(({ headers, data, status }) => {
       return { headers, data, status };
