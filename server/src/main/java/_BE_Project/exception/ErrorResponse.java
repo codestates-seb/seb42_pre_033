@@ -24,13 +24,13 @@ public class ErrorResponse {
         this.status = status;
         this.message = message;
     }
-    
+
     public ErrorResponse(int status, List<FieldError> fieldErrors, List<ConstraintViolationError> violationErrors) {
         this.status = status;
         this.fieldErrors = fieldErrors;
         this.violationErrors = violationErrors;
     }
-    
+
     public static ErrorResponse of (BindingResult bindingResult) {
         return new ErrorResponse(400,FieldError.of(bindingResult), null);
     }

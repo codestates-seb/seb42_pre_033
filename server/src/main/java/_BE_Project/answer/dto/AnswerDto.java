@@ -1,6 +1,5 @@
-package _BE_Project.answer;
+package _BE_Project.answer.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,38 +8,31 @@ import java.time.LocalDateTime;
 
 public class AnswerDto {
 
-    @AllArgsConstructor
     @Getter
+    @Setter
     public static class Post {
-        @NotBlank
+        @NotBlank(message = "answerContent 는 공백일 수 없습니다.")
         private String answerContent;
-
-        private String accessToken;
-
     }
 
     @Getter
     @Setter
     public static class Patch {
+        @NotBlank(message = "answerContent 는 공백일 수 없습니다.")
         private String answerContent;
-
-        private String accessToken;
 
     }
 
     @Getter
     @Setter
     public static class Response{
-
+        private Long memberId;
         private Long answerId;
+        private String nickname;
         private String answerContent;
         private Long questionId;
         private String questionTitle;
         private LocalDateTime createDate;
         private int score;
-        private boolean isAccepted;
-
-        diwidiwid
-        
     }
 }

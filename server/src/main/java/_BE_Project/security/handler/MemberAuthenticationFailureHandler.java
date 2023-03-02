@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @Slf4j
 public class MemberAuthenticationFailureHandler implements AuthenticationFailureHandler {
-  
+
   @Override
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
     log.error("# Authentication failed: {}", exception.getMessage());
-    ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "인증에 실패했습니다. ID 또는 Password를 확인해 주세요.");
+    ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "자격 증명에 실패했습니다. ID 또는 Password를 확인해 주세요.");
   }
 }

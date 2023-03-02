@@ -32,3 +32,5 @@ jwt.key: park1234123412341234123412341234
 jwt:
   access-token-expiration-millisecond: 3600000
   refresh-token-expiration-millisecond: 14400000
+admin:
+  email: admin@gmail.com

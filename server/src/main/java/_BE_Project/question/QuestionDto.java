@@ -1,23 +1,24 @@
 package _BE_Project.question;
 
-import _BE_Project.answer.Answer;
-import _BE_Project.answer.AnswerDto;
+import _BE_Project.answer.dto.AnswerDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class QuestionDto {
 
-    @AllArgsConstructor
+    //    @AllArgsConstructor
     @Getter
     public static class Post {
-        private long memberId;
-        private long questionId;
+        @NotBlank(message = "title 는 공백일 수 없습니다.")
         private String title;
+        @NotBlank(message = "content 는 공백일 수 없습니다.")
         private String content;
     }
 
@@ -25,7 +26,9 @@ public class QuestionDto {
     @Setter
     public static class Patch {
         private long questionId;
+        @NotBlank(message = "title 는 공백일 수 없습니다.")
         private String title;
+        @NotBlank(message = "content 는 공백일 수 없습니다.")
         private String content;
     }
 
@@ -34,6 +37,7 @@ public class QuestionDto {
     public static class Response {
         private long memberId;
         private long questionId;
+        private String nickname;
         private String title;
         private String content;
         private LocalDateTime createDate;

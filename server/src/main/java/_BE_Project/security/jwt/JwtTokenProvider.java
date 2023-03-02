@@ -23,54 +23,55 @@ import java.util.Map;
 @Component
 @Getter
 public class JwtTokenProvider {
-  
+
   private Key key;
-  
+
   @Value("${jwt.access-token-expiration-millisecond}")
   private int accessTokenExpirationMillisecond;
-  
+
   @Value("${jwt.refresh-token-expiration-millisecond}")
   private int refreshTokenExpirationMillisecond;
-  
+
   public JwtTokenProvider(@Value("${jwt.key}") String secretKey) {
     String base64EncodedSecretKey = Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
     byte[] keyBytes = Decoders.BASE64.decode(base64EncodedSecretKey);
     this.key = Keys.hmacShaKeyFor(keyBytes);
   }
-  
+
   public String generateAccessToken(Member member){
     Calendar calendar = Calendar.getInstance();
     calendar.add(Calendar.MILLISECOND, accessTokenExpirationMillisecond);
     Map<String, Object> claims = new HashMap<>();
     claims.put("roles", member.getRoles());
     claims.put("email", member.getEmail());
-  
+
+
     return Jwts.builder()
-      .setSubject(member.getEmail())
-      .setIssuedAt(Calendar.getInstance().getTime())
-      .setExpiration(calendar.getTime())
-      .setClaims(claims)
-      .signWith(key, SignatureAlgorithm.HS256)
-      .compact();
+            .setClaims(claims)
+            .setSubject(member.getEmail())
+            .setIssuedAt(Calendar.getInstance().getTime())
+            .setExpiration(calendar.getTime())
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
   }
-  
+
   public String generateRefreshToken(Member member){
     Calendar calendar = Calendar.getInstance();
     calendar.add(Calendar.MILLISECOND, refreshTokenExpirationMillisecond);
-    
+
     return Jwts.builder()
-      .setSubject(member.getEmail())
-      .setIssuedAt(Calendar.getInstance().getTime())
-      .setExpiration(calendar.getTime())
-      .signWith(key, SignatureAlgorithm.HS256)
-      .compact();
+            .setSubject(member.getEmail())
+            .setIssuedAt(Calendar.getInstance().getTime())
+            .setExpiration(calendar.getTime())
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
   }
-  
+
   public Claims parseClaims(String jws){
     return Jwts.parserBuilder()
-      .setSigningKey(key)
-      .build()
-      .parseClaimsJws(jws)
-      .getBody();
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(jws)
+            .getBody();
   }
 }
