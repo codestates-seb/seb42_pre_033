@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
@@ -15,6 +16,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("update Question q set q.viewCnt = q.viewCnt + 1 where q.questionId = :questionId")
     int increaseViewCnt(@Param ("questionId") Long questionId);
 
-    Page<Question> findByTitleContaining(String keyword, Pageable pageable);
+    Page<Question> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
 
 }

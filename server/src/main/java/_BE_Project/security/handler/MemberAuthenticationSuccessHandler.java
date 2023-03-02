@@ -1,6 +1,6 @@
 package _BE_Project.security.handler;
 
-import _BE_Project.member.dto.ResponseDto;
+import _BE_Project.dto.ResponseDto;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,9 +17,12 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
     Gson gson = new Gson();
-    ResponseDto responseDto = ResponseDto.builder().message("정상적으로 로그인 되었습니다.").status(HttpStatus.OK.value()).build();
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setStatus(HttpStatus.OK.value());
-    response.getWriter().write(gson.toJson(responseDto, ResponseDto.class));
+    response.getWriter().write(
+            gson.toJson(
+                    ResponseDto.success(null, "정상적으로 로그인 되었습니다.", HttpStatus.OK),
+                    ResponseDto.class)
+    );
   }
 }

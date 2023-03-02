@@ -1,24 +1,21 @@
 package _BE_Project.question;
 
-
-import _BE_Project.Score.Score;
-import _BE_Project.answer.dto.AnswerDtoV2;
+import _BE_Project.answer.dto.AnswerDto;
 import _BE_Project.answer.entity.Answer;
-import _BE_Project.member.entity.Member;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface QuestionMapper {
 
     default Question questionToQuestionPostDto (QuestionDto.Post post) {
         Question question = new Question();
-        Member member = new Member();
-        Score score = new Score();
-        member.setMemberId(post.getMemberId());
+//        Score score = new Score();
 
-        question.setMember(member);
         question.setTitle(post.getTitle());
         question.setContent(post.getContent());
 
@@ -26,56 +23,31 @@ public interface QuestionMapper {
 
     }
 
-    default Question questionToQuestionPatchDto (QuestionDto.Patch patch) {
-        Member member = new Member();
-        Question question = new Question();
-        member.setMemberId(patch.getMemberId());
-
-        question.setMember(member);
-        question.setQuestionId(patch.getQuestionId());
-        question.setTitle(patch.getTitle());
-        question.setContent(patch.getContent());
-
-        return question;
-    }
-
-    default Question questionToQuestionDeleteDto (QuestionDto.Delete delete) {
-        Member member = new Member();
-        Question question = new Question();
-        member.setMemberId(delete.getMemberId());
-
-        question.setMember(member);
-        question.setQuestionId(delete.getQuestionId());
-
-        return question;
-    }
+    Question questionToQuestionPatchDto (QuestionDto.Patch patch);
 
     default QuestionDto.Response questionToQuestionResponseDto (Question question) {
         QuestionDto.Response response = new QuestionDto.Response();
         response.setMemberId(question.getMember().getMemberId());
         response.setQuestionId(question.getQuestionId());
+        response.setNickname(question.getMember().getNickname());
         response.setTitle(question.getTitle());
         response.setContent(question.getContent());
-        response.setCreateDate(question.getCreatedAt());
-        response.setScore(question.getScore());
         response.setViewCnt(question.getViewCnt());
+        response.setScore(question.getLikes().size());
+        response.setCreateDate(question.getCreatedAt());
         response.setAnswers(answersToAnswerResponseDtos(question.getAnswer()));
         return response;
     };
 
-    default List<AnswerDtoV2.Response> answersToAnswerResponseDtos(List<Answer> answers){
+    default List<AnswerDto.Response> answersToAnswerResponseDtos(List<Answer> answers){
         return answers.stream().map( answer -> {
-            AnswerDtoV2.Response responseDto = new AnswerDtoV2.Response();
-            responseDto.setMemberId(answer.getMember().getMemberId());
+            AnswerDto.Response responseDto = new AnswerDto.Response();
             responseDto.setAnswerId(answer.getAnswerId());
+            responseDto.setScore(answer.getLikes().size());
             responseDto.setAnswerContent(answer.getAnswerContent());
+            responseDto.setCreateDate(answer.getCreatedAt());
             responseDto.setQuestionId(answer.getQuestion().getQuestionId());
             responseDto.setQuestionTitle(answer.getQuestion().getTitle());
-            responseDto.setCreateDate(answer.getCreatedAt());
-            responseDto.setScore(answer.getScore());
-            responseDto.setAccepted(answer.getIsAccepted());
-
-
             return responseDto;
         }).collect(Collectors.toList());
     }

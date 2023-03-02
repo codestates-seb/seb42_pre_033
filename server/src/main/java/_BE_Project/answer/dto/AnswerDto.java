@@ -1,19 +1,16 @@
 package _BE_Project.answer.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-public class AnswerDtoV2 {
+public class AnswerDto {
 
     @Getter
     @Setter
     public static class Post {
-        private long memberId;
-        private Long questionId;
         @NotBlank(message = "answerContent 는 공백일 수 없습니다.")
         private String answerContent;
     }
@@ -21,6 +18,7 @@ public class AnswerDtoV2 {
     @Getter
     @Setter
     public static class Patch {
+        @NotBlank(message = "answerContent 는 공백일 수 없습니다.")
         private String answerContent;
 
     }
@@ -28,14 +26,13 @@ public class AnswerDtoV2 {
     @Getter
     @Setter
     public static class Response{
-        private long memberId;
+        private Long memberId;
         private Long answerId;
+        private String nickname;
         private String answerContent;
         private Long questionId;
         private String questionTitle;
         private LocalDateTime createDate;
         private int score;
-        private boolean isAccepted;
-
     }
 }

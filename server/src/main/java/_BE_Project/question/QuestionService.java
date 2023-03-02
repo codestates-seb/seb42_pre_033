@@ -1,10 +1,10 @@
 package _BE_Project.question;
 
-import _BE_Project.Score.ScoreService;
 import _BE_Project.exception.BusinessLogicException;
 import _BE_Project.exception.ExceptionCode;
 import _BE_Project.member.entity.Member;
 import _BE_Project.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,40 +15,29 @@ import java.util.Optional;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
 
-    private final ScoreService scoreService;
-
-    public QuestionService(QuestionRepository questionRepository,
-                           MemberService memberService, ScoreService scoreService) {
-        this.questionRepository = questionRepository;
-        this.memberService = memberService;
-        this.scoreService = scoreService;
-    }
-
     public Question createQuestion (Question question) {
-        memberService.findMember(question.getMember().getMemberId());
-        Question saveQuestion = questionRepository.save(question);
-        question.setScore(0);
-
-        return saveQuestion;
+        question.setMember(memberService.findByEmail());
+        return questionRepository.save(question);
     }
-
+    @Transactional
     public Question updateQuestion (Question question) {
-        Question findQuestion = findVerifyQuestion(question.getQuestionId());
-        Member member = memberService.findMember(question.getMember().getMemberId());
 
-        if (member != findQuestion.getMember()) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_EQUAL);
+        Member member = memberService.findByEmail();
+        Question findQuestion = findVerifyQuestion(question.getQuestionId());
+
+        if(findQuestion.getMember().getMemberId() != member.getMemberId()){
+            throw new BusinessLogicException(ExceptionCode.QUESTION_UPDATE_NO_PERMISSION);
         }
 
-        Optional.ofNullable(question.getTitle()).ifPresent(title -> findQuestion.setTitle(title));
-        Optional.ofNullable(question.getContent()).ifPresent(content -> findQuestion.setContent(content));
-
-        return questionRepository.save(findQuestion);
+        findQuestion.setTitle(question.getTitle());
+        findQuestion.setContent(question.getContent());
+        return findQuestion;
     }
 
     public Question findQuestion (long questionId) {
@@ -67,25 +56,20 @@ public class QuestionService {
 
     @Transactional
     public Page<Question> searchQuestion (String keyword, int page, int size) {
-        Page<Question> questions = questionRepository.findByTitleContaining(keyword, PageRequest.of(page, size, Sort.by("questionId").descending()));
+        Page<Question> questions = questionRepository.findByTitleContainingIgnoreCase(keyword, PageRequest.of(page, size, Sort.by("questionId").descending()));
         return questions;
     }
 
-    public Question deleteQuestion (Question question) {
-        Question findQuestion = findVerifyQuestion(question.getQuestionId());
-        Member member = memberService.findMember(question.getMember().getMemberId());
+    public void deleteQuestion (long questionId) {
 
-        if (member != findQuestion.getMember()) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_EQUAL);
+        Member member = memberService.findByEmail();
+        Question findQuestion = findVerifyQuestion(questionId);
+
+        if(findQuestion.getMember().getMemberId() != member.getMemberId()){
+            throw new BusinessLogicException(ExceptionCode.QUESTION_DELETE_NO_PERMISSION);
         }
 
-        if (question.getAnswer() != null) {
-            question.getAnswer().clear();
-        }
-
-        questionRepository.delete(findQuestion);
-
-        return findQuestion;
+        questionRepository.deleteById(questionId);
     }
 
 
@@ -94,4 +78,6 @@ public class QuestionService {
         Question findQuestion = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
         return findQuestion;
     }
+
+
 }

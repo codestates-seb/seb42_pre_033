@@ -1,12 +1,11 @@
 package _BE_Project.member.dto;
 
-import _BE_Project.answer.dto.AnswerDtoV2;
+import _BE_Project.answer.dto.AnswerDto;
 import _BE_Project.member.entity.Member;
 import _BE_Project.question.QuestionDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -39,27 +38,22 @@ public class MemberDto {
 
     }
 
-
     @Getter
     @Setter
     public static class Response {
-        private long memberId;
-        private String email;
-        private String nickname;
-        private Member.MemberStatus memberStatus;
+        private MemberResponse memberInfo;
         private List<QuestionDto.Response> questionResponseDtos;
-        private List<AnswerDtoV2.Response> answerResponseDtos;
+        private List<AnswerDto.Response> answerResponseDtos;
         private LocalDateTime createDate;
     }
 
     @Getter
-    public static class owner{
-        private Long memberId;
+    @Setter
+    public static class MemberResponse {
+        private long memberId;
+        private String email;
         private String nickname;
+        private Member.MemberStatus memberStatus;
 
-        public owner(Long memberId, String nickname) {
-            this.memberId = memberId;
-            this.nickname = nickname;
-        }
     }
 }
