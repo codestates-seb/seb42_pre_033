@@ -9,6 +9,7 @@ const Container = styled.div`
   width: 100%;
   padding: 8px 0;
   gap: 16px;
+  padding: 16px;
 `;
 
 const Content = styled.div`
@@ -19,6 +20,8 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  min-height: 175px;
 
   pre {
     background-color: hsl(0, 0%, 96.5%);
