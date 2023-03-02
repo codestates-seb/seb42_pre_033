@@ -17,6 +17,8 @@ function useAxios({ method = 'get', url, headers, body, auth, params }) {
       params: params,
     })
       .then((response) => {
+        console.log(response);
+
         if (response.statusText !== 'OK') {
           // error coming back from server
           throw Error('could not fetch the data for that resource');
