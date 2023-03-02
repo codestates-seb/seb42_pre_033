@@ -14,10 +14,6 @@ export const useAuth = () => {
   const fromUrl = location.state?.from;
 
   const login = (newAccessToken, newRefreshToken, redirectUrl) => {
-    if (!refreshToken || !newAccessToken) {
-      return;
-    }
-
     localStorage.setItem('access_token', newAccessToken);
     localStorage.setItem('refresh_token', newRefreshToken);
 
