@@ -1,31 +1,23 @@
-import { useState } from 'react';
+import { Fragment } from 'react';
 import styled from 'styled-components';
-import QuestionDeatilAnswerHeader from './QuestionDeatilAnswerHeader';
 import QuestionDetailBody from './QuestionDetailBody';
 import QuestionDetailLeft from './QuestionDetailLeft';
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  flex: 1 1 0;
-`;
 
 const Container = styled.div`
   display: flex;
   gap: 16px;
 `;
+const Borderline = styled.div`
+  content: '';
+  width: 95%;
+  box-shadow: 0px 1px 1px 1px var(--black-100);
+  margin: 16px;
+`;
 
-function QuestionDetail({ question, answers, onVoteUp, onVoteDown }) {
-  const [sortedOption, setSortedOption] = useState('modifieddesc');
-
-  const handleChange = (option) => {
-    setSortedOption(option);
-  };
-  console.log('question.content', answers);
-
+function QuestionDetail({ question, onVoteUp, onVoteDown }) {
+  console.log(question);
   return (
-    <Wrapper>
+    <Fragment>
       <Container>
         <QuestionDetailLeft
           vote={question.score}
@@ -38,27 +30,8 @@ function QuestionDetail({ question, answers, onVoteUp, onVoteDown }) {
           content={question.content}
         />
       </Container>
-      <QuestionDeatilAnswerHeader
-        AnswerConunt={answers.length}
-        defaultValue='modifieddesc'
-        value={sortedOption}
-        onChange={handleChange}
-      />
-      {answers.map(({ answerId, answerContent, score }) => (
-        <Container key={answerId}>
-          <QuestionDetailLeft
-            vote={score}
-            handleUp={onVoteUp}
-            handleDown={onVoteDown}
-          />
-          <QuestionDetailBody
-            tags={[]}
-            content={answerContent}
-            displayEditButton
-          />
-        </Container>
-      ))}
-    </Wrapper>
+      <Borderline></Borderline>
+    </Fragment>
   );
 }
 
