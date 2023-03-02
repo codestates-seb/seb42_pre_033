@@ -48,11 +48,15 @@ const DeleteValue = styled.label`
   margin-top: -2px;
 `;
 
-function UserDeleteContent() {
+function UserDeleteContent({ deleteUser }) {
   const [agree, setAgree] = useState(false);
 
   const checkboxHandler = () => {
     setAgree(!agree);
+  };
+
+  const handleDelete = () => {
+    deleteUser();
   };
 
   return (
@@ -83,7 +87,7 @@ function UserDeleteContent() {
           visit each site separately and request deletion of those individual
           profiles.
         </Deletetext>
-        <DeleteForm>
+        <DeleteForm deleteUser={deleteUser}>
           <CheckWrap>
             <DeleteCheck
               type={'checkbox'}
@@ -96,7 +100,7 @@ function UserDeleteContent() {
               the deletion of my profile.
             </DeleteValue>
           </CheckWrap>
-          <Button variant='delete' disabled={!agree}>
+          <Button variant='delete' disabled={!agree} onClick={handleDelete}>
             Delete profile
           </Button>
         </DeleteForm>

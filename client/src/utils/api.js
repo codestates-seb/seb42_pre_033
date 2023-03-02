@@ -107,3 +107,18 @@ export async function patchQuestion({
       return { data: response.data, status: response.status };
     });
 }
+
+export async function postLogin({ email, password }) {
+  return await axios({
+    method: 'post',
+    url: `${BASE_URL}/members/login`,
+    data: { email, password },
+  })
+    .then(({ headers, data, status }) => {
+      return { headers, data, status };
+    })
+    .catch(({ response }) => {
+      console.log(response);
+      return { data: response.data, status: response.status };
+    });
+}

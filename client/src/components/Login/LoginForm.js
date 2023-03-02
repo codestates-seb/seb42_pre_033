@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import Button from '../UI/Button';
+import useInputs from '../../hooks/useInputs';
+import { useState } from 'react';
 
 const FormContainer = styled.div`
   background-color: var(--white);
   width: 289px;
-  height: 234px;
+  height: auto;
   padding: 24px;
   margin: 16px 0 12px;
   box-shadow: 0 10px 24px hsla(0, 0%, 0%, 0.05),
@@ -14,7 +16,7 @@ const FormContainer = styled.div`
 
 const Form = styled.form`
   width: 241px;
-  height: 199px;
+  height: auto;
   display: flex;
   flex-direction: column;
 
@@ -49,22 +51,52 @@ const ForgotText = styled.span`
   }
 `;
 
+const ErrorMessage = styled.div`
+  font-size: 13px;
+  color: var(--red-400);
+  margin: 20px 0;
+`;
+
 function LoginForm({ onSubmit }) {
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const [{ email, password }, onChange, reset] = useInputs({
+    email: '',
+    password: '',
+  });
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    onSubmit();
+    onSubmit({ email, password, reset });
+
+    if (!email || !password) {
+      setErrorMessage('Please Enter valid Email and Password');
+      return;
+    }
   };
+
   return (
     <FormContainer onSubmit={handleSubmit}>
       <Form>
         <FormLabel htmlFor='email'>Email</FormLabel>
-        <InputBox type='text' id='email'></InputBox>
+        <InputBox
+          type='text'
+          id='email'
+          name='email'
+          onChange={onChange}
+        ></InputBox>
         <FormLabel htmlFor='password'>
           Password <ForgotText>Forgot password?</ForgotText>
         </FormLabel>
-        <InputBox type='password' id='password'></InputBox>
+        <InputBox
+          type='password'
+          id='password'
+          name='password'
+          onChange={onChange}
+        ></InputBox>
         <Button className='login_btn'>Log in</Button>
+        {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : ''}
       </Form>
     </FormContainer>
   );

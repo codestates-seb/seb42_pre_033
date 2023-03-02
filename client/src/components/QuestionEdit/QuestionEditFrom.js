@@ -55,7 +55,7 @@ function QuestionEditFrom({
         <Label>content</Label>
         <Editor name='content' value={content} onChange={setContent} />
       </EditContainer>
-      {tags.lenght > 0 && <Input label='Tags' value={content} />}
+      {tags.length > 0 && <Input label='Tags' value={content} />}
       <Input
         label='Edit Summary'
         value={tags}

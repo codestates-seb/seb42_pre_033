@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const ProfileContent = styled.section`
   width: 835px;
@@ -32,6 +33,8 @@ const AnswersWrap = styled.div`
   border: 1px solid var(--black-100);
   border-radius: 5px;
   width: 620px;
+  height: 250px;
+  overflow: hidden;
 `;
 
 const QuestionsWrap = styled.div`
@@ -39,13 +42,15 @@ const QuestionsWrap = styled.div`
   border: 1px solid var(--black-100);
   border-radius: 5px;
   width: 620px;
+  height: 250px;
+  overflow: hidden;
 `;
 
 const Wrapper = styled.div`
-  height: 50px;
+  height: auto;
   padding: 10px;
   border-bottom: 1px solid var(--black-100);
-  :last-of-type {
+  :nth-of-type(5) {
     border: none;
   }
 `;
@@ -80,6 +85,9 @@ const Title = styled.li`
   padding: 5px;
   cursor: pointer;
   color: var(--blue);
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const Date = styled.li`
@@ -92,8 +100,54 @@ const Date = styled.li`
   padding: 5px;
 `;
 
+const NoContents = styled.li`
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  color: var(--black-500);
+  height: 250px;
+`;
+
+const ContentLink = styled.div`
+  margin: 10px 0;
+  padding: 0 5px;
+  color: var(--blue-600);
+`;
+
 function UserProfileContent({ users, answers, questions }) {
-  console.log(users);
+  const formattedQuestions = questions.map((question) => {
+    const date = new window.Date(question.createDate);
+    return {
+      ...question,
+      dateObject: date,
+    };
+  });
+  const formattedAnswers = answers.map((answer) => {
+    const date = new window.Date(answer.createDate);
+    return {
+      ...answer,
+      dateObject: date,
+    };
+  });
+  function getMonthString(month) {
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return monthNames[month];
+  }
   return (
     <ProfileContent>
       <ProfileTitle>Profile</ProfileTitle>
@@ -107,27 +161,67 @@ function UserProfileContent({ users, answers, questions }) {
       </AboutWrap>
       <CategoryTitle>Answers</CategoryTitle>
       <AnswersWrap>
-        {answers.map(({ id, votes, title, date }) => (
-          <Wrapper key={id}>
-            <Answers>
-              <Votes>{votes}</Votes>
-              <Title>{title}</Title>
-              <Date>{date}</Date>
-            </Answers>
-          </Wrapper>
-        ))}
+        <div>
+          {answers && answers.length > 0 ? (
+            formattedAnswers.map((answer) => (
+              <Wrapper key={answer.answerId}>
+                <Answers>
+                  <Votes>{answer.score}</Votes>
+                  <Link to={`/question/${answer.answerId}`}>
+                    <Title>{answer.questionTitle}</Title>
+                  </Link>
+                  <Date>
+                    {getMonthString(answer.dateObject.getMonth())}{' '}
+                    {answer.dateObject.getDate()},{' '}
+                    {answer.dateObject.getFullYear()}
+                  </Date>
+                </Answers>
+              </Wrapper>
+            ))
+          ) : (
+            <ul>
+              <NoContents>
+                You have not
+                <Link to='/'>
+                  <ContentLink>answered</ContentLink>
+                </Link>
+                any questions
+              </NoContents>
+            </ul>
+          )}
+        </div>
       </AnswersWrap>
       <CategoryTitle>Questions</CategoryTitle>
       <QuestionsWrap>
-        {questions.map(({ id, votes, title, date }) => (
-          <Wrapper key={id}>
-            <Questions>
-              <Votes>{votes}</Votes>
-              <Title>{title}</Title>
-              <Date>{date}</Date>
-            </Questions>
-          </Wrapper>
-        ))}
+        <div>
+          {questions && questions.length > 0 ? (
+            formattedQuestions.map((question) => (
+              <Wrapper key={question.questionId}>
+                <Questions>
+                  <Votes>{question.score}</Votes>
+                  <Link to={`/question/${question.questionId}`}>
+                    <Title>{question.title}</Title>
+                  </Link>
+                  <Date>
+                    {getMonthString(question.dateObject.getMonth())}{' '}
+                    {question.dateObject.getDate()},{' '}
+                    {question.dateObject.getFullYear()}
+                  </Date>
+                </Questions>
+              </Wrapper>
+            ))
+          ) : (
+            <ul>
+              <NoContents>
+                You have not{' '}
+                <Link to='/question/ask'>
+                  <ContentLink>asked</ContentLink>
+                </Link>{' '}
+                any questions
+              </NoContents>
+            </ul>
+          )}
+        </div>
       </QuestionsWrap>
     </ProfileContent>
   );

@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const QuestionList = styled.section`
-  padding: 16px;
+  padding: 16px 16px 0px 16px;
   border-bottom: 1px solid var(--black-075);
 `;
 
@@ -105,6 +106,7 @@ const Taglist = styled.p`
 `;
 
 const Personal = styled.div`
+  width: 620px;
   display: flex;
   justify-content: flex-end;
   font-size: 12px;
@@ -141,69 +143,99 @@ const AskedText = styled.span`
 const Date = styled.div`
   margin-right: 5px;
 `;
-const Time = styled.div``;
+const Time = styled.div`
+  width: auto;
+`;
 
-function Quetions({ questionlist }) {
+function Quetions({ questions, questionlist }) {
+  const formattedQuestions = questions.map((question) => {
+    const date = new window.Date(question.createDate);
+    return {
+      ...question,
+      dateObject: date,
+    };
+  });
+  function getMonthString(month) {
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return monthNames[month];
+  }
+  function formatTime(time) {
+    return time.toString().padStart(2, '0');
+  }
   return (
     <section>
-      {questionlist.map(
-        ({
-          id,
-          title,
-          body,
-          tags,
-          votes,
-          answers,
-          views,
-          profileImg,
-          username,
-          asked,
-          date,
-          time,
-        }) => (
-          <QuestionList key={id}>
-            <QusetionBox>
-              <QuestionMain>
-                <NumberPannel>
-                  <Votes>
-                    {votes} <VotesText>votes</VotesText>
-                  </Votes>
-                  <Answers>
-                    {answers} <AnswersText>answers</AnswersText>
-                  </Answers>
-                  <Views>
-                    {views} <ViewsText>view</ViewsText>
-                  </Views>
-                </NumberPannel>
-                <BodyPart>
-                  <Title>{title}</Title>
-                  <Main>
-                    <Body>{body}</Body>
-                  </Main>
-                  <Tags>
-                    {tags.map((taglist) => (
-                      <Taglist key={taglist}>{taglist}</Taglist>
-                    ))}
-                  </Tags>
-                  <Personal>
-                    <ProfileImg
-                      src={profileImg}
-                      alt={`${username}'s profile image'`}
-                    />
-                    <Username>{username}</Username>
-                    <Asked>
-                      {asked}
-                      <AskedText>asked</AskedText>{' '}
-                    </Asked>
-                    <Date>{date}</Date>
-                    <Time>at {time}</Time>
-                  </Personal>
-                </BodyPart>
-              </QuestionMain>
-            </QusetionBox>
-          </QuestionList>
-        ),
-      )}
+      {formattedQuestions.map((question) => (
+        <div key={question.questionId}>
+          {questionlist.map(({ id, tags, username, profileImg }) => (
+            <QuestionList key={id}>
+              <QusetionBox>
+                <QuestionMain>
+                  <NumberPannel>
+                    <Votes>
+                      {question.score}
+                      <VotesText> votes</VotesText>
+                    </Votes>
+                    <Answers>
+                      {question.answers.length}{' '}
+                      <AnswersText>answers</AnswersText>
+                    </Answers>
+                    <Views>
+                      {question.viewCnt}
+                      <ViewsText> view</ViewsText>
+                    </Views>
+                  </NumberPannel>
+                  <BodyPart>
+                    <Link to={`/question/${question.questionId}`}>
+                      <Title>{question.title}</Title>
+                    </Link>
+                    <Main>
+                      <Body>{question.content}</Body>
+                    </Main>
+                    <Tags>
+                      {tags.map((taglist) => (
+                        <Taglist key={taglist}>{taglist}</Taglist>
+                      ))}
+                    </Tags>
+                    <Personal>
+                      <ProfileImg
+                        src={profileImg}
+                        alt={`${username}'s profile image'`}
+                      />
+                      <Username>{question.nickname}</Username>
+                      <Asked>
+                        {question.answers.length}
+                        <AskedText>asked</AskedText>{' '}
+                      </Asked>
+                      <Date>
+                        {getMonthString(question.dateObject.getMonth())}{' '}
+                        {question.dateObject.getDate()},{' '}
+                        {question.dateObject.getFullYear()}
+                      </Date>
+                      <Time>
+                        at {formatTime(question.dateObject.getHours())}:
+                        {formatTime(question.dateObject.getMinutes())}
+                      </Time>
+                    </Personal>
+                  </BodyPart>
+                </QuestionMain>
+              </QusetionBox>
+            </QuestionList>
+          ))}
+        </div>
+      ))}
     </section>
   );
 }
