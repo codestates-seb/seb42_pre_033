@@ -23,7 +23,7 @@ function UserDeletePage() {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `/api/members/mypage`,
+      url: `https://b8fd-125-177-118-22.jp.ngrok.io/members/mypage`,
       headers: {
         'ngrok-skip-browser-warning': '12',
         authorization: accessToken,

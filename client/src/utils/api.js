@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const BASE_URL = '/api';
+const BASE_URL = 'https://b8fd-125-177-118-22.jp.ngrok.io';
 
 export async function postSignup({ email, password, nickname }) {
   const { data, status } = await axios({
     method: 'post',
-    url: `https://b8fd-125-177-118-22.jp.ngrok.io/members/signup`,
+    url: `${BASE_URL}/members/signup`,
     data: { email, password, nickname },
   })
     .then(({ data, status }) => {
