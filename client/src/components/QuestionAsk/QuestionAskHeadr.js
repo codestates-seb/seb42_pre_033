@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Header = styled.div`
+const Header = styled.section`
   padding: 16px;
   width: 100%;
   height: 100px;
