@@ -9,6 +9,7 @@ const Container = styled.div`
   width: 100%;
   padding: 8px 0;
   gap: 16px;
+  padding: 16px;
 `;
 
 const Content = styled.div`
@@ -19,6 +20,8 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  min-height: 175px;
 
   pre {
     background-color: hsl(0, 0%, 96.5%);
@@ -38,6 +41,7 @@ function QuestionDetailBody({
   tags = [],
   displayEditButton,
   nickname,
+  id,
 }) {
   if (!content) {
     return '';
@@ -56,8 +60,9 @@ function QuestionDetailBody({
       {tags.length > 0 && <Tags tags={tags} />}
       <QuestionDetailBottom
         name={nickname}
-        avator=''
+        avator='https://source.unsplash.com/random/32x32?sig=incrementingIdentifier'
         displayEditButton={displayEditButton}
+        id={id}
       />
     </Container>
   );

@@ -55,7 +55,14 @@ function QuestionAskForm({ onSubmit }) {
   const handleSumbit = (event) => {
     event.preventDefault();
 
-    onSubmit({ title, content });
+    if (!title || !content) {
+      return;
+    }
+
+    onSubmit({
+      title,
+      content: content.replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
+    });
   };
 
   return (
@@ -67,6 +74,7 @@ function QuestionAskForm({ onSubmit }) {
           label='Title'
           subLabel='Be specific and imagine you’re asking a question to another person.'
           onChange={onChange}
+          required
         />
       </Card>
 
@@ -83,7 +91,7 @@ function QuestionAskForm({ onSubmit }) {
           onChange={handleChangeContent}
         />
       </EditorCard>
-      <ButtonContainer onClick={onSubmit}>
+      <ButtonContainer>
         <PostButton type='submit'>Post youre question</PostButton>
         <DraftButton variant='text'>Discard draft</DraftButton>
       </ButtonContainer>

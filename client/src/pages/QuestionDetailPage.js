@@ -7,7 +7,10 @@ import CommentForm from '../components/Comment/CommentForm';
 import useAxios from '../hooks/useAxios';
 import AsideRight from './AsideRight';
 import { useAuthContext } from '../hooks/useAuthContext';
-import axios from 'axios';
+import { Fragment, useState } from 'react';
+import QeustionDetailAnswer from '../components/QuestionDetail/QeustionDetailAnswers';
+import { postAnswer } from '../utils/api';
+import Error from '../components/Error/Error';
 
 const Article = styled.article`
   display: flex;
@@ -23,6 +26,13 @@ const Container = styled.div`
   gap: 16px;
 `;
 
+const QuestionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1 1 0;
+`;
+
 const QuestionContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,9 +43,10 @@ function QuestionDetailPage() {
   let { questionId } = useParams();
   const navigate = useNavigate();
   const { accessToken, refreshToken } = useAuthContext();
+  const [answerErrors, setAnswerErrors] = useState([]);
 
   const [
-    { title, content, createDate, score, viewCnt, answers, memberNickname },
+    { title, content, createDate, score, viewCnt, answers, nickname },
     loading,
     error,
   ] = useAxios({
@@ -56,67 +67,72 @@ function QuestionDetailPage() {
     console.log(id);
   };
 
-  const handleSubmit = (content) => {
-    axios({
-      method: 'post',
-      url: `/api/answers/${questionId}`,
-      data: {
-        answerContent: content,
-      },
-      headers: {
-        authorization: accessToken,
-        refresh: refreshToken,
-      },
-    })
-      .then((response) => {
-        if (response.status === 400) {
-          console.log('입력값 오류');
-          return;
-        }
+  const handleSubmit = async (content) => {
+    const { status, data } = await postAnswer({
+      accessToken,
+      refreshToken,
+      questionId,
+      content,
+    });
 
-        if (response.status !== 201) {
-          redirect('/*');
-          return;
-        }
-      })
-      .catch((error) => {
-        console.log('asdasd');
-        console.log(error.message);
-        redirect('/*');
-      });
+    console.log(status, data);
+
+    if (status === 400) {
+      setAnswerErrors(['입력값 오류']);
+      return;
+    }
+
+    if (status === 404) {
+      redirect('/*');
+      return;
+    }
+
+    if (status !== 201) {
+      setAnswerErrors(['서버 오류입니다. 잠시 후 다시 시도해주세요']);
+      return;
+    }
   };
 
   return (
     <Article>
-      <MainHeader title={title} displayDataController={false} />
-      {error && error.message}
       {loading ? (
         <div>로딩중</div>
       ) : (
-        <>
+        <Fragment>
+          <MainHeader title={title} displayDataController={false} />
+          {error && error.message}
+
           <QuestionDetailInfo
             date={createDate}
             updateDate={createDate}
             viewed={viewCnt}
           />
           <Container>
-            <QuestionContainer>
-              <QuestionDetail
-                question={{
-                  tags: [],
-                  content: content,
-                  score: score,
-                  nickname: memberNickname,
-                }}
-                answers={answers.filter(({ answerContent }) => answerContent)}
-                onVoteUp={onVoteUp}
-                onVoteDown={onVoteDown}
-              />
+            <QuestionWrapper>
+              <QuestionContainer>
+                <QuestionDetail
+                  question={{
+                    tags: [],
+                    content: content,
+                    score: score,
+                    nickname: nickname,
+                    id: questionId,
+                  }}
+                  onVoteUp={onVoteUp}
+                  onVoteDown={onVoteDown}
+                />
+                <QeustionDetailAnswer
+                  answers={answers.filter(({ answerContent }) => answerContent)}
+                  onVoteUp={onVoteUp}
+                  onVoteDown={onVoteDown}
+                />
+              </QuestionContainer>
               <CommentForm onSubmit={handleSubmit} />
-            </QuestionContainer>
+              {answerErrors && <Error messages={answerErrors} />}
+            </QuestionWrapper>
             <AsideRight />
           </Container>
-        </>
+        </Fragment>
       )}
     </Article>
   );

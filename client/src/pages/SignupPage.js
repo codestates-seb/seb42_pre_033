@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Error from '../components/Error/Error';
 import Oauth from '../components/layout/Oauth';
 import SignupBottom from '../components/Signup/SignupBottom';
-import SignupError from '../components/Signup/SignupError';
 import SignupForm from '../components/Signup/SignupForm';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupPolicy from '../components/Signup/SignupPolicy';
@@ -70,7 +70,7 @@ function SignupPage() {
         <Oauth />
         <SignupFormContainer>
           <SignupForm onSubmit={onSubmit} />
-          <SignupError messages={errors} />
+          <Error messages={errors} />
           <SignupPolicy />
         </SignupFormContainer>
         <SignupBottom />
